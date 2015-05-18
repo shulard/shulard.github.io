@@ -1,0 +1,3 @@
+# shulard.github.io
+
+This repository group my public slides, some articles, and other interesting things that I get out of my head...
