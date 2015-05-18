@@ -1,0 +1,98 @@
+::selection {
+	background-color: rgba( 0, 174, 239, 1 );
+}
+
+.reveal {
+	font-size: 30px;
+}
+
+.reveal .fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.reveal div, .reveal p, .reveal a, .reveal small {
+	color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.reveal blockquote {
+	width: 100%;
+	padding: 20px
+}
+
+.reveal a:hover {
+	border-bottom: 3px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+.reveal div>ul>li, .reveal div>ol>li {
+	font-weight: bold;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.reveal ul.without>li {
+	list-style-type: none;
+	text-indent: -0.58em;
+}
+
+.reveal li:first-child {
+	margin-top: 0px !important;
+}
+
+.reveal pre {
+	width: 100%;
+	box-shadow: none;
+}
+
+.reveal section>p {
+	margin-bottom: 10px;
+}
+
+.reveal section img {
+	border: 0px;
+	background: transparent;
+}
+
+.reveal ul>ul>li, .reveal ol>ol>li {
+	font-size: 32px;
+}
+
+.reveal .slide-number, .reveal .global-footer {
+	position: fixed;
+	bottom: 15px;
+	font-size: 14px;
+	letter-spacing: 1px;
+	z-index: 99;
+	color: rgba(255, 255, 255, 0.9);
+	opacity: 1;
+}
+
+.reveal .global-footer {
+	left: 15px;
+}
+.reveal .slide-number {
+	right: 15px;
+}
+
+.reveal .global-footer img {
+	margin-bottom: -5px;
+	margin-right: 6px;
+	display: inline-block;
+}
+
+body.print-pdf .reveal .global-footer {
+	display: none;
+}
+
+.reveal h1 {
+	font-size: 2.6em;
+	text-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+.reveal td {
+	vertical-align: middle;
+}
