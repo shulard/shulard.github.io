@@ -50,49 +50,275 @@
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
 					<h1>WordPress, Git et l'intégration continue</h1>
 					<p>Retour d'expérience et outils...</p>
-					<p><small>WordCamp Lyon 2015</small></p>
+					<p><small>WordCamp Lyon / 5 juin 2015</small></p>
 				</section>
-				<section id="who-i-am" data-background-color="rgba( 0, 174, 239, 0.6 )">
-					<h1>Stéphane HULARD<br/><small>Consultant technique web</small></h1>
-					<p><span class="fa fa-building-o">&nbsp;</span> <a href="http://chstudio.fr">http://chstudio.fr</a></p>
-					<p><span class="fa fa-twitter-square">&nbsp;</span> <a href="https://twitter.com/s_hulard">@s_hulard</a></p>
-					<p><span class="fa fa-github-square">&nbsp;</span> <a href="http://github.com/shulard">http://github.com/shulard</a></p>
-					<br/>
-					<p><span class="fa fa-suitcase">&nbsp;</span> <a href="mailto:s.hulard@chstudio.fr">s.hulard@chstudio.fr</a></p>
+				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
+					<h1>Qui suis-je ?<br/><small>Consultant technique web</small></h1>
+					<p>Développements spécifiques, création de site, constitution d'équipes, accompagnement, méthodes agiles...</p>
+					<p>Mon crédo, si c'est technique et web, ça m'intéresse&nbsp;<i class="fa fa-smile-o"></i></p>
+					<div style="width: 40%; text-align: left; font-size: 0.7em; margin-left: 5%; display: inline-block">
+						<p><span class="fa fa-building-o">&nbsp;</span> <a href="http://chstudio.fr">http://chstudio.fr</a></p>
+						<p><span class="fa fa-suitcase">&nbsp;</span> <a href="mailto:s.hulard@chstudio.fr">s.hulard@chstudio.fr</a></p>
+					</div>
+					<div style="width: 40%; text-align: left; font-size: 0.7em; margin-left: 5%; display: inline-block">
+						<p><span class="fa fa-twitter-square">&nbsp;</span> <a href="https://twitter.com/s_hulard">@s_hulard</a></p>
+						<p><span class="fa fa-github-square">&nbsp;</span> <a href="http://github.com/shulard">http://github.com/shulard</a></p>
+					</div>
 				</section>
 <!--#########################################################################-->
 				<section>
-					<h1>Pendant ce cours...</h1>
+					<h1>Pendant cette session...</h1>
 					<div>
-						<ol>
-							<li>Sommaire</li>
-							<li>Sommaire</li>
-							<li>Sommaire</li>
+						<ol style="min-width: 65%; font-size: 1.3em;">
+							<li>L'intégration continue ?</li>
+							<li>Pourquoi avec WordPress ?</li>
+							<li>Mes méthodes et outils</li>
 						</ol>
 					</div>
 				</section>
 <!--1-------------------------------------------------------------------------->
 				<section class="stack">
 					<section>
-						<h1>Section 1</h1>
+						<h1>L'intégration continue ?</h1>
 					</section>
 					<section>
-						<h1>Section 1 partie 1</h1>
+						<h1>Qu'est-ce que c'est ?</h1>
 						<div style="text-align: left;">
-							<p>ParagrapheParagrapheParagrapheParagraphe</p>
+							<blockquote>Continuous Integration is a software development practice where members of a team integrate their work frequently, usually each person integrates at least daily - leading to multiple integrations per day. Each integration is verified by an automated build (including test) to detect integration errors as quickly as possible. Many teams find that this approach leads to significantly reduced integration problems and allows a team to develop cohesive software more rapidly.<br/><a href="http://www.martinfowler.com/articles/continuousIntegration.html" style="float: right">Martin Flower</a><br/></blockquote>
+						</div>
+					</section>
+					<section>
+						<h1>À quoi ça sert ?</h1>
+						<div style="text-align: left;">
+							<p>Donner la possibilité à :</p>
 							<ul>
-								<li>Liste</li>
-								<li>Liste</li>
-								<li>Liste</li>
-								<li>Liste</li>
-								<li>Liste</li>
+								<li>Une équipe de se rendre compte de ses erreurs automatiquement ;</li>
+								<li>À un testeur d'avoir accès aux derniers développements automatiquement ;</li>
+								<li>À un chef de projet de suivre l'évolution du travail en cours.</li>
 							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Pour qui ?</h1>
+						<div style="text-align: left;">
+							<ul>
+								<li>Les équipes de développement qui travaille sur des gros projets et qui utilisent des méthodes agiles</li>
+								<li>Pratiques issues du développement logiciel, pas très facile à appliquer sur de l'intégration de sites web</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Bénéfices</h1>
+						<div style="text-align: left;">
+							<ul>
+								<li>Amélioration de la fiabilité des développements</li>
+								<li>Automatisation des tâches récurentes, ne pas perdre de temps sur des choses sans valeur ajoutée</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+<!--2-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>Pourquoi avec WordPress ?</h1>
+					</section>
+					<section>
+						<h1>En tant qu'indépendant</h1>
+						<div style="text-align: left;">
+							<p>Je ne veux pas :</p>
+							<ul>
+								<li>Perdre de temps à me rappeler les règles pour l'installation ;</li>
+								<li>Me rappeler des plugins / outils que j'utilise à chaque fois.</li>
+							</ul>
+							<p>Je veux :</p>
+							<ul>
+								<li>Allez vite à l'essentiel, l'intégration des thèmes/plugins !</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Mais... avec WordPress ???</h1>
+						<div style="text-align: left; width: 76%; margin-left: 12%">
+							<p>J'entends trop souvent :</p>
+							<ul>
+								<li>WordPress c'est juste pour faire des blogs !</li>
+								<li>WordPress c'est mal codé !</li>
+								<li>WordPress c'est pas fait pour les devs !</li>
+							</ul>
+							<p>Alors, pourquoi des sites comme Wired.com l'utilisent ?</p>
+						</div>
+					</section>
+					<section>
+						<h1>Pour moi c'est un outil !</h1>
+						<div style="text-align: left; width: 74%; margin-left: 15%">
+							<p>Il faut le comprendre, le connaitre et ne pas chercher à le changer.</p>
+							<p>S'il n'est pas adapté, il faut en choisir un autre...</p>
+							<p>Par contre, il doit aussi être adapté à mon workflow de travail quotidien...</p>
+						</div>
+					</section>
+					<section>
+						<h1>Quelles contraintes ?</h1>
+						<div style="text-align: left;">
+							<ul>
+								<li>Différents environnements avec différentes configurations</li>
+								<ul>
+									<li>Développement en local, ici tout et possible!</li>
+									<li>Production sur serveur client (mutualisé, dédié, ...) on ne maitrise rien ici...</li>
+								</ul>
+								<li>Un cycle de vie des données (BDD, images) à gérer !</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+<!--3-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>Mes méthodes et outils</h1>
+					</section>
+					<section>
+						<h1>Le contrôle de version</h1>
+						<div style="text-align: left;">
+							<p>Je travaille principalement seul sur les projets d'intégration...</p>
+							<p>... mais je l'utilise au quotidien pour tout le code que j'écris!</p>
+							<ul>
+								<li>Git - <a href="https://git-scm.com/">https://git-scm.com/</a> <small>(mon préféré)</small></li>
+								<li>Subversion - <a href="https://subversion.apache.org/">https://subversion.apache.org/</a></li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Un modèle de projet</h1>
+						<div style="text-align: left;">
+							<p>Je me suis créé un projet type pour l'intégration WordPress :</p>
+							<ul>
+								<li>Une structure duplicable très rapidement</li>
+								<li>Un projet construit selon mes besoins</li>
+								<li>Versionné sous Git et dispo sur GitHub</li>
+							</ul>
+							<p style="text-align: center;">
+								<span class="fa fa-github-square">&nbsp;</span> <a href="https://github.com/CHStudio/wordpress-project">https://github.com/CHStudio/wordpress-project<sup><small>1</small></sup></a>
+							</p>
+							<br/>
+							<ol style="font-size:0.55em; width: 100%">
+								<li><a href="http://www.24joursdeweb.fr/2014/comment-bien-versionner-son-site-wordpress-avec-git-et-github/">http://www.24joursdeweb.fr/2014/comment-bien-versionner-son-site-wordpress-avec-git-et-github/</a></li>
+							</ol>
+						</div>
+					</section>
+					<section>
+						<h1>L'automatisation</h1>
+						<div style="text-align: left;">
+							<p>J'utilise des outils pour automatiser les tâches récurentes :</p>
+							<ul>
+								<li>Initialisation de la configuration <code>wp-config.php</code></li>
+								<li>Initialisation de la base de données</li>
+								<li>Sauvegarde / Restauration des contenus (images et BDD)</li>
+								<li>Gestion des différents environnements (dev, préprod, prod)</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>La commande est mon amie</h1>
+						<div style="text-align: left;">
+							<p>La plupart des outils utilisés s'utilisent en ligne de commande.</p>
+							<p>Il faut apprendre à dompter le <code>terminal</code>, <code>Bash</code>, <code>SSH</code> pour qu'ils deviennent des alliés</p>
+						</div>
+					</section>
+					<section>
+						<h1>Phing et WP-CLI à la rescousse</h1>
+						<div style="text-align: left;">
+							<p><a href="http://www.phing.info">Phing</a> est un système de build basé sur <a href="http://ant.apache.org/">Apache Ant</a> :</p>
+							<ul>
+								<li>Un fichier XML décrit les tâches<sup><small>1</small></sup></li>
+								<li>Ces tâches sont lancées en ligne de commande</li>
+							</ul>
+							<pre>
+								<code class="shell">
+  $ phing env:init		-> Générer la configuration
+  $ phing env:install		-> Initialser configuration et BDD
+  $ phing db:backup		-> Créer un dump de la BDD au format SQL
+  $ phing wp:uploads:restore	-> Restaurer une archive des images
+								</code>
+							</pre>
+							<ol style="font-size:0.6em; width: 100%">
+								<li><a href="https://github.com/CHStudio/wordpress-project/blob/develop/build.xml">https://github.com/CHStudio/wordpress-project/blob/develop/build.xml</a></li>
+							</ol>
+						</div>
+					</section>
+					<section>
+						<h1>Phing et WP-CLI à la rescousse</h1>
+						<div style="text-align: left;">
+							<p><a href="http://wp-cli.org/">WP-CLI</a> est une série de commandes pour gérer les installations WordPress :</p>
+							<ul>
+								<li>Ajout d'utilisateurs, gestion des droits</li>
+								<li>Gestion de termes, des posts, des thèmes, des sidebars</li>
+								<li>Tout ça en ligne de commande <i class="fa fa-smile-o"></i></li>
+							</ul>
+							<pre>
+								<code class="shell">
+  $ bin/wp export
+  $ bin/wp is-installed
+  $ bin/wp install --url="http://monsite.com" --title="un super site !"
+  $ bin/wp post create
+  $ bin/wp rewrite list
+								</code>
+							</pre>
+						</div>
+					</section>
+					<section>
+						<h1>Une combinaison puissante</h1>
+						<div style="text-align: left;">
+							<pre style="font-size: 0.4em">
+								<code class="shell">
+  Buildfile: /Users/shulard/Sites/Projects/wordpress-project/build.xml
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
+        [php] Calling PHP function: php_sapi_name()
+        [php] Calling PHP function: substr()
+        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
+
+  Project helper > env:install:
+
+       [exec] Submodule path 'public/wp-cms': checked out '0b63a9e4b66eff7826bd7319ef767d24d9b55775'
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
+        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
+
+  Project helper > wp:check-configuration:
+
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/wp.properties
+
+  Project helper > db:check-configuration:
+
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/db.properties
+
+  Project helper > wp:init:
+
+       [copy] Copying 1 file to /Users/shulard/Sites/Projects/wordpress-project/public
+       [copy] Copying 1 file to /Users/shulard/Sites/Projects/wordpress-project/public
+  [reflexive] Applying reflexive processing to 2 files.
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
+        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
+
+  Project helper > wp:check-configuration:
+
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/wp.properties
+
+  Project helper > db:check-configuration:
+
+   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/db.properties
+
+  Project helper > wp:install:
+
+
+  BUILD FINISHED
+
+  Total time: 0.4438 seconds
+								</code>
+							</pre>
 						</div>
 					</section>
 				</section>
 <!--#########################################################################-->
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
-					<h1>Merci pour votre attention</h1>
+					<h1>Merci pour votre attention !<br/><small>Des questions ?</small></h1>
 				</section>
 			</div>
 
