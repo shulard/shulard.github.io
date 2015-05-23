@@ -214,13 +214,39 @@
 								<li>Sauvegarde / Restauration des contenus (images et BDD)</li>
 								<li>Gestion des différents environnements (dev, préprod, prod)</li>
 							</ul>
+							<p><strong>Objectif</strong>: Simplifier les tâches critiques et automatiser !
 						</div>
 					</section>
 					<section>
 						<h1>La commande est mon amie</h1>
 						<div style="text-align: left;">
-							<p>La plupart des outils utilisés s'utilisent en ligne de commande.</p>
-							<p>Il faut apprendre à dompter le <code>terminal</code>, <code>Bash</code>, <code>SSH</code> pour qu'ils deviennent des alliés</p>
+							<p>La plupart de ces outils s'utilisent en ligne de commande.</p>
+							<p>Il faut apprendre à dompter le <code>terminal</code>, <code>Bash</code>, <code>SSH</code> pour qu'ils deviennent des alliés.</p>
+						</div>
+					</section>
+					<section>
+						<h1>Des besoins compliqués ...</h1>
+						<div style="text-align: left;">
+							<ul>
+								<li>Versionning, tag, branches</li>
+								<li>Imports SQL en ligne de commande</li>
+								<li>RSync: Synchronisation de fichiers vers un serveur distant par SSH</li>
+								<li>Validation du code (PHPLint, Behat/Mink, PHPUnit...)</li>
+							</ul>
+							<p>Connaitre le fonctionnement de chacun de ces outils est un cauchemar...</p>
+						</div>
+					</section>
+					<section>
+						<h1>... mais des solutions existent</h1>
+						<div style="text-align: left;">
+							<p>Beaucoup de monde s'est déjà posé la question, il faut se servir de leur expérience!</p>
+							<p>Il faut trouver les outils adaptés et capable de manipuler :</p>
+							<ul>
+								<li>Un environnement PHP</li>
+								<li>Git / SVN</li>
+								<li>MySQL</li>
+								<li>Configuration du serveur web</li>
+							</ul>
 						</div>
 					</section>
 					<section>
@@ -232,11 +258,12 @@
 								<li>Ces tâches sont lancées en ligne de commande</li>
 							</ul>
 							<pre>
-								<code class="shell">
+								<code class="bash">
   $ phing env:init		-> Générer la configuration
   $ phing env:install		-> Initialser configuration et BDD
   $ phing db:backup		-> Créer un dump de la BDD au format SQL
   $ phing wp:uploads:restore	-> Restaurer une archive des images
+  $ phing sync:execute		-> Synchroniser un environnement distant
 								</code>
 							</pre>
 							<ol style="font-size:0.6em; width: 100%">
@@ -254,7 +281,7 @@
 								<li>Tout ça en ligne de commande <i class="fa fa-smile-o"></i></li>
 							</ul>
 							<pre>
-								<code class="shell">
+								<code class="bash">
   $ bin/wp export
   $ bin/wp is-installed
   $ bin/wp install --url="http://monsite.com" --title="un super site !"
@@ -265,54 +292,161 @@
 						</div>
 					</section>
 					<section>
-						<h1>Une combinaison puissante</h1>
-						<div style="text-align: left;">
-							<pre style="font-size: 0.4em">
-								<code class="shell">
-  Buildfile: /Users/shulard/Sites/Projects/wordpress-project/build.xml
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
-        [php] Calling PHP function: php_sapi_name()
-        [php] Calling PHP function: substr()
-        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
+						<h1>Dépendances avec Composer</h1>
+						<div style="width: 94%; margin-left: 3%">
+							<p>Quels outils, dans quelles versions, sont utiles au projet ?</p>
+							<pre style="font-size: 0.5em">
+								<code class="json">
+  {
+  	"name": "chstudio/wordpress-project",
+  	"description": "A sample initialization project for WordPress website",
+  	"license": "Apache-2.0",
+  	"authors": [
+  		{ "name": "Stephane HULARD", "email": "s.hulard@chstudio.fr" }
+  	],
+  	"config": {
+  		"bin-dir": "bin"
+  	},
+  	"require": {},
+  	"require-dev": {
+  		"phing/phing": "2.*",
+  		"wp-cli/wp-cli": "0.*"
+  	}
+  }
 
-  Project helper > env:install:
-
-       [exec] Submodule path 'public/wp-cms': checked out '0b63a9e4b66eff7826bd7319ef767d24d9b55775'
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
-        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
-
-  Project helper > wp:check-configuration:
-
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/wp.properties
-
-  Project helper > db:check-configuration:
-
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/db.properties
-
-  Project helper > wp:init:
-
-       [copy] Copying 1 file to /Users/shulard/Sites/Projects/wordpress-project/public
-       [copy] Copying 1 file to /Users/shulard/Sites/Projects/wordpress-project/public
-  [reflexive] Applying reflexive processing to 2 files.
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/build.properties
-        [php] Evaluating PHP expression: str_replace(array('(', ')'), array('\(', '\)'), '${db.pass}');
-
-  Project helper > wp:check-configuration:
-
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/wp.properties
-
-  Project helper > db:check-configuration:
-
-   [property] Loading /Users/shulard/Sites/Projects/wordpress-project/config/db.properties
-
-  Project helper > wp:install:
-
-
-  BUILD FINISHED
-
-  Total time: 0.4438 seconds
 								</code>
 							</pre>
+						</div>
+					</section>
+					<section>
+						<h1>Installation avec Composer</h1>
+						<div style="text-align: left; width: 70%; margin-left: 15%">
+							<p>Une commande pour les trouver !<br/>
+							Une commande pour les amener tous !<br/>
+							Et dans un projet les lier...</p>
+						</div>
+						<div style="width: 96%; margin-left: 2%">
+							<pre style='font-size: 0.5em'>
+								<code class="bash">
+  # En local
+  $ composer install
+
+  # En production
+  $ composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+								</code>
+							</pre>
+							<p><i class="fa fa-warning"></i>&nbsp;Le fichier <code>composer.lock</code> doit être versionné!</p>
+						</div>
+					</section>
+					<section>
+						<h1>Git branching model</h1>
+						<div style="text-align: left; width: 50%; display: inline-block; vertical-align: top;">
+							<p>Structurer et normaliser le flux de développement avec git: Git Flow</p>
+							<ul>
+								<li>Développement</li>
+								<li>Releases</li>
+								<li>Production</li>
+								<li>Maintenance</li>
+							</ul>
+						</div>
+						<div style="text-align: left; width: 45%; display: inline-block">
+							<img src="img/git-flow.png" />
+						</div>
+					</section>
+					<section>
+						<h1>Et HOP dans le Cloud !</h1>
+						<div>
+							<p>J'utilise <a href="https://gitlab.com">GitLab</a> pour gérer mes dépôts clients, gratuit et avec la possibilité de créer des dépôts privés !</p>
+							<img src="img/gitlab.jpg" />
+						</div>
+					</section>
+					<section>
+						<h1>GitLab</h1>
+						<div style="text-align: left">
+							<ul>
+								<li>Des dépôts centralisés et accessibles en HTTP / SSH</li>
+								<li>Installation simplifiée et accès sécurisé par clé SSH</li>
+								<li>Gestion des tickets</li>
+								<li>Sauvegarde du code source des projets <i class="fa fa-smile-o"></i></li>
+							</ul>
+							<p>Récupérer les sources et installer le projet :</p>
+							<pre style="font-size: 0.43em">
+								<code class="bash">
+  $ git clone
+  $ composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+  $ bin/phing env:install --Dbuild.env=PROD
+  $ bin/phing db:restore --Dbuild.env=PROD
+  $ bin/phing wp:uploads:restore --Dbuild.env=PROD
+  $ bin/phing wp:migrate --Ddomain.previous=http://monsite.dev --Ddomain.previous=http://monsite.com
+								</code>
+							</pre>
+						</div>
+					</section>
+					<section>
+						<h1>GitLab CI</h1>
+						<div style="text-align: left">
+							<ul>
+								<li>Plateforme d'intégration continue gratuite dans <a href="https://gitlab.com">GitLab</a></li>
+								<li>Un <code>build</code> est généré pour chaque commit sur le projet</li>
+							</ul>
+							<img src="img/gitlab-ci.jpg" />
+						</div>
+					</section>
+					<section>
+						<h1>GitLab CI: Un build ?</h1>
+						<div style="text-align: left;">
+							<p>Un build est une série d'étapes totalement automatisées, qui seront exécutées sur chaque commit.</p>
+							<p>Il permet de faire tout ce qui est nécessaire :</p>
+							<ul>
+								<li>Tests unitaires et fonctionnels</li>
+								<li>Validation du code (<code>PHP CodeSniffer</code> par exemple)</li>
+								<li>Déploiement automatique en cas de succès <i class="fa fa-smile-o"></i></li>
+							</ul>
+							<p>Le projet devient autonome...</p>
+						</div>
+					</section>
+					<section>
+						<h1>GitLab CI: Liste des builds</h1>
+						<div>
+							<ul>
+								<li>Visualisation de l'état de chaque commit</li>
+								<li>Accès au statistiques sur le projet</li>
+							</ul>
+							<img src="img/gitlab-ci-build.jpg" />
+						</div>
+					</section>
+					<section>
+						<h1>GitLab CI: Log d'un build</h1>
+						<div>
+							<ul>
+								<li>Visualisation du retour d'exécution des commandes</li>
+								<li>Utile pour savoir d'ou vient le soucis</li>
+							</ul>
+							<img src="img/gitlab-ci-log.jpg" />
+						</div>
+					</section>
+					<section>
+						<h1>Un couple efficace</h1>
+						<div>
+							<ul>
+								<li>L'intégration native entre les deux plateformes simplifie fortement l'installation...</li>
+								<li>Les builds peuvent être exécutés n'importe où :</li>
+								<ul>
+									<li>Pas nécessaire d'avoir un serveur</li>
+									<li>Lancement en local très simple</li>
+								</ul>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>D'autres solutions existes</h1>
+						<div>
+							<ul>
+								<li>Jenkins: <a href="http://jenkins-ci.org/">http://jenkins-ci.org/</a></li>
+								<li>PHPCI: <a href="https://www.phptesting.org/">https://www.phptesting.org/</a></li>
+								<li>Travis CI: <a href="https://travis-ci.org/">https://travis-ci.org/</a></li>
+							</ul>
+							<p>De nouvelles contraintes et possibilités, il faut les étudier !</p>
 						</div>
 					</section>
 				</section>
