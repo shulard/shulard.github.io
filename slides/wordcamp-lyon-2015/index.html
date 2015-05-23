@@ -255,15 +255,22 @@
 							<p><a href="http://www.phing.info">Phing</a> est un système de build basé sur <a href="http://ant.apache.org/">Apache Ant</a> :</p>
 							<ul>
 								<li>Un fichier XML décrit les tâches<sup><small>1</small></sup></li>
-								<li>Ces tâches sont lancées en ligne de commande</li>
 							</ul>
-							<pre>
-								<code class="bash">
-  $ phing env:init		-> Générer la configuration
-  $ phing env:install		-> Initialser configuration et BDD
-  $ phing db:backup		-> Créer un dump de la BDD au format SQL
-  $ phing wp:uploads:restore	-> Restaurer une archive des images
-  $ phing sync:execute		-> Synchroniser un environnement distant
+							<pre style="font-size: 0.4em">
+								<code class="xml">
+  <project basedir="." default="help">
+    <target name="env:install" description="Install current environment">
+      <phingcall target="env:init"></phingcall>
+      <phingcall target="wp:install"></phingcall>
+    </target>
+    <target name="env:wp:update" description="Update local wordpress version instance to the most recent one">
+      <exec command="cd public/wp-cms &amp;&amp; git fetch --tags &amp;&amp; git checkout `git tag | tail -1`"></exec>
+    </target>
+    <target name="env:backup" description="Restore backuped date in the current environement">
+      <phingcall target="db:backup"></phingcall>
+      <phingcall target="wp:uploads:backup"></phingcall>
+    </target>
+  </project>
 								</code>
 							</pre>
 							<ol style="font-size:0.6em; width: 100%">
@@ -287,6 +294,23 @@
   $ bin/wp install --url="http://monsite.com" --title="un super site !"
   $ bin/wp post create
   $ bin/wp rewrite list
+								</code>
+							</pre>
+						</div>
+					</section>
+					<section>
+						<h1>Phing et WP-CLI à la rescousse</h1>
+						<div style="text-align: left;">
+							<ul>
+								<li>Ces tâches sont lancées en ligne de commande</li>
+							</ul>
+							<pre>
+								<code class="bash">
+  $ phing env:init		-> Générer la configuration
+  $ phing env:install		-> Initialser configuration et BDD
+  $ phing db:backup		-> Créer un dump de la BDD au format SQL
+  $ phing wp:uploads:restore	-> Restaurer une archive des images
+  $ phing sync:execute		-> Synchroniser un environnement distant
 								</code>
 							</pre>
 						</div>
@@ -454,6 +478,7 @@
 <!--#########################################################################-->
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
 					<h1>Merci pour votre attention !<br/><small>Des questions ?</small></h1>
+					<p><small><a href="http://shulard.github.io/slides/wordcamp-lyon-2015">http://shulard.github.io/slides/wordcamp-lyon-2015</a></small></p>
 				</section>
 			</div>
 
