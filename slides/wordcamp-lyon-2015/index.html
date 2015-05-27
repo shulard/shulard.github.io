@@ -41,7 +41,7 @@
 		<div class="reveal concave center">
 			<p class="global-footer">
 				<a href="http://chstudio.fr"><img src="../assets/logo.png" width="20" /></a>
-				<a href="http://lyon.wordcamp.org/2015/"><img src="img/wordcamp.jpg" width="20" /></a>
+				<a href="http://lyon.wordcamp.org/2015/"><img src="../wordcamp-lyon-2015/img/wordcamp.jpg" width="20" /></a>
 				<span>2015&nbsp;-&nbsp;WordCamp Lyon / WordPress, Git et l'intégration continue</span>
 			</p>
 
@@ -69,50 +69,55 @@
 				<section>
 					<h1>Pendant cette session...</h1>
 					<div>
-						<ol style="min-width: 65%; font-size: 1.3em;">
-							<li>L'intégration continue ?</li>
-							<li>Pourquoi avec WordPress ?</li>
-							<li>Mes méthodes et outils</li>
+						<ol style="min-width: 65%; font-size: 1.3em; margin-left: 20%;">
+							<li>L'intégration continue</li>
+							<li>Avec WordPress</li>
+							<li>Méthodes et outils</li>
 						</ol>
 					</div>
 				</section>
 <!--1-------------------------------------------------------------------------->
 				<section class="stack">
 					<section>
-						<h1>L'intégration continue ?</h1>
+						<h1>L'intégration continue</h1>
 					</section>
 					<section>
 						<h1>Qu'est-ce que c'est ?</h1>
 						<div style="text-align: left;">
 							<blockquote>Continuous Integration is a software development practice where members of a team integrate their work frequently, usually each person integrates at least daily - leading to multiple integrations per day. Each integration is verified by an automated build (including test) to detect integration errors as quickly as possible. Many teams find that this approach leads to significantly reduced integration problems and allows a team to develop cohesive software more rapidly.<br/><a href="http://www.martinfowler.com/articles/continuousIntegration.html" style="float: right">Martin Flower</a><br/></blockquote>
 						</div>
+						<aside class="notes">
+							<p>Pratiques issues du développement logiciel, pas très facile à appliquer sur de l'intégration de sites web</p>
+						</aside>
 					</section>
 					<section>
 						<h1>À quoi ça sert ?</h1>
-						<div style="text-align: left;">
-							<p>Donner la possibilité à :</p>
+						<div>
 							<ul>
-								<li>Une équipe de se rendre compte de ses erreurs automatiquement ;</li>
-								<li>À un testeur d'avoir accès aux derniers développements automatiquement ;</li>
-								<li>À un chef de projet de suivre l'évolution du travail en cours.</li>
-							</ul>
-						</div>
-					</section>
-					<section>
-						<h1>Pour qui ?</h1>
-						<div style="text-align: left;">
-							<ul>
-								<li>Les équipes de développement qui travaille sur des gros projets et qui utilisent des méthodes agiles</li>
-								<li>Pratiques issues du développement logiciel, pas très facile à appliquer sur de l'intégration de sites web</li>
+								<li>Se rendre compte de ses erreurs automatiquement</li>
+								<li>Avoir accès aux derniers développements</li>
+								<li>Suivre l'évolution du travail en cours</li>
 							</ul>
 						</div>
 					</section>
 					<section>
 						<h1>Bénéfices</h1>
-						<div style="text-align: left;">
+						<div>
 							<ul>
-								<li>Amélioration de la fiabilité des développements</li>
-								<li>Automatisation des tâches récurentes, ne pas perdre de temps sur des choses sans valeur ajoutée</li>
+								<li>Fiabilisation des développements</li>
+								<li>Automatisation des tâches récurentes</li>
+								<li>Gain de temps</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Pour qui ?</h1>
+						<div>
+							<ul>
+								<li>Les grandes équipes</li>
+								<li>Les utilisateurs des méthodes agiles</li>
+								<li>Les gros projets</li>
+								<li>Mais pas que...</li>
 							</ul>
 						</div>
 					</section>
@@ -120,66 +125,63 @@
 <!--2-------------------------------------------------------------------------->
 				<section class="stack">
 					<section>
-						<h1>Pourquoi avec WordPress ?</h1>
+						<h1>Avec WordPress</h1>
 					</section>
 					<section>
-						<h1>En tant qu'indépendant</h1>
-						<div style="text-align: left;">
-							<p>Je ne veux pas :</p>
-							<ul>
-								<li>Perdre de temps à me rappeler les règles pour l'installation ;</li>
-								<li>Me rappeler des plugins / outils que j'utilise à chaque fois.</li>
-							</ul>
-							<p>Je veux :</p>
-							<ul>
-								<li>Allez vite à l'essentiel, l'intégration des thèmes/plugins !</li>
-							</ul>
-						</div>
-					</section>
-					<section>
-						<h1>Mais... avec WordPress ???</h1>
+						<h1>Vraiment, mais pourquoi ?</h1>
 						<div style="text-align: left; width: 76%; margin-left: 12%">
-							<p>J'entends trop souvent :</p>
+							<p>J'entends tout le temps :</p>
 							<ul>
 								<li>WordPress c'est juste pour faire des blogs !</li>
 								<li>WordPress c'est mal codé !</li>
 								<li>WordPress c'est pas fait pour les devs !</li>
 							</ul>
-							<p>Alors, pourquoi des sites comme Wired.com l'utilisent ?</p>
+							<p>Alors, pourquoi autant de sites l'utilisent ?</p>
 						</div>
 					</section>
 					<section>
-						<h1>Pour moi c'est un outil !</h1>
-						<div style="text-align: left; width: 74%; margin-left: 15%">
-							<p>Il faut le comprendre, le connaitre et ne pas chercher à le changer.</p>
-							<p>S'il n'est pas adapté, il faut en choisir un autre...</p>
-							<p>Par contre, il doit aussi être adapté à mon workflow de travail quotidien...</p>
+						<h1>Il a ses avantages</h1>
+						<div>
+							<ul>
+								<li>Utilisé sur plus de 23% des sites web</li>
+								<li>Une interface claire, et très intuitive</li>
+								<li>Facile à mettre en place</li>
+								<li>Très bien documenté</li>
+								<li>Une importante communauté</li>
+								<li>Une modularité incroyable</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>C'est seulement un outil !</h1>
+						<div>
+							<ul>
+								<li>Il faut le comprendre, le connaitre...</li>
+								<li>S'il n'est pas adapté, il faut en choisir un autre...</li>
+							</ul>
 						</div>
 					</section>
 					<section>
 						<h1>Quelles contraintes ?</h1>
 						<div style="text-align: left;">
+							<p>Différents environnements avec différentes configurations :</p>
 							<ul>
-								<li>Différents environnements avec différentes configurations</li>
-								<ul>
-									<li>Développement en local, ici tout et possible!</li>
-									<li>Production sur serveur client (mutualisé, dédié, ...) on ne maitrise rien ici...</li>
-								</ul>
-								<li>Un cycle de vie des données (BDD, images) à gérer !</li>
+								<li>Développement en local, ici tout et possible!</li>
+								<li>Production sur serveur client (mutualisé, dédié, ...) on ne maitrise rien ici...</li>
 							</ul>
+							<p>Un cycle de vie des données (BDD, images) à gérer !</p>
 						</div>
 					</section>
 				</section>
 <!--3-------------------------------------------------------------------------->
 				<section class="stack">
 					<section>
-						<h1>Mes méthodes et outils</h1>
+						<h1>Méthodes et outils</h1>
 					</section>
 					<section>
 						<h1>Le contrôle de version</h1>
-						<div style="text-align: left;">
-							<p>Je travaille principalement seul sur les projets d'intégration...</p>
-							<p>... mais je l'utilise au quotidien pour tout le code que j'écris!</p>
+						<div>
+							<p>Sécurisation du code et historique des modifications :</p>
 							<ul>
 								<li>Git - <a href="https://git-scm.com/">https://git-scm.com/</a> <small>(mon préféré)</small></li>
 								<li>Subversion - <a href="https://subversion.apache.org/">https://subversion.apache.org/</a></li>
@@ -187,29 +189,10 @@
 						</div>
 					</section>
 					<section>
-						<h1>Un modèle de projet</h1>
-						<div style="text-align: left;">
-							<p>Je me suis créé un projet type pour l'intégration WordPress :</p>
-							<ul>
-								<li>Une structure duplicable très rapidement</li>
-								<li>Un projet construit selon mes besoins</li>
-								<li>Versionné sous Git et dispo sur GitHub</li>
-							</ul>
-							<p style="text-align: center;">
-								<span class="fa fa-github-square">&nbsp;</span> <a href="https://github.com/CHStudio/wordpress-project">https://github.com/CHStudio/wordpress-project<sup><small>1</small></sup></a>
-							</p>
-							<br/>
-							<ol style="font-size:0.55em; width: 100%">
-								<li><a href="http://www.24joursdeweb.fr/2014/comment-bien-versionner-son-site-wordpress-avec-git-et-github/">http://www.24joursdeweb.fr/2014/comment-bien-versionner-son-site-wordpress-avec-git-et-github/</a></li>
-							</ol>
-						</div>
-					</section>
-					<section>
 						<h1>L'automatisation</h1>
-						<div style="text-align: left;">
-							<p>J'utilise des outils pour automatiser les tâches récurentes :</p>
+						<div>
 							<ul>
-								<li>Initialisation de la configuration <code>wp-config.php</code></li>
+								<li>Initialisation du fichier <code>wp-config.php</code></li>
 								<li>Initialisation de la base de données</li>
 								<li>Sauvegarde / Restauration des contenus (images et BDD)</li>
 								<li>Gestion des différents environnements (dev, préprod, prod)</li>
@@ -218,29 +201,21 @@
 						</div>
 					</section>
 					<section>
-						<h1>La commande est mon amie</h1>
-						<div style="text-align: left;">
-							<p>La plupart des outils s'utilisent en ligne de commande.</p>
-							<p>Il faut apprendre à dompter le <code>terminal</code>, <code>Bash</code>, <code>SSH</code> pour qu'ils deviennent des alliés.</p>
-						</div>
-					</section>
-					<section>
 						<h1>Des besoins compliqués ...</h1>
-						<div style="text-align: left;">
+						<div>
 							<ul>
 								<li>Versionning, tag, branches</li>
 								<li>Imports SQL en ligne de commande</li>
 								<li>RSync: Synchronisation de fichiers vers un serveur distant par SSH</li>
 								<li>Validation du code (PHPLint, Behat/Mink, PHPUnit...)</li>
 							</ul>
-							<p>Connaitre le fonctionnement de chacun de ces outils est un cauchemar...</p>
 						</div>
 					</section>
 					<section>
 						<h1>... mais des solutions existent</h1>
-						<div style="text-align: left;">
-							<p>Beaucoup de monde s'est déjà posé la question, il faut se servir de leur expérience!</p>
-							<p>Il faut trouver les outils adaptés et capables de manipuler :</p>
+						<div style="text-align: left; width: 80%; margin-left: 15%;">
+							<p>Beaucoup se sont posés la question, leur expérience est précieuse !</p>
+							<p>Des outils sont capables de manipuler :</p>
 							<ul>
 								<li>Un environnement PHP</li>
 								<li>Git / SVN</li>
@@ -250,7 +225,30 @@
 						</div>
 					</section>
 					<section>
-						<h1>Phing et WP-CLI à la rescousse</h1>
+						<h1>Un modèle de projet</h1>
+						<div>
+							<p>Création d'un projet type pour l'intégration WordPress :</p>
+							<ul>
+								<li>Une structure duplicable très rapidement</li>
+								<li>Versionné sous Git et dispo sur GitHub</li>
+							</ul>
+							<p style="text-align: center;">
+								<span class="fa fa-github-square">&nbsp;</span> <a href="https://github.com/CHStudio/wordpress-project">https://github.com/CHStudio/wordpress-project<sup><small>1</small></sup></a>
+							</p>
+							<p style="text-align: center;">
+								<img src="img/github-qrcode.png" style="" width="180" />
+							</p>
+						</div>
+					</section>
+					<section>
+						<h1>La commande est mon amie</h1>
+						<div style="text-align: left; width: 70%; margin-left: 15%">
+							<p>La plupart des outils s'utilisent en ligne de commande.</p>
+							<p>Il faut apprendre à dompter le <code>terminal</code>, <code>Bash</code>, <code>SSH</code> pour qu'ils deviennent des alliés.</p>
+						</div>
+					</section>
+					<section>
+						<h1>Phing</h1>
 						<div style="text-align: left;">
 							<p><a href="http://www.phing.info">Phing</a> est un système de build basé sur <a href="http://ant.apache.org/">Apache Ant</a> :</p>
 							<ul>
@@ -279,7 +277,7 @@
 						</div>
 					</section>
 					<section>
-						<h1>Phing et WP-CLI à la rescousse</h1>
+						<h1>WP-CLI</h1>
 						<div style="text-align: left;">
 							<p><a href="http://wp-cli.org/">WP-CLI</a> est une série de commandes pour gérer les installations WordPress :</p>
 							<ul>
@@ -299,9 +297,8 @@
 						</div>
 					</section>
 					<section>
-						<h1>Phing et WP-CLI à la rescousse</h1>
+						<h1>Combinés pour simplifier</h1>
 						<div>
-							<p>Ces tâches sont agrégées pour simplifier</p>
 							<pre>
 								<code class="bash">
   $ phing env:init		-> Générer la configuration
@@ -363,7 +360,7 @@
 					<section>
 						<h1>Git branching model</h1>
 						<div style="text-align: left; width: 50%; display: inline-block; vertical-align: top;">
-							<p>Structurer et normaliser le flux de développement avec git: Git Flow</p>
+							<p>Structurer et normaliser le flux de développement avec git: <a href="https://github.com/nvie/gitflow">Git Flow</a></p>
 							<ul>
 								<li>Développement</li>
 								<li>Releases</li>
@@ -372,14 +369,14 @@
 							</ul>
 						</div>
 						<div style="text-align: left; width: 45%; display: inline-block">
-							<img src="img/git-flow.png" />
+							<img src="../wordcamp-lyon-2015/img/git-flow.png" />
 						</div>
 					</section>
 					<section>
 						<h1>Et HOP dans le Cloud !</h1>
 						<div>
-							<p>J'utilise <a href="https://gitlab.com">GitLab</a> pour gérer mes dépôts clients, gratuit et avec la possibilité de créer des dépôts privés !</p>
-							<img src="img/gitlab.jpg" />
+							<p><a href="https://gitlab.com">GitLab</a> pour gérer les dépôts, gratuit et avec la possibilité de créer des dépôts privés !</p>
+							<img src="../wordcamp-lyon-2015/img/gitlab.jpg" />
 						</div>
 					</section>
 					<section>
@@ -406,12 +403,12 @@
 					</section>
 					<section>
 						<h1>GitLab CI</h1>
-						<div style="text-align: left">
+						<div>
 							<ul>
-								<li>Plateforme d'intégration continue gratuite dans <a href="https://gitlab.com">GitLab</a></li>
+								<li>Plateforme d'intégration continue gratuite avec <a href="https://gitlab.com">GitLab</a></li>
 								<li>Un <code>build</code> est généré pour chaque commit sur le projet</li>
 							</ul>
-							<img src="img/gitlab-ci.jpg" />
+							<img src="../wordcamp-lyon-2015/img/gitlab-ci.jpg" />
 						</div>
 					</section>
 					<section>
@@ -432,9 +429,9 @@
 						<div>
 							<ul>
 								<li>Visualisation de l'état de chaque commit</li>
-								<li>Accès au statistiques sur le projet</li>
+								<li>Accès aux statistiques sur le projet</li>
 							</ul>
-							<img src="img/gitlab-ci-build.jpg" />
+							<img src="../wordcamp-lyon-2015/img/gitlab-ci-build.jpg" />
 						</div>
 					</section>
 					<section>
@@ -442,9 +439,9 @@
 						<div>
 							<ul>
 								<li>Visualisation du retour d'exécution des commandes</li>
-								<li>Utile pour savoir d'ou vient le soucis</li>
+								<li>Utile pour savoir d'où viennent les soucis</li>
 							</ul>
-							<img src="img/gitlab-ci-log.jpg" />
+							<img src="../wordcamp-lyon-2015/img/gitlab-ci-log.jpg" />
 						</div>
 					</section>
 					<section>
@@ -454,14 +451,14 @@
 								<li>L'intégration native entre les deux plateformes simplifie fortement l'installation...</li>
 								<li>Les builds peuvent être exécutés n'importe où :</li>
 								<ul>
-									<li>Pas nécessaire d'avoir un serveur</li>
+									<li>Aucune nécessité d'avoir un serveur</li>
 									<li>Lancement en local très simple</li>
 								</ul>
 							</ul>
 						</div>
 					</section>
 					<section>
-						<h1>D'autres solutions existes</h1>
+						<h1>D'autres solutions existent</h1>
 						<div>
 							<ul>
 								<li>Jenkins: <a href="http://jenkins-ci.org/">http://jenkins-ci.org/</a></li>
@@ -469,7 +466,7 @@
 								<li>Travis CI: <a href="https://travis-ci.org/">https://travis-ci.org/</a></li>
 								<li>...</li>
 							</ul>
-							<p>De nouvelles contraintes et possibilités, il faut les étudier !</p>
+							<p>Avec de nouvelles contraintes et possibilités !</p>
 						</div>
 					</section>
 				</section>
@@ -477,6 +474,9 @@
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
 					<h1>Merci pour votre attention !<br/><small>Des questions ?</small></h1>
 					<p><small><a href="http://shulard.github.io/slides/wordcamp-lyon-2015">http://shulard.github.io/slides/wordcamp-lyon-2015</a></small></p>
+					<p style="text-align: center;">
+						<img src="img/pres-qrcode.png" style="box-shadow: none;" width="180" />
+					</p>
 				</section>
 			</div>
 
