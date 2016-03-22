@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Composer, le cercle vertueux des dépendances - AFUP Lyon 2016 - Stéphane HULARD / CH Studio</title>
+
+		<meta name="description" content="Présentation de la gestion avancée des dépendances avec Composer réalisée pendant les lighting talks de mars 2016 pour l'AFUP Lyon">
+		<meta name="author" content="Stéphane HULARD">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../assets/reveal.js/css/theme/moon.css" id="theme">
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../assets/css/specific.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../assets/reveal.js/lib/css/zenburn.css">
+
+		<style type="text/css">
+			.reveal section img.composer-svg {
+            	width: 30%;
+            	box-shadow: none;
+				-webkit-filter: drop-shadow( 0px 0px 2px rgba(255,255,255,0.1) );
+            	filter: drop-shadow( 0px 0px 2px  rgba(255,255,255,0.1) );
+            }
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal concave center">
+			<p class="global-footer">
+				<a href="http://chstudio.fr"><img src="../assets/logo.png" width="20" /></a>
+				<a href="http://lyon.afup.org"><img src="img/afup.png" width="20" /></a>
+				<span><time datetime="2016-03-23">2016</time>&nbsp;-&nbsp;AFUP Lyon / Composer, le cercle vertueux des dépendances</span>
+			</p>
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
+					<h1 style="font-size:1.9em;">Composer, le cercle vertueux des dépendances</h1>
+					<p><small>AFUP Lyon / <time datetime="2016-03-23">23 mars 2016</time></small></p>
+				</section>
+				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
+					<h1>Qui suis-je ?<br/><small>Consultant technique web</small></h1>
+					<p>Développements spécifiques, création de site, constitution d'équipes, accompagnement, méthodes agiles...</p>
+					<div style="width: 40%; text-align: left; font-size: 0.7em; margin-left: 5%; display: inline-block">
+						<p><span class="fa fa-building-o">&nbsp;</span> <a href="http://chstudio.fr">http://chstudio.fr</a></p>
+						<p><span class="fa fa-suitcase">&nbsp;</span> <a href="mailto:s.hulard@chstudio.fr">s.hulard@chstudio.fr</a></p>
+					</div>
+					<div style="width: 40%; text-align: left; font-size: 0.7em; margin-left: 5%; display: inline-block">
+						<p><span class="fa fa-twitter-square">&nbsp;</span> <a href="https://twitter.com/s_hulard">@s_hulard</a></p>
+						<p><span class="fa fa-github-square">&nbsp;</span> <a href="http://github.com/shulard">http://github.com/shulard</a></p>
+					</div>
+				</section>
+<!--#########################################################################-->
+				<section>
+					<h1>Les 10 prochaines minutes...</h1>
+					<div>
+						<ol style="min-width: 65%; font-size: 1.3em;">
+							<li>Composer ?</li>
+							<li>L'option <code>--prefer-lowest</code></li>
+							<li>Cas réel avec HttpPlug</li>
+						</ol>
+					</div>
+				</section>
+<!--1-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1><img src="img/composer.svg" class="composer-svg" /><br/>Composer ?</h1>
+					</section>
+					<section>
+						<h1>Qu'est-ce que c'est ?</h1>
+						<blockquote>Composer is a tool for dependency management in PHP. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.<br/><a href="https://getcomposer.org/doc/00-intro.md" style="float: right">getcomposer.org</a><br/></blockquote>
+					</section>
+					<section>
+						<h1>La gestion de dépendances</h1>
+						<ul>
+							<li>Déclarer les librairies utilisées dans votre projet</li>
+							<li>Trouver et installer les versions compatibles par rapport à l'environnement</li>
+						</ul>
+						<pre>
+							<code class="json">
+  {
+    "name": "symfony/framework-standard-edition",
+    "require": {
+      "php": ">=5.3.9",
+      "symfony/console": "2.8.*",
+      "symfony/yaml": "2.8.*"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "5.0"
+    }
+  }
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h1>Assurer la compatibilité</h1>
+						<ul>
+							<li>Différents environnements, différentes contraintes :</li>
+							<ul>
+								<li>Versions de PHP</li>
+								<li>Extensions (xml, json, regex...)</li>
+							</ul>
+							<li><a href="http://semver.org/">Semantic Versioning</a></li>
+							<ul>
+								<li>Versions patch, mineure, majeure</li>
+								<li>Cassures de compatibilités (BC break)</li>
+								<li>Garantie de fonctionnement de l'API publique</li>
+							</ul>
+						</ul>
+					</section>
+				</section>
+<!--2-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>L'option `--prefer-lowest`</h1>
+					</section>
+					<section>
+						<h1>Qu'est-ce que c'est ?</h1>
+						<blockquote>Prefer lowest versions of dependencies.<br/>Useful for testing minimal versions of requirements, generally used with <code>--prefer-stable.</code><br/><a href="https://getcomposer.org/doc/03-cli.md" style="float: right">getcomposer.org</a><br/></blockquote>
+						<p><strong>Pour l'histoire :</strong><br/>Introduit par <a href="https://github.com/composer/composer/pull/3450">Nicolas Grekas</a> le CTO de <a href="https://blackfire.io/">Blackfire.io</a> pour <a href="https://www.youtube.com/watch?v=ESEHqppxX3Y">aider à fiabiliser les tests sur Symfony</a>.</p>
+					</section>
+					<section>
+						<h1>Pourquoi ?</h1>
+						<ul>
+							<li>Être capable de tester son code avec la version la plus basse compatible</li>
+							<li>Garantir que le contexte d'exécution du code produit est stable</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Comment ?</h1>
+						<ul>
+							<li>Créer des conditions de test spécifiques</li>
+							<li>Penser aussi à la version de PHP</li>
+						</ul>
+						<p style="margin-bottom: -1em;">Exemple avec un build <a href="https://github.com/php-http/react-adapter/blob/master/.travis.yml">Travis CI</a>:</p>
+						<pre>
+							<code class="yaml">
+  matrix:
+      include:
+          - php: 5.4
+            env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+
+  install:
+      - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+
+  script:
+      - composer test
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h1>Quand ?</h1>
+						<ul>
+							<li>Fiabiliser la diffusion d'une librairie</li>
+							<li>Grande variété de contexte d'utilisation</li>
+							<li>S'assurer que le <code>composer.json</code> ne ment pas</li>
+						</ul>
+					</section>
+				</section>
+<!--3-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>Cas réel avec HttpPlug<br/><small><a href="https://github.com/php-http/react-adapter">https://github.com/php-http/react-adapter</a></small></h1>
+					</section>
+					<section>
+						<h1>Création d'un adapter</h1>
+						<ol style="min-width: 65%;">
+							<li>Ajout de la dépendance:</li>
+							<ul><li><code>react/http-client: 0.4.*</code></li></ul>
+							<li>Développement de l'adapter</li>
+						</ol>
+						<p style="font-size: 2em">\o/</p>
+					</section>
+					<section>
+						<h1>Sauf que...</h1>
+						<p>En testant avec <code>--prefer-lowest</code> :</p>
+						<pre>
+							<code>
+  PHP Fatal error:  Class 'React\Dns\Resolver\Factory' not found in
+  /home/travis/build/php-http/react-adapter/src/ReactFactory.php on line 37
+							</code>
+						</pre>
+						<ul>
+							<li>Le projet React ne respecte pas les règles de Semantic Versionning, l'API publique a changé sur des versions PATCH.</li>
+							<li>Mon fichier <code>composer.json</code> ment...</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Problème / Solution</h1>
+						<ul>
+							<li>Personne ne devrait pouvoir importer l'adapter sur une version de React incompatible.</li>
+							<li>Il a fallu adapter les dépendances.</li>
+						</ul>
+						<pre>
+							<code class="json">
+  {
+    "name": "php-http/react-adapter",
+    "require": {
+      "php": ">=5.4",
+      ...
+      "react/http-client": "^0.4.8",
+      "react/dns": "^0.4.1",
+      "react/stream": "^0.4.3"
+    }
+  }
+							</code>
+						</pre>
+					</section>
+				</section>
+<!--#########################################################################-->
+				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
+					<h1>Questions ?</h1>
+					<p><small><a href="http://shulard.github.io/talks/afup-lyon-lighting-mars-2016">http://shulard.github.io/talks/afup-lyon-lighting-mars-2016</a></small></p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="../assets/reveal.js/lib/js/head.min.js"></script>
+		<script src="../assets/reveal.js/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../assets/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+		<script>
+			(function() {
+				var a = document.querySelectorAll('section:not([class~=stack])');
+				for( var i = 1; i < a.length+1; i++ ) {
+					a[i-1].setAttribute('data-slide', i);
+				}
+				// Fires each time a new slide is activated
+				Reveal.addEventListener( 'slidechanged', function( event ) {
+					if( event.indexh !== 0 ) {
+			    	document.querySelector(".slide-number").innerHTML = event.currentSlide.getAttribute('data-slide');
+			    } else {
+			    	document.querySelector(".slide-number").innerHTML = "";
+			    }
+				} );
+			})();
+		</script>
+	</body>
+</html>
