@@ -144,15 +144,17 @@
 					<section>
 						<h1>Pourquoi ?</h1>
 						<ul>
-							<li>Être capable de tester son code avec la version la plus basse compatible</li>
-							<li>Garantir que le contexte d'exécution du code produit est stable</li>
+							<li>Tester la compatibilité du code avec la version la plus ancienne</li>
+							<li>Garantir que le contexte d'exécution est stable</li>
 						</ul>
 					</section>
 					<section>
 						<h1>Comment ?</h1>
 						<ul>
 							<li>Créer des conditions de test spécifiques</li>
-							<li>Penser aussi à la version de PHP</li>
+							<ul>
+								<li><i class="fa fa-warning"></i>&nbsp;Penser à la version de PHP</li>
+							</ul>
 						</ul>
 						<p style="margin-bottom: -1em;">Exemple avec un build <a href="https://github.com/php-http/react-adapter/blob/master/.travis.yml">Travis CI</a>:</p>
 						<pre>
@@ -210,8 +212,8 @@
 					<section>
 						<h1>Problème / Solution</h1>
 						<ul>
-							<li>Personne ne devrait pouvoir importer l'adapter sur une version de React incompatible.</li>
-							<li>Il a fallu adapter les dépendances.</li>
+							<li>Personne ne doit pouvoir importer l'adapter sur une version de React incompatible.</li>
+							<li>Il faut adapter les dépendances en conséquence.</li>
 						</ul>
 						<pre>
 							<code class="json">
