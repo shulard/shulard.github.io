@@ -23,11 +23,25 @@
 		<link rel="stylesheet" href="../assets/css/solarized-dark.css">
 
 		<style type="text/css">
-			.reveal section img.composer-svg {
+			.reveal section img {
             	width: 30%;
             	box-shadow: none;
 				-webkit-filter: drop-shadow( 0px 0px 2px rgba(255,255,255,0.1) );
             	filter: drop-shadow( 0px 0px 2px  rgba(255,255,255,0.1) );
+            }
+
+            .reveal ul>ul>ul>li, .reveal ol>ol>ol>li {
+            	font-size: 28px;
+            }
+
+            .col-2 {
+            	vertical-align: top !important;
+            }
+
+            .flex {
+            	display: flex;
+  				flex-flow: row wrap;
+  				justify-content: space-around;
             }
 		</style>
 
@@ -57,7 +71,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
-					<h1 style="font-size:1.9em;">Composer, le cercle vertueux des dépendances</h1>
+					<h1 style="font-size:1.9em;">Utilisation des WebSockets avec Laravel 5.3</h1>
 					<p><small>AFUP Lyon / <time datetime="2016-12-19">19 décembre 2016</time></small></p>
 				</section>
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
@@ -77,11 +91,265 @@
 					<h1>Les 10 prochaines minutes...</h1>
 					<div>
 						<ol style="min-width: 65%; font-size: 1.3em;">
-							<li>Laravel ?</li>
 							<li>WebSockets ?</li>
-							<li>Combiner les deux...</li>
+							<li>Laravel ?</li>
+							<li>Et concrètement ça donne quoi ?</li>
 						</ol>
 					</div>
+				</section>
+<!--1-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>
+							<a href="https://www.w3.org/TR/websockets/">
+								<img src="img/html5-connectivity.svg" class="html5-connectivity-logo" alt="WebSockets" />
+							</a>
+							<br/>
+							WebSockets ?
+						</h1>
+					</section>
+					<section>
+						<h1>Protocole de communication</h1>
+						<ul>
+							<li>Standardisé en 2011 par l'<a href="http://www.ietf.org/">IETF</a> dans la <a href="https://tools.ietf.org/html/rfc6455">RFC6455</a></li>
+							<li>Communication bidirectionnelle Client ↔ Serveur.</li>
+							<li>Communication temps réel, la connection reste ouverte.<br/><br/></li>
+							<li>Utilise une requête HTTP pour réaliser le <code>handshake</code> :</li>
+							<ul>
+								<li>Passage de HTTP à WS ;</li>
+								<li>Autorisation de la connection.</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h1>Implémentation</h1>
+						<ul>
+							<li>Côté client (navigateur) :</li>
+							<ul>
+								<li><a href="https://www.w3.org/TR/websockets/">API JavaScript</a> pour envoyer recevoir des messages</li>
+								<li>Bien supporté aujourd'hui:</li>
+								<ul>
+									<li>IE10+, Edge, Firefox, Chrome, Safari, Opera...</li>
+									<li>Et sur mobile aussi, seul mauvais élève : Opera Mini</li>
+								</ul>
+							</ul>
+							<li>Côté serveur :</li>
+							<ul>
+								<li>Programme d'écoute pour le handshake</li>
+								<li>Programme d'écoute / réponse de messages</li>
+							</ul>
+						</ul>
+						<p><small><a href="http://caniuse.com/#feat=websockets">http://caniuse.com/#feat=websockets</a></small></p>
+					</section>
+					<section>
+						<h1>Ne pas réinventer la roue...</h1>
+						<div class="flex">
+							<ul class="col-2">
+								<li>Côté client :</li>
+								<ul>
+									<li><a href="http://socket.io/">socket.io</a></li>
+									<li>Vanilla JS</li>
+									<li><a href="https://pusher.com/">Pusher</a></li>
+								</ul>
+							</ul>
+							<ul class="col-2">
+								<li>Côté serveur :</li>
+								<ul>
+									<li>PHP</li>
+									<ul>
+										<li><a href="https://hoa-project.net/En/Literature/Hack/Websocket.html"><code>Hoa\Websocket</code></a></li>
+										<li><a href="http://socketo.me/">Ratchet</a></li>
+									</ul>
+									<li>Node.JS</li>
+									<ul>
+										<li><a href="http://socket.io/">socket.io</a></li>
+									</ul>
+									<li>Sass</li>
+									<ul>
+										<li><a href="https://pusher.com/">Pusher</a></li>
+									</ul>
+								</ul>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h1>Socket.io</h1>
+						<ul>
+							<li>Solution Open Source ;</li>
+							<li>Propose une implémentation client et serveur ;</li>
+							<li>Gère un fallback en long polling Ajax ;</li>
+							<li>Outil solide et maintenu par une grande communauté ;</li>
+							<li>Développé en JavaScript.</li>
+						</ul>
+					</section>
+				</section>
+<!--2-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>
+							<a href="https://laravel.com">
+								<img src="img/laravel.png" class="laravel-logo" alt="Laravel" />
+							</a>
+							<br/>
+							Laravel ?
+						</h1>
+					</section>
+					<section>
+						<h1 style="font-size: 2.3em">The PHP Framework For Web Artisans</h1>
+						<ul>
+							<li>Framework PHP créé par Taylor Otwell en 2011</li>
+							<li>Développement d'applications web en utilisant <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a></li>
+							<li>Basé sur le module <a href="http://symfony.com/components/HttpKernel">HTTPKernel</a> de Symfony 2</li>
+							<li>Eloquent ORM : ActiveRecord pour la base de données</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Version 5.3 ?</h1>
+						<ul>
+							<li>Sortie en août 2016</li>
+							<li>Apporte trois nouveaux modules :</li>
+							<ul>
+								<li><a href="https://laravel.com/docs/scout">Scout</a> : Recherche Full Text intégrée</li>
+								<li><a href="https://laravel.com/docs/passport">Passport</a> : OAuth 2 server</li>
+								<li><a href="https://laravel.com/docs/broadcasting">Echo</a> : Event broadcasting => 🎉</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h1>La promesse de Laravel Echo</h1>
+						<p>Apporte la puissance des WebSockets<br/>dans votre application sans la complexité !</p>
+					</section>
+				</section>
+<!--3-------------------------------------------------------------------------->
+				<section class="stack">
+					<section>
+						<h1>Et concrètement ça donne quoi ?</h1>
+					</section>
+					<section>
+						<h1>Implémentation dans le code PHP</h1>
+						<ul>
+							<li>Création d'un objet <code>Event</code> ;</li>
+							<li>Implémentation de l'interface : <code>ShouldBroadcast</code> ;</li>
+							<li>Envoi des évenements vers le client avec la fonction <code>broadcast</code>.</li>
+						</ul>
+						<p><strong>Super facile 👍</strong></p>
+						<p><small><a href="https://laravel.com/docs/5.3/broadcasting">https://laravel.com/docs/5.3/broadcasting</a></small></p>
+					</section>
+					<section>
+						<h1>Exemple dans un contrôleur</h1>
+						<pre><code class="php" style="max-height: none;">&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Event\UserMessageCreated;
+
+class UserController extends Controller
+{
+    public function createMessage(Request $request)
+    {
+        $message = new App\Message($request->all());
+        $message->save();
+
+        broadcast(new UserMessageCreated($request->user(), $message));
+    }
+}
+						</code></pre>
+					</section>
+					<section>
+						<pre><code class="php" style="max-height: none;">&lt;?php
+
+namespace App\Events;
+
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
+class UserMessageCreated implements ShouldBroadcast
+{
+    use SerializesModels;
+
+    public $user;
+    public $message;
+
+    public function __construct(App\User $user, App\Message $message)
+    {
+        $this->user = $user;
+        $this->message = $message;
+    }
+
+    public function broadcastOn()
+    {
+        return new PrivateChannel('user.'.$this->user->id);
+    }
+}
+						</code></pre>
+					</section>
+					<section>
+						<h1>Sauf que...</h1>
+						<ul>
+							<li>Les évenements émis sont placés dans une file d'attente (queue).</li>
+							<li>Il faut choisir son driver: BDD, Redis, SQS, Beanstalk...</li>
+							<li>Heureusement, par défaut c'est <code>sync</code> mais attention à l'impact sur les temps de réponse de l'application.</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Sauf que...</h1>
+						<ul>
+							<li>Il faut aussi un driver de broadcast :</li>
+							<ul>
+								<li>Pusher, Redis, Log, Null</li>
+							</ul>
+							<br/>
+							<li>Pusher ? C'est le seul driver de WebSocket !!</li>
+							<ul>
+								<li>Et c'est un service SAAS payant...</li>
+							</ul>
+							<br/>
+							<li>Heureusement, Redis sert de passerelle vers d'autres solutions...</li>
+						</ul>
+					</section>
+					<section>
+						<h1>Pour une implémentation locale</h1>
+						<ul>
+							<li>Pas de solution en PHP pour l'instant...</li>
+							<li>Obligé de passer par un serveur de WebSocket en JavaScript :</li>
+							<ul>
+								<li><a href="https://github.com/tlaverdure/laravel-echo-server">tlaverdure/laravel-echo-server</a></li>
+								<li>Lit les informations passées dans Redis pour les envoyer au client.</li>
+							</ul>
+							<br/>
+							<p>⚠ Pas de communication Client → Serveur possible</p>
+						</ul>
+					</section>
+					<section>
+						<h1>Schéma d'architecture</h1>
+						<img src="img/schema-architecture.png" style="width:90%" />
+						<p>⚠ Le socle technique devient complexe et demande des compétences variées pour être maintenue correctement.</p>
+					</section>
+					<section>
+						<h1>Et en front ?</h1>
+						<ul>
+							<li>Taylor Otwell a publié un client JavaScript spécifique : <a href="https://github.com/laravel/echo">laravel/echo</a></li>
+							<ul>
+								<li>Code simple et accessible pour écouter et réagir aux évènements ;</li>
+								<li>Approche similaire à l'API native WebSocket ;</li>
+								<li>Packagé par défaut avec le client <code>Pusher</code>...</li>
+							</ul>
+							<li>Pour le moment d'une stabilité relative en n'utilisant pas Pusher.</li>
+							<ul>
+								<li>J'ai été obligé de forcer une version particulière plus ancienne pour que ça fonctionne.</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h1>Bilan</h1>
+						<ul>
+							<li>L'application fonctionne aujourd'hui correctement ;</li>
+							<li>L'utilisation d'AJAX pour les messages Client → Serveur n'est pas idéal ;</li>
+							<li>L'implémentation est un peu jeune pour le moment ;</li>
+							<li>L'installation et la maintenance sont beaucoup plus complexes que prévu.</li>
+						</ul>
+					</section>
 				</section>
 <!--#########################################################################-->
 				<section data-background-color="rgba( 0, 174, 239, 0.6 )">
