@@ -2,10 +2,6 @@
 	background-color: rgba( 0, 174, 239, 1 );
 }
 
-.reveal {
-	font-size: 36px;
-}
-
 .reveal .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -57,14 +53,10 @@
 	background: transparent;
 }
 
-.reveal ul>ul>li, .reveal ol>ol>li {
-	font-size: 32px;
-}
-
 .reveal .slide-number, .reveal .global-footer {
 	position: fixed;
 	bottom: 15px;
-	font-size: 14px;
+	font-size: 0.4em;
 	letter-spacing: 1px;
 	z-index: 99;
 	color: rgba(255, 255, 255, 0.9);
