@@ -14,13 +14,12 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-        <link rel="stylesheet" href="../../../assets/reveal.js/css/reveal.css">
-        <link rel="stylesheet" href="../../../assets/reveal.js/css/theme/moon.css" id="theme">
-        <link rel="stylesheet" href="../../../assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../../../assets/css/specific.css">
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
 
         <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="../../../assets/css/solarized-dark.css">
+        <link rel="stylesheet" href="../assets/css/solarized-dark.css">
 
         <!-- Printing and PDF exports -->
         <script>
@@ -28,13 +27,13 @@
             link.rel = 'stylesheet';
             link.type = 'text/css';
             link.href = window.location.search.match( /print-pdf/gi )
-                ? '../../../assets/reveal.js/css/print/pdf.css'
-                : '../../../assets/reveal.js/css/print/paper.css';
+                ? '../assets/reveal.js/css/print/pdf.css'
+                : '../assets/reveal.js/css/print/paper.css';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
         </script>
 
         <!--[if lt IE 9]>
-        <script src="../../../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
         <![endif]-->
     </head>
 
@@ -42,7 +41,7 @@
 
         <div class="reveal concave center">
             <p class="global-footer">
-                <img src="../../../logo.png" width="20" />
+                <img src="../../logo.png" width="20" />
                 2015&nbsp;-&nbsp;ICOM Université Lyon 2&nbsp;-&nbsp;DUCCI 2
             </p>
 
@@ -54,7 +53,7 @@
                     <p><small>[Session X]</small></p>
                 </section>
                 <section id="who-i-am" data-background-color="rgba( 0, 174, 239, 0.6 )">
-                    <h1>Stéphane HULARD<br/><small>Expert technique</small></h1>
+                    <h1>Stéphane HULARD<br/><small>Consultant / Formateur</small></h1>
                     <table class="no-border">
                         <tbody>
                             <tr><td><span class="fa fa-building-o"></td><td><a href="https://chstudio.fr">https://chstudio.fr</a></td></tr>
@@ -97,14 +96,13 @@
                 </section>
 <!--#########################################################################-->
                 <section data-background-color="rgba( 0, 174, 239, 0.6 )">
-                    <h1>Merci pour votre attention</h1>
                 </section>
             </div>
 
         </div>
 
-        <script src="../../../assets/reveal.js/lib/js/head.min.js"></script>
-        <script src="../../../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/reveal.js/lib/js/head.min.js"></script>
+        <script src="../assets/reveal.js/js/reveal.js"></script>
 
         <script>
 
@@ -122,12 +120,12 @@
 
                 // Optional libraries used to extend on reveal.js
                 dependencies: [
-                    { src: '../../../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                    { src: '../../../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: '../../../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-                    { src: '../../../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: '../../../assets/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-                    { src: '../../../assets/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
                 ]
             });
 
