@@ -397,6 +397,7 @@ body {
   z-index: 99;
   color: rgba(255, 255, 255, 0.9);
   opacity: 1;
+  margin: 0px;
 }
 
 .reveal .global-footer {
