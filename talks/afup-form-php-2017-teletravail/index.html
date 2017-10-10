@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Télétravail et voyage, entre mythe et réalité - AFUP Forum PHP 2017 - Stéphane HULARD / CH Studio</title>
+
+		<meta name="description" content="Adopter un nouveau mode de vie pour découvrir le monde tout en travaillant, est-ce possible ?">
+		<meta name="author" content="Stéphane HULARD">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../assets/css/solarized-dark.css">
+
+		<style type="text/css">
+			.right {
+				text-align: right;
+			}
+			.bottom {
+				margin-top: 35% !important;
+			}
+			.top {
+				margin-bottom: 35% !important;
+			}
+			.left {
+				text-align: left;
+			}
+			.reveal {
+				background-color: rgba(0, 174, 239, 0.8);
+			}
+			.reveal h1.highlight *, .reveal p.highlight>* {
+				background-color: rgba(4, 32, 41, 0.9);;
+				display: inline;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+			.reveal h1.highlight *:last-child {
+				line-height: 2em
+			}
+			.reveal section>p {
+				font-size: 1.2em;
+			}
+			.reveal section.invert {
+				color: rgba(0, 0, 0, 0.8);
+			}
+
+			.reveal section.invert p.highlight>* {
+				background-color: rgba(255, 255, 255, 0.9)
+			}
+			.speaker-controls-notes .value {
+				font-size: 1em !important;
+			}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal concave center">
+			<p class="global-footer">
+				<a href="https://chstudio.fr"><img src="../../logo.png" width="20" /></a>
+				<a href="https://afup.org"><img src="img/afup.png" width="20" /></a>
+				<span><time datetime="2017-10-27">2017</time>&nbsp;-&nbsp;AFUP Forum PHP / Télétravail et voyage, entre mythe et réalité</span>
+			</p>
+
+			<div class="slides">
+				<section data-background-image="img/home.jpg">
+					<h1 class="right bottom highlight"><span>Télétravail et voyage</span><br/><small>Entre mythe et réalité...</small></h1>
+					<aside class="notes">
+						Bonjour, je suis avec vous pour parler de mon expérience,
+						du télétravail et du voyage. C'est la seule que je connais,
+						mais elle est particulière…
+						<br/>
+						Les personnes qui télétravaillent sont encore rare, celles qui le font en voyageant encore plus…
+						Et je n'ai pas encore eu l'occasion d'en rencontrer qui le font en famille…
+						<br/>
+						Pour information, toutes les images utilisées dans la présentation sont des photos de nos voyages !
+					</aside>
+				</section>
+				<section class="invert">
+					<img src="img/moi3.jpg" class="plain" width="250" style="float:right;"/>
+					<h1 class="highlight left"><span>Moi ?</span></h1>
+					<p class="left highlight">
+						<span class="fragment">Consultant, </span>
+						<span class="fragment">Formateur, </span>
+						<span class="fragment">Contributeur.</span>
+					</p>
+					<aside class="notes">
+						Je commence par me présenter, je suis Stéphane Hulard, consultant indépendant.
+						<br/>
+						Les projets sur lesquelles j'interviens intègrent souvent les problématiques de Big Data. On peut dire que ma spécialité est d'interpréter, traiter et transformer des masses de données pour aider mes clients à les exploiter.
+						<br/>
+						Je suis aussi référencé en tant qu’organisme de formation, je forme principalement aux outils et méthodes liés à la qualité logicielle : Intégration continue, déploiement continue, tests…
+						<br/>
+						En tant qu’indépendant j’affectionne particulièrement de pouvoir travailler sur des projets open source et j’y consacre 20% de mon temps. J’élargis ainsi ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux.
+					</aside>
+				</section>
+				<section data-background-image="img/playa.jpg" class="invert">
+					<h1 class="highlight"><span>Aujourd'hui…</span></h1>
+					<p class="highlight">
+						<span class="fragment">99% de télétravail, </span>
+						<span class="fragment">indépendance et liberté, </span>
+						<span class="fragment">automatisation et méthodes.</span>
+					</ul>
+					<aside class="notes">
+						Aujourd'hui, je télétravail environ 99% de mon temps ce qui me donne la possibilité
+						de voyager.
+						<br/>
+						Depuis 2015, je suis la moitié de l'année à l'étranger, Espagne, Italie, Croatie, Irlande, Maroc...
+						<br/>
+						Je vis cette aventure avec ma femme et mes trois enfants qui ont 10, 7 et 3 ans. Bien sur,
+						ma femme n'est pas étrangère à ce changement de vie.
+						<br/>
+						Elle voulait absolument faire un tour du monde en sac à dos, de mon côté j'avais peur de cette idée.
+						On a trouvé un compromis qui lui permettait d'assouvir une envie de voyage et moi de sortir
+						complètement de ma zone de confort… Je ne regrette pas une seconde cette décision !
+						<br/>
+						Le jour du premier départ, on est parti vers l'Espagne en voiture et un poids à disparu dès que j'ai tourné le contact. Je me suis senti
+						pousser des ailes et une envie d'aller plus loin… Maintenant c'est moi qui demande quand est-ce qu'on part !
+						<br/>
+						Je me suis aménagé le bureau le plus cool du monde chez moi !
+						J'ai ainsi un environnement de travail qui m'aide à être efficace quand on est à la maison.
+						<br/>
+						Grâce à mon statut, je suis indépendant dans tous les sens du terme et j'ai une liberté d'action que je ne laisserai pour rien au monde…
+						<br/>
+						Depuis 3 ans, je continue de travailler avec mes clients et j'ai du mettre en place méthodes et outils
+						pour faciliter la communication et les livraisons. Il faut instaurer la confiance en communiquant beaucoup plus et en partageant au maximum l'avancement.
+					</aside>
+				</section>
+				<section data-background-image="img/famille3.jpg" class="invert">
+					<h1 class="highlight"><span>En famille ?</span></h1>
+					<p class="highlight">
+						<span class="fragment">Un équilibre important,</span><span class="fragment">être attentif à chacun !</span>
+					</ul>
+					<aside class="notes">
+						Le travail fait partie intégrante de notre vie. Il n'y a pas deux mondes séparés (pro / perso) mais un assemblage des deux, c'est la meilleure approche que l'on a trouvé pour les concilier.
+						<br/>
+						On partage notre vie ! Par exemple si on va passer une semaine chez des amis et on partage leur quotidien en télétravaillant. Les deux mondes sont entrelacés... Attention, il n'est pas possible de garder les enfants en travaillant, ça demande trop d'attention et d'énergie pour faire les deux ensembles...
+						<br/>
+						Aussi, nous passons 100% de notre temps ensemble maintenant, 5 personnes ça fait beaucoup de relations
+						à gérer pour que tout se passe bien… On apprend à s'écouter, à être attentif aux autres.
+						<br/>
+						Pour éviter les débordements, chacun doit prendre ses responsabilités, savoir communiquer ses peurs,
+						ses problèmes… Ce n'est pas encore parfait mais c'est vraiment très enrichissant pour notre quotidien
+						de famille « nombreuse ».
+					</aside>
+				</section>
+				<section data-background-image="img/enfants3.jpg" class="invert">
+					<h1 class="highlight"><span>Les enfants ?</span></h1>
+					<p class="highlight top"><span class="fragment">École à la maison et partage…</span><span class="fragment">…un enrichissement mutuel !</span></p>
+					<aside class="notes">
+						Je tiens d'abord à dire que ce n'est pas illégal de ne pas mettre ses enfants à l'école !
+						L'instruction est obligatoire, pas la scolarisation…
+						<br/>
+						Nous avons fait ce choix avant de démarrer le premier voyage pour plus de liberté…
+						<br/>
+						En voyageant ils apprennent l'école de la vie et lorsque nous sommes en France ils travaillent à
+						leur rythme sur les matières les plus scolaires.
+						En général ils sont motivés parce qu'ils voient l'intérêt donc ils apprennent beaucoup plus vite.
+						<br/>
+						L'apprentissage est dans les deux sens, comme nous sommes 100% du temps ensemble, nous échangeons
+						beaucoup plus et j'ai énormément appris grâce à eux !
+					</aside>
+				</section>
+				<section data-background-image="img/hugo-au-boulot.jpg">
+					<h1 class="right highlight bottom"><span>Travailler en voyageant…</span><br/><small class="fragment">…c'est avant tout travailler !</small></h1>
+					<aside class="notes">
+						Si vous en avez marre de votre quotidien et que vous voulez
+						prendre un an pour voyager, faites-le !
+						<br/>
+						Associer ras-le-bol et changement de vie n'est peut être
+						pas optimal pour prendre de bonnes décisions.
+						<br/>
+						Quand on travaille en voyageant, le cadre de vie change
+						plus que l'emploi du temps.
+						<br/>
+						Il faut continuer à rendre des comptes, produire et livrer. Ce n'est pas parce que vous n'êtes
+						pas sur place que vous avez un délai ou une liberté supplémentaire à ce niveau.
+						<br/>
+						L'emploi du temps est plus compliqué à gérer car la distance n'aide pas toujours à avoir les idées
+						claire dans les échanges. J'ai appris à mieux communiquer, mieux rédiger, savoir utiliser le téléphone
+						quand il le faut...
+						<br/>
+						Grâce à ces expériences je travail plus efficacement qu'avant !
+					</aside>
+				</section>
+				<section class="invert" data-background-image="img/connexion.jpg" >
+					<h1 class="highlight bottom"><span>Prendre des décisions</span></h1>
+					<p class="highlight"><span>Partir ça fait peur, pourtant c'est le plus facile…</span></p>
+					<aside class="notes">
+						On a l'impression qu'une décision est irrévocable mais, si on a pris le temps de se préparer on peut revenir en arrière…
+						<br/>
+						En septembre 2015, on est partit 2 mois<sup>1/2</sup> en Espagne. On a déscolarisé nos enfants.
+						On aurait pu les rescolariser en rentrant… On s'est laissé la possibilité de revenir comme avant.
+						<br/>
+						On a aussi gardé notre maison pour avoir un logement au retour…
+						<br/>
+						On ne se jette pas dans le vide sans parachute !
+					</aside>
+				</section>
+				<section data-background-image="img/phoque.jpg" class="invert">
+					<h1 class="highlight top"><span>Hyperconnectivité</small></h1>
+					<p class="highlight"><span>Accepter les galères avec philosophie !</span></p>
+					<aside class="notes">
+						La connexion est aléatoire en voyage… On a toujours eu des surprises, une bonne connexion dans un endroit reculé,
+						une mauvaise en pleine ville…
+						<br/>
+						Il faut être préparé, connaître ses outils ! Comment réduire le débit utilisé par mon ordi pendant la journée :
+						couper twitter, ne plus télécharger les images des mails…
+						<br/>
+						Exemple dans les Dolomites, pas de Wifi à notre arrivée alors que c'était normalement inclu…
+						La propriétaire avait un probl!me avec son opérateur… Connaître ces configuration peut sauver
+						votre porte-feuille quand vous utilisez une clé 4G !
+						<br/>
+						Idem pour les prises de courant. À notre arrivée en Irlande j'avais oublié l'adaptateur secteur UK > EU,
+						impossible de recharger les ordis, obligé de commander en urgence sur Amazon pour pouvoir travailler
+						dans de bonnes conditions…
+						<br/>
+						Bilan des deux ans, lorsque la connectivité est limitée je suis plus productif parce que je ne peux
+						pas me permettre de me disperser !
+						<br/>
+						La course au web n'est quand même jamais simple et j'ai appris à trouver des solutions rapidement :
+						toujours avoir un téléphone débloqué, achter une SIM en plusieurs langues, poser plus de questions
+						en amont aux propriétaire des logements pour mieux cerner où on arrive…
+					</aside>
+				</section>
+				<section data-background-image="img/vide.jpg">
+					<h1 class="highlight bottom"><span>Méthodes</small></h1>
+					<aside class="notes">
+
+					</aside>
+				</section>
+				<section data-background-image="img/vide.jpg">
+					<h1 class="highlight bottom"><span>Outils</small></h1>
+					<aside class="notes">
+
+					</aside>
+				</section>
+				<section data-background-image="img/vide.jpg">
+					<h1 class="highlight bottom"><span>Sécurité</small></h1>
+					<aside class="notes">
+
+					</aside>
+				</section>
+				<section data-background-image="img/path.jpg" class="invert">
+					<h1 class="highlight"><span>Et maintenant ?</span></h1>
+					<p class="highlight top"><span>Fais de ta vie un rêve et de ton rêve une réalité. <small>Saint Exupéry</small></span></p>
+					<aside class="notes">
+						On peut faire du télétravail dans n’importe quel domaine mais tout le monde ne peut pas télétravailler !
+						<br/>
+						C'est possible d'agir dès maintenant pour rétrecir le pas à franchir le jour J.
+						<br/>
+						Partir plusieurs jours dans la montagne avec les enfants et une tente: on apprend à vivre ensemble,
+						on retire le poids du « On ne sait pas où on va ? Où vas-t-on domir ? ».
+						<br/>
+						Partir pendant un mois d'affilé à l'étranger pour une immersion… On sort du cadre vacances !
+						<br/>
+						Vous avez investi 20 ans de votre vie à l’école, ce n’est finalement pas un si grand investissement de prendre 2 ans pour essayer de travailler différemment, ce sera beaucoup plus formateur !
+					</aside>
+				</section>
+<!--#########################################################################-->
+				<section class="invert">
+					<h1 class="highlight left">Merci, <span>des questions ?</span></h1>
+					<p class="highlight left"><a target="_blank" href="https://chstudio.fr/forum-afup">https://chstudio.fr/forum-afup</a></p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="../assets/reveal.js/lib/js/head.min.js"></script>
+		<script src="../assets/reveal.js/js/reveal.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
