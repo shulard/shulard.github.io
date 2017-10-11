@@ -221,7 +221,7 @@
 				</section>
 				<section data-background-image="img/phoque.jpg" class="invert">
 					<h1 class="highlight top"><span>Hyperconnectivité</span></h1>
-					<p class="highlight"><span>Accepter les galères avec philosophie !</span></p>
+					<p class="highlight"><span class="fragment">Accepter les galères avec philosophie !</span></p>
 					<aside class="notes">
 						La connexion est aléatoire en voyage… On a toujours eu des surprises, une bonne connexion dans un endroit reculé,
 						une mauvaise en pleine ville…
@@ -247,24 +247,37 @@
 				</section>
 				<section class="stack" data-background-image="img/methode.jpg">
 					<section>
-						<h1 class="highlight bottom"><span>Méthodes</span></h1>
+						<h1 class="highlight bottom"><span>Trouver sa voie</span></h1>
 						<aside class="notes">
 							Comment réussir à faire fonctionner mon entreprise tout en ayant ce mode de vie différent. D'autres contraintes apparaissent avec les nouvelles situations. Apprendre à s'adapter est important et j'essaie de me remettre en question le plus possible pour assurer une bonne fluidité dans mon quotidien et mon travail.
 						</aside>
 					</section>
 					<section class="invert">
 						<h1 class="highlight bottom"><span>Agile</span></h1>
-						<p class="highlight"><span>Mais pas trop...</span></p>
+						<p class="highlight"><span class="fragment">Mais pas trop...</span></p>
 						<aside class="notes">
-							Certifié Scrum Master en 2011, j'ai un passé tourné vers l'agilité.
+							Certifié Scrum Master en 2011, j'ai un passé tourné vers l'agilité. Je croyais fermement dans
+							ces principes et leur application au monde du web.
 							<br/>
+							Après quelques désillusions en agence, j'ai remis en question les grands piliers de ces pratiques
+							et j'ai trouvé une façon de continuer d'appliquer ces principes dans mon quotidien…
+							<br/>
+							Je garde le principe de sprint avec des livraisons très régulières pour mes clients, je déploie
+							toujours sur plusieurs environnements pour faciliter les retours et les tests pour tous les profils…
+							<br/>
+							Je m'attache à garder un maximum de transparence sur les contraintes et les réussites que je
+							partage avec mes clients !
 						</aside>
 					</section>
 					<section>
 						<h1 class="highlight bottom"><span>Communiquer</span></h1>
 						<aside class="notes">
-							Directement, indirectement il doit rester une trace des échanges.<br/>
-							Je ne les vois pas souvent, ces échanges doivent être préparés, constructifs et efficaces.
+							Directement, indirectement il doit toujours rester une trace des échanges.<br/>
+							Je ne les vois pas souvent, ces échanges doivent être préparés, constructifs et efficaces.<br/>
+							Bien sur ça passe par des compte rendu, j'essaie de toujours reformuler ce que j'ai compris
+							et je l'envoi pour être bien sûr qu'on est sur la même longueur d'onde !<br/>
+							Je communique aussi énormement sur la partie technique, les retours de tests, l'état du projet
+							sont toujours visibles par mes clients ce qui leur permet de sentir facilement la température du moment.
 						</aside>
 					</section>
 					<section>
@@ -275,14 +288,24 @@
 							Si une tâche devient récurente, comment travailler pour l'automatiser ?
 							<br/>
 							Mon client doit avoir les idées claires sur le projet, mon état d'avancement et ce qu'il pourra en faire ensuite. Cette simplification passe par un accompagnement et de la formation aussi bien pour moi que pour eux.
+							<br/>
+							Je m'appuie sur des outils en ligne pour centraliser toutes les informations importantes à partager et à garder pour la pérennité des projets.
 						</aside>
 					</section>
-					<section>
-						<h1 class="highlight bottom"><span>Automatiser</span></h1>
+					<section class="invert">
+						<h1 class="highlight bottom"><span>Automatiser</span><br/><span class="fragment">Et fiabiliser !</span></h1>
 						<aside class="notes">
-							Intégration continue, déploiement continue.
+							Comme je travaille souvent seul, j'essaie d'avoir les idées le plus au clair possible sur ce que je dois faire.
 							<br/>
-							Les actions doivent être accessible en un click
+							Si j'avais toujours l'esprit encombré de choses à penser, il me serait vraiment difficile d'avancer et d'être serein au quotidien.
+							<br/>
+							J'utilise le plus possible les outils d'intégration continue pour m'aider à connaitre l'état du projet : code sniffing, obsolescence des dépendances, compilation des assets. Je couple ces vérification avec les tests pour vérifier l'intégrité du projet : tests unitaires, tests d'intégration, jeu de données de tests.
+							<br/>
+							Je m'attache à ce que les tests soient toujours exécutés dans l'environnement le plus simple possible grâce à Docker. En cas de soucis je peux les reéxecuter dans ce même contexte sans problème et avoir une vision pragmatique de la solution à apporter. Ces environnements essaie de calquer au plus prêt sur la production pour éviter les surprises.
+							<br/>
+							En plus, quand c'est possible, je met en place du déploiement continue. Sur la plateforme de dev, tout est automatique ce qui permet de valider le code en live, ensuite le déploiement se fait un en clic vers les autres plateformes. GitlabCI m'aide à séquencer les traitements.
+							<br/>
+							Je script les installations serveur, les sauvegardes, ce qui me permet de remonter les machines de manière fiable et sans prise de tête. Une fois que je livre le projet, mon client est autonome pour le prendre en main, une fois qu'il a été formé sur les outils bien sur !
 						</aside>
 					</section>
 				</section>
@@ -301,43 +324,69 @@
 					<section class="invert">
 						<h1 class="highlight"><span>Gestion de code source</span></h1>
 						<p class="highlight">
-							<span>GitHub, Gitlab et compagnie…</span>
+							<span class="fragment">GitHub, Gitlab et compagnie…</span>
 						</p>
 						<aside class="notes">
 							Ces plateformes sont indispensables pour moi aujourd'hui. Elles centralisent toute la vie des projets sur lesquels je travaille.
 							<br/>
 							Ils intègrent un wiki pour la documentation et l'intégration avec Git pour visualiser l'historique. Ils sont de plus en plus tournés vers la collaboration (pull / merge requests, commentaires) et j'ai réussi à amener mes clients à les utiliser.
 							<br/>
-							Le bug tracker permet de vraiment organiser le travail de manière collaborative et centrale. Toutes les informations concernant les projets sont contenus dans ces outils.
+							Le bug tracker permet de vraiment organiser le travail de manière collaborative et centrale. J'y stocke toutes les informations concernant les projets.
 							<br/>
 							Un autre avantage, une fois que j'ai terminé ma prestation, le client repart clé en main avec tout son projet !
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>Cloud</span></h1>
+						<h1 class="highlight"><span>Intégration continue</span></h1>
 						<p class="highlight">
-							<span>Un serveur, vite !</span>
+							<span class="fragment">Travis CI ou Gitlab CI</span>
 						</p>
 						<aside class="notes">
-
+							Je ne réalise plus de projet sur lequel il n'y a pas d'intégration continue.
+							<br/>
+							Je m'appuie principalement sur GitlabCI car il est totalement intégré à Gitlab et répond à tous mes besoins pour l'instant.
+							<br/>
+							Les traitements exécutés pendant cette séquence permettent de garantir l'intégrité du projet sans que j'ai à y penser !
+						</aside>
+					</section>
+					<section class="invert">
+						<h1 class="highlight"><span>Cloud</span></h1>
+						<p class="highlight">
+							<span class="fragment">Un serveur, vite !</span>
+						</p>
+						<aside class="notes">
+							Comme la majeur partie de mes projets sont sur le web, je suis obligé de passer par l'infrastructure.
+							<br/>
+							Pour tout la partie développement je m'appuie sur des machines jetables sur Scaleway, un fournisseur cloud français. Je suis satisfait de leur rapport qualité prix et j'ai un serveur démarré en deux minutes.
+							<br/>
+							Je ne suis pas spécialiste de cette partie et je collabore avec des vrais SysAdmin quand il le faut. J'ai conscience de la complexité que peut atteindre une infrastructure et je préfère partir du bon pied !
 						</aside>
 					</section>
 					<section class="invert">
 						<h1 class="highlight"><span>Todoist</span></h1>
 						<p class="highlight">
-							<span>Savoir qui est qui ?</span>
+							<span class="fragment">Je fais quoi maintenant ?</span>
 						</p>
 						<aside class="notes">
-
+							J'utilise Todoist quotidiennement, on pourrait dire qu'il joue le rôle d'un deuxième cerveau !
+							<br/>
+							Je centralise toutes les actions que j'ai ou aurais besoin de faire et je peux facilement les
+							organiser par projet !
+							<br/>
+							Avant de voyager j'utilisais des posts-it pour ça mais quand on se déplace ce n'est pas facile à trimballer…
+							<br/>
+							Comme il est multiplateforme je l'ai toujours sous la main, simple et pratique !
 						</aside>
 					</section>
 					<section class="invert">
 						<h1 class="highlight"><span>Ansible</span></h1>
 						<p class="highlight">
-							<span>Automatiser au maximum</span>
+							<span class="fragment">Automatiser au maximum</span>
 						</p>
 						<aside class="notes">
-
+							Comme je le disais tout à l'heure, j'utilise Ansible pour scripter l'installation et la maintenance des serveurs que j'utilise.
+							<br/>
+							J'ai commencé début 2017 et depuis je n'ai plus arrêté ! Grâce à cet outil je documente toute la procédure d'installation et je la rend réexecutable… Maintenant, plus de soucis de serveur qui tombe avec une journée de remise en route !
 						</aside>
 					</section>
 				</section>
