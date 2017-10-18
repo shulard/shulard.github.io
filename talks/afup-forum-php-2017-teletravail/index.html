@@ -308,7 +308,7 @@
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight bottom"><span>Automatiser</span><br/><span class="fragment">Et fiabiliser !</span></h1>
+						<h1 class="highlight bottom"><span>Automatiser</span><br/><small class="fragment">Et fiabiliser !</small></h1>
 						<aside class="notes">
 							Comme je travaille souvent seul, j'essaie d'avoir les idées le plus au clair possible sur ce que je dois faire.
 							<br/>
@@ -337,9 +337,9 @@
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>Gestion de code source</span></h1>
+						<h1 class="highlight"><span>Gestion du code</span></h1>
 						<p class="highlight">
-							<span class="fragment">GitHub, Gitlab et compagnie…</span>
+							<span class="fragment">Centraliser, documenter et packager.</span>
 						</p>
 						<aside class="notes">
 							Les plateformes de gestion de code sont indispensables pour moi aujourd'hui. Elles centralisent toute la vie des projets sur lesquels je travaille.
@@ -354,20 +354,20 @@
 					<section class="invert">
 						<h1 class="highlight"><span>Intégration continue</span></h1>
 						<p class="highlight">
-							<span class="fragment">Travis CI ou Gitlab CI</span>
+							<span class="fragment">Regression, tests et intégrité.</span>
 						</p>
 						<aside class="notes">
 							Je met toujours en place une chaîne d'intégration continue même sur des « petits » projets.
 							<br/>
-							Je m'appuie principalement sur GitlabCI car il est totalement intégré à Gitlab et répond à tous mes besoins pour l'instant.
+							Je m'appuie principalement sur Gitlab CI car il est totalement intégré à Gitlab et répond à tous mes besoins pour l'instant.
 							<br/>
 							Les traitements exécutés pendant cette séquence permettent de garantir l'intégrité du projet sans que j'ai à y penser !
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>Cloud</span></h1>
+						<h1 class="highlight"><span>Cloud, <small style="vertical-align: bottom">un serveur vite !</small></span></h1>
 						<p class="highlight">
-							<span class="fragment">Un serveur, vite !</span>
+							<span class="fragment">Livrer, tester, présenter…</span>
 						</p>
 						<aside class="notes">
 							Comme la majeur partie de mes projets sont sur le web, je suis obligé de passer par l'infrastructure.
@@ -396,7 +396,7 @@
 					<section class="invert">
 						<h1 class="highlight"><span>Ansible</span></h1>
 						<p class="highlight">
-							<span class="fragment">Automatiser au maximum</span>
+							<span class="fragment">Tout scripter pour fiabiliser…</span>
 						</p>
 						<aside class="notes">
 							Comme je le disais tout à l'heure, j'utilise Ansible pour scripter l'installation et la maintenance des serveurs.
@@ -430,7 +430,7 @@
 					<section class="invert">
 						<h1 class="highlight"><span>SSH</span></h1>
 						<p class="highlight">
-							<span>Garantir un accès</span>
+							<span class="fragment">Toujours garantir un accès…</span>
 						</p>
 						<aside class="notes">
 							J'utilise énorménent SSH pour gérer les machines qui sont à ma charge.
@@ -447,7 +447,7 @@
 					<section class="invert">
 						<h1 class="highlight"><span>GPG</span></h1>
 						<p class="highlight">
-							<span>Savoir qui est qui</span>
+							<span class="fragment">Signer et savoir qui est qui…</span>
 						</p>
 						<aside class="notes">
 							Pour garantir l'authenticité des messages, des logiciels à installer, une clé à générer et maintenant je peux signer mes emails, mes documents et même mes commits.
@@ -458,9 +458,9 @@
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>Mots de passe</span></h1>
+						<h1 class="highlight"><span>LastPass</span></h1>
 						<p class="highlight">
-							<span>LastPass: Un coffre pour les stocker tous</span>
+							<span class="fragment">Un coffre pour tous mes mots de passe.</span>
 						</p>
 						<aside class="notes">
 							J'utilise gestionnaire de mot de passe pour tout maintenant.
@@ -479,21 +479,25 @@
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>2FA et YubiKey</span></h1>
+						<h1 class="highlight"><span>2FA, U2F et YubiKey</span></h1>
 						<aside class="notes">
 							La double authentification est une sécurité complémentaire à activer… Retenir mes mots de passe ne me coûte pas d'énergie, ajouter cette sécurité me permet de garantir qu'on ne va pas prendre possession de mon compte.
 							<br/>
 							J'ai commencé par utiliser les authenticator mais suite au vol de mon téléphone en Sicile, j'ai cherché une solution plus pérenne.
 							<br/>
-							La clé YubiKey est une solution fiable et efficace pour gérer cette 2FA. Elle agit comme un clavier et peut générer des mots de passe temporaires à validité unique, simple et efficace. Mon gestionnaire de mot de passe est sécurisé avec cette clé.
+							U2F ou Universal 2nd Factor est un standard d'authentification ouvert qui renforce et simplifie la double authentification à l'aide de périphériques USB ou NFC spécialisés basés sur une technologie de sécurité similaire trouvée dans les cartes à puce.
+							<br/>
+							<br/>
+							La clé YubiKey est une solution fiable et efficace. Elle agit comme un clavier et peut générer des mots de passe temporaires à validité unique, simple et efficace. Mon gestionnaire de mot de passe est sécurisé avec cette clé.
 							<br/>
 							Même en cas de perte / vol de téléphone ou ordinateur, on ne pourrait pas accéder à ces données vitales pour mon activité et mon quotidien.
 						</aside>
 					</section>
 					<section class="invert">
-						<h1 class="highlight"><span>Backup</span><br/><small>Kezako ?</small></h1>
+						<h1 class="highlight"><span>Backup, <small style="vertical-align: bottom">Kezako ?</small></span></h1>
 						<p class="highlight">
-							<span>Pour tout, toujours !</span>
+							<span class="fragment">Pour tout, toujours, </span>
+							<span class="fragment">du mieux qu'on peut…</span>
 						</p>
 						<aside class="notes">
 							Tout le monde en parle mais comment le faire du mieux possible ?
