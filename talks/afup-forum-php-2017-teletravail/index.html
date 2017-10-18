@@ -34,11 +34,23 @@
 			.left {
 				text-align: left;
 			}
+			.float-right {
+				float: right;
+			}
+			.background {
+				background-color: rgba(255, 255, 255, 0.9) !important;
+			}
+			.no-background {
+				background: none !important;
+			}
+			.border-radius {
+				border-radius: 20px;
+			}
 			.reveal {
 				background-color: rgba(0, 174, 239, 0.8);
 			}
 			.reveal h1.highlight *, .reveal p.highlight>* {
-				background-color: rgba(4, 32, 41, 0.9);;
+				background-color: rgba(4, 32, 41, 0.9);
 				display: inline;
 				padding-left: 15px;
 				padding-right: 15px;
@@ -48,6 +60,13 @@
 			}
 			.reveal section>p {
 				font-size: 1.2em;
+			}
+			.reveal section>a>img.plain {
+				margin: 23px 0;
+				height: 94px;
+			}
+			.reveal section>a+a>img.plain {
+				margin-right: 10px;
 			}
 			.reveal section.invert {
 				color: rgba(0, 0, 0, 0.8);
@@ -251,8 +270,8 @@
 						en amont aux propriétaire des logements pour mieux cerner où on arrive…
 					</aside>
 				</section>
-				<section class="stack" data-background-image="img/methode.jpg">
-					<section>
+				<section class="stack">
+					<section data-background-image="img/methode.jpg">
 						<h1 class="highlight bottom"><span>Trouver sa voie</span></h1>
 						<aside class="notes">
 							Comment réussir à faire fonctionner mon entreprise tout en ayant ce mode de vie différent. Quand on sort entièrement de sa zone de confort, il y a forcément de nouvelles contraintes qui émergent…
@@ -324,8 +343,8 @@
 						</aside>
 					</section>
 				</section>
-				<section class="stack" data-background-image="img/outils.jpg">
-					<section>
+				<section class="stack">
+					<section data-background-image="img/outils.jpg">
 						<h1 class="highlight bottom"><span>Outils</span></h1>
 						<aside class="notes">
 							Dans mon quotidien, j'utilise des outils qui ont changé ma façon de travailler.
@@ -336,7 +355,9 @@
 							Ces outils me permettent de travailler de n'importe où dès que j'ai un accès à internet.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://gitlab.com"><img class="plain float-right background border-radius" height="90" src="img/gitlab.png"></a>
+						<a target="_blank" href="https://github.com"><img class="plain float-right background border-radius" height="90" src="img/github.png"></a>
 						<h1 class="highlight"><span>Gestion du code</span></h1>
 						<p class="highlight">
 							<span class="fragment">Centraliser, documenter et packager.</span>
@@ -351,7 +372,9 @@
 							Un autre avantage, une fois que j'ai terminé ma prestation, le client repart clé en main avec tout son projet !
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://gitlab.com"><img class="plain float-right background border-radius" height="90" src="img/gitlab.png"></a>
+						<a target="_blank" href="https://travis-ci.org"><img class="plain float-right border-radius" height="90" src="img/travis.jpg"></a>
 						<h1 class="highlight"><span>Intégration continue</span></h1>
 						<p class="highlight">
 							<span class="fragment">Regression, tests et intégrité.</span>
@@ -364,7 +387,9 @@
 							Les traitements exécutés pendant cette séquence permettent de garantir l'intégrité du projet sans que j'ai à y penser !
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://www.digitalocean.com"><img class="plain float-right background border-radius" height="90" src="img/digital-ocean.png"></a>
+						<a target="_blank" href="https://www.scaleway.com"><img class="plain float-right background border-radius" height="90" src="img/scaleway.png"></a>
 						<h1 class="highlight"><span>Cloud, <small style="vertical-align: bottom">un serveur vite !</small></span></h1>
 						<p class="highlight">
 							<span class="fragment">Livrer, tester, présenter…</span>
@@ -377,7 +402,8 @@
 							Je ne suis pas spécialiste de cette partie et je collabore avec des vrais SysAdmin quand il le faut. J'ai conscience de la complexité que peut atteindre une infrastructure et je préfère partir du bon pied !
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://todoist.com/"><img class="plain float-right background border-radius" height="90" src="img/todoist.png"></a>
 						<h1 class="highlight"><span>Todoist</span></h1>
 						<p class="highlight">
 							<span class="fragment">Je fais quoi maintenant ?</span>
@@ -393,7 +419,8 @@
 							Comme mon outil est multiplateforme je l'ai toujours sous la main, simple et pratique !
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://www.ansible.com/"><img class="plain float-right no-background" height="90" src="img/ansible.png"></a>
 						<h1 class="highlight"><span>Ansible</span></h1>
 						<p class="highlight">
 							<span class="fragment">Tout scripter pour fiabiliser…</span>
@@ -407,8 +434,8 @@
 						</aside>
 					</section>
 				</section>
-				<section class="stack" data-background-image="img/securite.jpg">
-					<section>
+				<section class="stack">
+					<section data-background-image="img/securite.jpg">
 						<h1 class="highlight"><span>Sécurité</span></h1>
 						<aside class="notes">
 							Quand on se déplace beaucoup, de nouvelles questions émergent par rapport à la sécurité…
@@ -427,7 +454,8 @@
 							Cette expérience amère m'a permis de me poser pas mal de question sur cette partie sécurité. Il fallait que je trouve des solutions pour réagir même en cas de coup dur.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://fr.wikipedia.org/wiki/Secure_Shell"><img class="plain float-right" height="90" src="img/iterm.png"></a>
 						<h1 class="highlight"><span>SSH</span></h1>
 						<p class="highlight">
 							<span class="fragment">Toujours garantir un accès…</span>
@@ -444,7 +472,8 @@
 							Je bannis au maximum l'utilisation de mots de passe et m'appuie sur plusieurs couples de clés : par client, par plateforme.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://fr.wikipedia.org/wiki/GNU_Privacy_Guard"><img class="plain float-right background" height="90" src="img/gnupg.png"></a>
 						<h1 class="highlight"><span>GPG</span></h1>
 						<p class="highlight">
 							<span class="fragment">Signer et savoir qui est qui…</span>
@@ -457,7 +486,8 @@
 							Bien plus qu'une clé, c'est mon empreinte sur le web.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://lastpass.com"><img class="plain float-right background border-radius" height="90" src="img/lastpass.png"></a>
 						<h1 class="highlight"><span>LastPass</span></h1>
 						<p class="highlight">
 							<span class="fragment">Un coffre pour tous mes mots de passe.</span>
@@ -478,7 +508,8 @@
 							Un allié précieux dans mon quotidien, je n'ai plus de fichier password.txt en clair sur mon bureau ni de post-it qui traine.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://www.yubico.com"><img class="plain float-right background" height="90" src="img/yubikey.png"></a>
 						<h1 class="highlight"><span>2FA, U2F et YubiKey</span></h1>
 						<aside class="notes">
 							La double authentification est une sécurité complémentaire à activer… Retenir mes mots de passe ne me coûte pas d'énergie, ajouter cette sécurité me permet de garantir qu'on ne va pas prendre possession de mon compte.
@@ -493,7 +524,9 @@
 							Même en cas de perte / vol de téléphone ou ordinateur, on ne pourrait pas accéder à ces données vitales pour mon activité et mon quotidien.
 						</aside>
 					</section>
-					<section class="invert">
+					<section class="invert left">
+						<a target="_blank" href="https://hubic.com/fr/"><img class="plain float-right no-background" height="90" src="img/hubic.png"></a>
+						<a target="_blank" href="https://www.resilio.com/"><img class="plain float-right background border-radius" height="90" src="img/resilio.png"></a>
 						<h1 class="highlight"><span>Backup, <small style="vertical-align: bottom">Kezako ?</small></span></h1>
 						<p class="highlight">
 							<span class="fragment">Pour tout, toujours, </span>
