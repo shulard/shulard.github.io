@@ -171,7 +171,7 @@
 						<aside class="notes">
 							Les pratiques de développement continue sont très présentes en ce moment. On entend parler d'intégration, de déploiement…
 							<br/>
-							Le faire en continue, revient à fiabiliser chaque modification faire sur le code automatiquement pour lui permettre ou non d'aller au bout de la chaîne.
+							Le faire en continue, revient à fiabiliser chaque modification faite sur le code automatiquement pour lui permettre ou non d'aller au bout de la chaîne.
 							<br/>
 							Qui n'a jamais rêvé d'avoir un projet qui se déploie tout seul ? Ou un déploiement qui s'arrête au bon moment parce qu'il reste un bug critique dans le code ?
 						</aside>
@@ -201,6 +201,30 @@
 							▶ Un standard de mise en forme spécifique à WordPress a été créé, par la communauté et peut être utilisé directement une fois installé.
 							<br/>
 							La documentation de ces différents outils est très complète et il n'est pas nécessaire de passer beaucoup de temps à les configurer pour les utiliser.
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Un test ?</span></h1>
+						<pre class=" fragment highlight"><code class="bash">
+  <?php
+    class CustomAttributesTest extends WP_UnitTestCase
+    {
+        public function test_custom_attributes_are_empty_by_default()
+        {
+            $payload = wpmautic_get_tracking_attributes();
+
+            $this->assertTrue(is_array($payload));
+            $this->assertEmpty($payload);
+        }
+    }
+
+</code></pre>
+						<aside class="notes">
+							Un test PHPUnit est une classe PHP contenant des méthodes.
+							<br/>
+							▶ Ces méthodes ont pour objectif de vérifier que le code fonctionne. Ici par exemple, la fonction doit retourner un tableau vide si elle est appellée sans paramètres.
+							<br/>
+							Une classe de base <code>WP_UnitTestCase</code> est fournie par les développeurs du coeur.
 						</aside>
 					</section>
 				</section>
@@ -235,7 +259,8 @@
 						<aside class="notes">
 							Comme je l'ai dit tout à l'heure, les outils de testing sont directement disponible dans le répository du coeur de wordpress.
 							<br/>
-							▶ Il suffit d'installer le dépôt Git officiel pour télécharger la bonne version pour vos tests.
+							▶ On peut utiliser le dépôt Git officiel pour télécharger la bonne version à utiliser pour les tests.
+							Le gros avantage est de pouvoir tester sur n'importe quel tag du projet et de pouvoir vérifier la compatibilité d'une extension.
 						</aside>
 					</section>
 					<section class="invert left">
@@ -250,16 +275,19 @@
 
 </code></pre>
 						<aside class="notes">
-							Comme je l'ai dit tout à l'heure, les outils de testing sont directement disponible dans le répository du coeur de wordpress.
+							Pour tester, il faut utiliser WordPress et donc le configurer.
 							<br/>
-							▶ On peut utiliser le dépôt Git officiel pour télécharger la bonne version à utiliser pour les tests.
-							Le gros avantage est de pouvoir tester sur n'importe quel tag du projet et de pouvoir vérifier la compatibilité d'une extension.
+							▶ Il faut une base de données et
+							<br/>
+							▶ le fichier wp-config.
+							<br/>
+							▶ Voici une série de commande pour automatiser tout ça.
 						</aside>
 					</section>
 					<section class="invert left">
 						<h1 class="highlight"><span>Exécution !</span></h1>
 						<pre class=" fragment highlight"><code class="bash">
-  vendor/bin/phpunit
+  vendor/bin/phpunit --bootstrap $WP_DIR/tests/phpunit/includes/bootstrap.php
   vendor/bin/phpcs -n --standard=phpcs.xml
 
 </code></pre>
@@ -267,6 +295,8 @@
 							Une fois tout le système en place, il reste à lancer les outils !
 							<br/>
 							▶ Les chemins présentés ici sont valables quand on utilise Composer, à adapter selon vos besoins !
+							<br/>
+							Il faut savoir que le coeur de WordPress contient un boostrap pour PHPUnit qui permet d'initialiser tout l'environnement utile pour l'exécution des tests.
 						</aside>
 					</section>
 				</section>
