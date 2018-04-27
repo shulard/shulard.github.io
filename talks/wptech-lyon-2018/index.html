@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>WordPress, du bricolage au déploiement continu ! - WPTech Lyon 2018 - Stéphane HULARD / CH Studio</title>
+
+		<meta name="description" content="WordPress est le CMS le plus utilisé sur le web, comment fiabiliser les développements et automatiser les déploiements sur cette plateforme ?">
+		<meta name="author" content="Stéphane HULARD">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../assets/css/solarized-dark.css">
+
+		<style type="text/css">
+			.reveal h1 {
+				font-size: 2.2em;
+			}
+			.reveal .social-me {
+				float: right;
+			}
+			.reveal .social-me img {
+				margin-bottom: 0px;
+			}
+			.reveal .social-me a {
+				color: #FFF;
+				margin-right: 10px;
+			}
+			.reveal .social-me a:hover {
+				color: rgba(4, 32, 41, 0.9);
+			}
+			.reveal .social-me a:last-child {
+				margin-right: 0;
+			}
+			.right {
+				text-align: right;
+			}
+			.bottom {
+				margin-top: 35% !important;
+			}
+			.top {
+				margin-bottom: 35% !important;
+			}
+			.left {
+				text-align: left;
+			}
+			.float-right {
+				float: right;
+			}
+			.background {
+				background-color: rgba(255, 255, 255, 0.9) !important;
+			}
+			.no-background {
+				background: none !important;
+			}
+			.border-radius {
+				border-radius: 20px;
+			}
+			.reveal {
+				background-color: rgba(0, 174, 239, 0.8);
+			}
+			.reveal h1.highlight *, .reveal p.highlight>* {
+				background-color: rgba(4, 32, 41, 0.9);
+				display: inline;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+			.reveal h1.highlight *:last-child {
+				line-height: 2em
+			}
+			.reveal section>p {
+				font-size: 1.2em;
+			}
+			.reveal section>a>img.plain {
+				margin: 23px 0;
+				height: 94px;
+			}
+			.reveal section>a+a>img.plain {
+				margin-right: 10px;
+			}
+			.reveal section.invert {
+				color: rgba(0, 0, 0, 0.8);
+			}
+
+			.reveal section.invert p.highlight>* {
+				background-color: rgba(255, 255, 255, 0.9)
+			}
+			.speaker-controls-notes .value {
+				font-size: 1em !important;
+			}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal concave center">
+			<div class="slides">
+				<section data-background-image="img/diy.jpg">
+					<h1 class="right bottom highlight"><span>WordPress</span><br/><small>Du bricolage au déploiement continu !</small></h1>
+					<p class="global-footer">
+						<a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+						<a href="https://2018.wptech.fr"><img src="img/wptech.png" width="80" class="plain" /></a>
+						<span><time datetime="2018-04-28">2018</time>&nbsp;-&nbsp;WPTech / WordPress, du bricolage au déploiement continu !</span>
+					</p>
+					<aside class="notes">
+						Bonjour, je suis avec vous pour parler de WordPress de tests et d'intégration continue !
+						<br/>
+						On ne voit pas souvent ces différents sujets associés ensemble, pourtant il y a des choses intéressantes à faire pour vous permettre de fiabiliser votre intégration.
+						<br/>
+						Les outils que je vais vous présenter peuvent paraitre compliqués, pourtant, une fois qu'on les connait, il suffit de prendre une à deux heures sur un projet pour les intégrer.
+						<br/>
+						Ensuite vous serez plus confiant dans vos développements et vous passerez moins de temps à debugger !
+					</aside>
+				</section>
+				<section class="invert">
+					<p class="social-me">
+						<img src="img/moi.jpg" class="plain" width="250"/><br/>
+						<a class="white" target="_blank" href="https://twitter.com/s_hulard"><i class="fa fa-twitter"></i></a>
+						<a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+						<a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+						<a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+						<a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+					</p>
+					<h1 class="highlight left"><span>Moi ?</span></h1>
+					<p class="left highlight">
+						<span class="fragment">Consultant, </span>
+						<span class="fragment">Formateur, </span>
+						<span class="fragment">Contributeur.</span>
+					</p>
+					<aside class="notes">
+						Je commence par me présenter, je suis Stéphane Hulard, consultant et directeur technique.
+						<br/>
+						▶ J'interviens sur des projets très variés qui vont d'outil de gestion de données très complexes à des sites web ou API pilotés par un CMS.
+						<br/>
+						J'aime particulièrement travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
+						<br/>
+						▶ Je suis aussi formateur et référencé en tant qu’organisme de formation. Je forme principalement aux outils et méthodes liés à la qualité logicielle : Intégration continue, déploiement continue, tests…
+						<br/>
+						▶ J'adore pouvoir travailler sur des projets open source et j’y consacre à peu prêt 20% de mon temps. J’élargis ainsi ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux. Je suis mainteneur officiel de l'extension WordPress WPMautic qui permet de facilement intégrer le système d'automatisation marketing Mautic sur votre site… Si vous ne connaissez pas cette solution, open source elle aussi, je vous invite à la découvrir !
+					</aside>
+				</section>
+				<section class="stack">
+					<section class="left" data-background-image="img/gitlab.jpg">
+						<h1 class="highlight"><span>Développement continu ?</span><span></span></h1>
+						<aside class="notes">
+							Dans le développement logiciel, on entend de plus en plus parler d'intégration et déploiement continue. Ces pratiques permettent de garantir le fonctionnement du code de façon automatisé tout au long de la vie d'un projet. Elles permettent aussi de gagner confiance dans le code et le projet pour aller jusqu'à déployer automatiquement.
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Garantir le fonctionnement…</span></h1>
+						<p class="highlight"><span class="fragment">… par les tests,</span><span class="fragment">et le code sniffing</span></p>
+						<aside class="notes">
+							Pour pouvoir assurer que le code est toujours capable de résoudre les problèmes pour lesquels il a été écrit, il faut intégrer des tests. Il existe différents types de tests qui répondent à des besoins différents.
+							<br/>
+							▶ Les tests unitaires pour valider le fonctionnement de chaque ligne de code, et les tests d'intégration pour vérifier que le système répond correctement quand on l'interroge.
+							<br/>
+							▶ Par ailleurs le code sniffing permet de maintenir une cohérence globale dans la structure du code écrit. Plus de débat autour des tabulations / espaces, les règles sont définies et il faut les respecter.
+							<br/>
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Avec WordPress ?</span></h1>
+						<p class="highlight"><a href="https://phpunit.de" target="_blank" rel="noopener noreferrer" class="fragment">PHPUnit,</a><a href="https://github.com/squizlabs/PHP_CodeSniffer" target="_blank" rel="noopener noreferrer" class="fragment">PHP_CodeSniffer,</a><a href="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards" target="_blank" rel="noopener noreferrer" class="fragment">WordPress-Coding-Standards</a></p>
+						<aside class="notes">
+							C'est possible d'utiliser ces différentes techniques avec WordPress pour tester vos thèmes et plugins. Les développeurs du projet mettent à disposition sur le repository tous les outils, le coeur de WordPress est testé et validé de cette façon.
+							<br/>
+							▶ PHPUnit pour les tests unitaires. C'est le framework de tests unitaires le plus répandu dans la communauté PHP, il y a beaucoup de documentation et tutos en ligne pour mieux le connaitre.
+							<br/>
+							▶ PHP_CodeSniffer pour le code sniffing. Un standard de mise en forme spécifique à WordPress a été créé, par la communauté et peut être utilisé directement une fois installé.
+						</aside>
+					</section>
+				</section>
+				<section class="stack">
+					<section class="invert left" data-background-image="img/way.jpg">
+						<h1 class="highlight"><span>La voie de l'automatisation…</span></h1>
+						<p class="highlight"><span class="fragment">Un peu de ligne de commande…</span></p>
+						<aside class="notes">
+							Pour pouvoir utiliser et lancer ces outils automatiquement, il faut installer un workflow. Si vous utilisez Git et une plateforme en ligne pour héberger votre code comme Gitlab ou GitHub, il y a de grande chance pour qu'elle s'intègre nativement avec des outils d'intégration comme Travis, ContinuousPHP, GitlabCI ou autre.
+							<br/>
+							Sinon, vous pouvez toujours le faire à la main. L'idéal est de pouvoir tester chaque commit ou modification de code pour facilement isoler les soucis et les corriger.
+							<br/>
+							Ce workflow doit être bien facile à suivre et facilement exécutable en dehors de la machine du développeur !
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Gestion des dépendances</span></h1>
+						<p class="highlight"><a href="https://getcomposer.org/" target="_blank" rel="noopener noreferrer" class="fragment"><code>composer install</code></a></p>
+						<aside class="notes">
+							Ces phases de test nécessitent des outils complémentaires qui doivent être installable sur un nouvel environnement facilement.
+							<br/>
+							▶ Composer est l'outil le plus utilisé aujourd'hui dans le monde de PHP pour installer les dépendances.
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Installation du core</span></h1>
+						<p class="highlight"><small class="fragment"><code>git clone --branch="$WP_VERSION" git://develop.git.wordpress.org/</code></small></p>
+						<aside class="notes">
+							Comme je l'ai dit tout à l'heure, les outils de testing sont directement disponible dans le répository du coeur de wordpress.
+							<br/>
+							▶ Il suffit d'installer le dépôt Git officiel pour télécharger la bonne version pour vos tests.
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Configuration…</span></h1>
+						<p class="highlight"><span class="fragment">MySQL,</span><span class="fragment">wp-config.php</span></p>
+						<pre class=" fragment highlight"><code class="bash">
+  mysql -u root -e "CREATE DATABASE wordpress_tests;"
+  cp wp-tests-config-sample.php wp-tests-config.php
+  sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+  sed -i "s/yourusernamehere/root/" wp-tests-config.php
+  sed -i "s/yourpasswordhere//" wp-tests-config.php
+
+</code></pre>
+						<aside class="notes">
+							Comme je l'ai dit tout à l'heure, les outils de testing sont directement disponible dans le répository du coeur de wordpress.
+							<br/>
+							▶ On peut utiliser le dépôt Git officiel pour télécharger la bonne version à utiliser pour les tests.
+							Le gros avantage est de pouvoir tester sur n'importe quel tag du projet et de pouvoir vérifier la compatibilité d'une extension.
+						</aside>
+					</section>
+					<section class="invert left">
+						<h1 class="highlight"><span>Exécution !</span></h1>
+						<pre class=" fragment highlight"><code class="bash">
+  vendor/bin/phpunit
+  vendor/bin/phpcs -n --standard=phpcs.xml
+
+</code></pre>
+						<aside class="notes">
+							Une fois tout le système en place, il reste à lancer les outils !
+							<br/>
+							▶ Les chemins présentés ici sont valables quand on utilise Composer, à adapter selon vos besoins !
+						</aside>
+					</section>
+				</section>
+<!--#########################################################################-->
+				<section class="invert">
+					<h1 class="highlight left">Merci, <span>des questions ?</span></h1>
+					<p class="left"><a href="https://github.com/mautic/mautic-wordpress/" target="_blank" rel="noopener noreferrer"><img src="img/qrcode.png" width="200" class="plain" /></a></p>
+					<aside class="notes">
+						Merci de votre attention.
+					</aside>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="../assets/reveal.js/lib/js/head.min.js"></script>
+		<script src="../assets/reveal.js/js/reveal.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
