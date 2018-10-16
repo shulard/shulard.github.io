@@ -197,7 +197,7 @@
                     </section>
                     <section class="invert left" data-background-image="img/lego.jpg">
                         <h1 class="highlight"><span>Abstraction</span></h1>
-                        <p class="highlight"><span class="fragment">Simple…</span><span class="fragment">…but efficient !</span></p>
+                        <p class="highlight"><span class="fragment">Simple…</span><span class="fragment">…et efficace !</span></p>
                         <aside class="notes">
                             Ce composant intègre des interfaces derrière les concepts importants (message, bus, transport, …) pour nous permettre de définir notre logique applicative dans un cadre.<br/>
                             Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant l'auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est jouer.
@@ -218,13 +218,13 @@
                 </section>
                 <section class="stack">
                     <section data-background-image="img/matrix.jpg">
-                        <h1 class="highlight"><span>First, take the red pill</span></h1>
+                        <h1 class="highlight"><span>Prenez la pilule rouge…</span></h1>
                         <aside class="notes">
                             Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
                         </aside>
                     </section>
                     <section class="invert left">
-                        <h1 class="highlight"><span>So, what is a Message ?</span></h1>
+                        <h1 class="highlight"><span>Ok, c'est quoi un Message ?</span></h1>
                         <pre>
                             <code class="php">
 &lt;?php declare(strict_types=1);
@@ -245,7 +245,7 @@ class ExamRated
                         </aside>
                     </section>
                     <section class="invert left">
-                        <h1 class="highlight"><span>How to dispatch it ?</span></h1>
+                        <h1 class="highlight"><span>Comment le "dispatcher" ?</span></h1>
                         <pre>
                             <code class="php">
 &lt;?php declare(strict_types=1);
@@ -296,7 +296,7 @@ framework:
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/transport.jpg">
-                        <h1 class="highlight"><span>Message is on its way…</span></h1>
+                        <h1 class="highlight"><span>Un Message voyage…</span></h1>
                         <p class="highlight"><span class="fragment">AMQP protocol…</span><span class="fragment">… plug'n'play with compatible tools</span></p>
                         <p class="highlight"></p>
                         <aside class="notes">
@@ -306,7 +306,7 @@ framework:
                         </aside>
                     </section>
                     <section class="invert" data-background-image="img/plug.jpg">
-                        <h1 class="highlight"><span>…using an adapter…</span></h1>
+                        <h1 class="highlight"><span>…avec un Adapter…</span></h1>
                         <p class="highlight"><code class="fragment shell">composer require <strong>enqueue/messenger-adapter</strong></code></p>
                         <aside class="notes">
                             En PHP il n'existe pas encore un moyen normalisé officiel de traiter les messages, comprenez qu'il n'existe pas de PSR pour le moment. Plusieurs groups d'utilisateurs se sont posés des questions et des initiatives comme queue-interop ont vu le jour. L'objectif est bien sur de faciliter l'intégration de système complexes dans une application. Enqueue implémente les recommandations de Queue-Interop.<br/>
@@ -319,7 +319,7 @@ framework:
                         </aside>
                     </section>
                     <section class="invert" data-background-image="img/road.jpg">
-                        <h1 class="highlight"><span>… and the right road !</span></h1>
+                        <h1 class="highlight"><span>… sur la bonne route !</span></h1>
                         <pre>
                             <code class="yaml">
 framework:
@@ -351,7 +351,7 @@ framework:
                 </section>
                 <section class="stack">
                     <section data-background-image="img/components-3.jpg">
-                        <h1 class="highlight top"><span>Handle processing</span></h1>
+                        <h1 class="highlight top"><span>Traitement des messages</span></h1>
                         <aside class="notes">
                             Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
                         </aside>
