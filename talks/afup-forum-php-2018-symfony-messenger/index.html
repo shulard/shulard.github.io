@@ -187,12 +187,12 @@
                         <p class="highlight"><span class="fragment">Adapter ≠ Informer</span></p>
                         <aside class="notes">
                             Effectivement dans Symfony, le composant Event Dispatcher est très connu et utilisé depuis bien longtemps.<br/>
-                            Les Events peuvent aussi être vus comme des sortent de messages mais il y a plusieurs différences importantes.<br/>
+                            Les Events peuvent aussi être vus comme des sortent de messages mais il y a plusieurs différences importantes.<br/><br/>
                             Vous avez peut être entendu parler de la PSR14, Event Manager. Un groupe de travail essaie de normaliser la gestion des events et messages au sein d'une application. Ils introduisent le concept de Message avec la définition suivante :<br/>
                             <blockquote>
                                 Un message est le cas spécifique d'un évènement unidirectionnel. L'émetteur n'attend pas de réponse des écouteurs qui peuvent être appelés dans n'importe quel ordre.
                             </blockquote><br/>
-                            Les events sont principalement utilisés pour donner la possibilité de modifier le comportement de l'application (évènement du Kernel pour modifier requête et réponse par exemple).
+                            ▶ Les events sont principalement utilisés pour donner la possibilité de modifier le comportement de l'application (évènement du Kernel pour modifier requête et réponse par exemple).
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/lego.jpg">
@@ -200,7 +200,7 @@
                         <p class="highlight"><span class="fragment">Simple…</span><span class="fragment">…but efficient !</span></p>
                         <aside class="notes">
                             Ce composant intègre des interfaces derrière les concepts importants (message, bus, transport, …) pour nous permettre de définir notre logique applicative dans un cadre.<br/>
-                            Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est jouer.
+                            Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant l'auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est jouer.
                         </aside>
                     </section>
                     <section class="invert">
@@ -309,7 +309,8 @@ framework:
                         <h1 class="highlight"><span>…using an adapter…</span></h1>
                         <p class="highlight"><code class="fragment shell">composer require <strong>enqueue/messenger-adapter</strong></code></p>
                         <aside class="notes">
-                            Enqueue est un projet Open Source qui propose des packages de qualité autour des files de messages.<br/>
+                            En PHP il n'existe pas encore un moyen normalisé officiel de traiter les messages, comprenez qu'il n'existe pas de PSR pour le moment. Plusieurs groups d'utilisateurs se sont posés des questions et des initiatives comme queue-interop ont vu le jour. L'objectif est bien sur de faciliter l'intégration de système complexes dans une application. Enqueue implémente les recommandations de Queue-Interop.<br/>
+                            ▶ C'est un projet Open Source qui propose des packages de qualité autour des files de messages.<br/>
                             Le plus intéressant pour commencer est la liste des différents transports implémentés. Il y a des connecteurs pours les systèmes les plus courants sur le marché : GearMan, Redis, SQS, Kafka, …<br/>
                             Mais aussi des choses un peu plus "simples" comme un connecteur dbal qui permet de stocker la file de message dans une table ou encore un conncteur filesystem qui n'a rien besoin de plus qu'un dossier sur le disque pour fonctionner. Quand je dis "simple" ici c'est plus une question d'architecture de l'application finale que du connecteur lui même.<br/>
                             Un adapter a été créé pour faciliter l'utilisation avec le composant Messenger, il suffit de l'installer avec Composer pour avoir accès à tous ces connecteurs.<br/>
