@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Symfony/Messenger un composant à votre service ! - AFUP Forum PHP 2018 - Stéphane HULARD / ExoSkills</title>
+
+        <meta name="description" content="Avec la sortie de Symfony 4.1 le 30 mai 2018, un nouveau composant officiel fait son entrée sur le marché : Messenger. Qu'est-ce que ça change ? Pourquoi un nouveau composant officiel ?">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/solarized-dark.css">
+
+        <style type="text/css">
+            .reveal .social-me {
+                float: right;
+            }
+            .reveal .social-me img {
+                margin-bottom: 0px;
+            }
+            .reveal .social-me a {
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .reveal .social-me a:hover {
+                color: rgba(4, 32, 41, 0.9);
+            }
+            .reveal .social-me a:last-child {
+                margin-right: 0;
+            }
+            .right {
+                text-align: right;
+            }
+            .bottom {
+                margin-top: 35% !important;
+            }
+            .top {
+                margin-bottom: 35% !important;
+            }
+            .left {
+                text-align: left;
+            }
+            .float-right {
+                float: right;
+            }
+            .background {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .no-background {
+                background: none !important;
+            }
+            .border-radius {
+                border-radius: 20px;
+            }
+            code.fragment {
+                padding: 12px;
+            }
+            .reveal {
+                background-color: rgba(0, 174, 239, 0.8);
+            }
+            .reveal h1.highlight *, .reveal p.highlight>* {
+                background-color: rgba(4, 32, 41, 0.9);
+                display: inline;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .reveal h1.highlight *:last-child {
+                line-height: 2em
+            }
+            .reveal section>p {
+                font-size: 1.2em;
+            }
+            .reveal section>a>img.plain {
+                margin: 23px 0;
+                height: 94px;
+            }
+            .reveal section>a+a>img.plain {
+                margin-right: 10px;
+            }
+            .reveal section.invert {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .reveal pre {
+                font-size: 1.25rem;
+            }
+            .reveal pre code {
+                padding: 5px 1.5rem;
+            }
+
+            .reveal section.invert p.highlight>* {
+                background-color: rgba(255, 255, 255, 0.9)
+            }
+            .speaker-controls-notes .value {
+                font-size: 1em !important;
+            }
+        </style>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal concave center">
+            <div class="slides">
+                <section data-background-image="img/components.jpg">
+                    <h1 class="right bottom highlight"><span>Symfony/Messenger</span><br/><small>Un nouveau composant à votre service !</small></h1>
+                    <p class="global-footer">
+                        <a href="http://exo-skills.com"><img src="img/exo-skills.svg" width="20" class="plain" /></a>
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <a href="https://afup.org"><img src="img/afup.png" width="20" class="plain" /></a>
+                        <span><time datetime="2018-10-26">2018</time>&nbsp;-&nbsp;AFUP Forum PHP / Messenger un composant à votre service !</span>
+                    </p>
+                    <aside class="notes">
+                        Bonjour, nous allons attaquer cette deuxième journée avec un sujet technique
+                        et un peu de nouveauté.
+                        <br/>
+                        Comme vous le savez surement, il y a une liste de composants Symfony officiels
+                        maintenus et documentés. Comme les éléments sur cette image, les composants
+                        peuvent être utilisés pour assembler votre application…
+                        <br/>
+                        Nous allons découvrir un des derniers arrivant, Messenger.
+                    </aside>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="img/moi.jpg" class="plain" width="250"/><br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard"><i class="fa fa-twitter"></i></a>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Moi ?</span></h1>
+                    <p class="left highlight">
+                        <span class="fragment">CTO, </span>
+                        <span class="fragment">Formateur, </span>
+                        <span class="fragment">Contributeur.</span>
+                    </p>
+                    <aside class="notes">
+                        Je commence par me présenter, je suis Stéphane Hulard, directeur technique chez ExoSkills, une entreprise Lyonnaise spécialisée dans l'accompagnement à la transformation digitale de ses clients.
+                        <br/>
+                        ▶ Nous créons des outils métiers spécifiques pour aider nos clients à résoudre leurs problèmes. Nous n'avons pas de solution pré-conçues, mais nous apportons une approche globale Design, expérience utilisateur, développement.
+                        <br/>
+                        ▶ En parallèle, je suis formateur et référencé en tant qu’organisme de formation. J'interviens prinicipalement autour des outils et méthodes liés à la qualité logicielle : intégration continue, déploiement continue, tests…
+                        <br/>
+                        ▶ Enfin, j'adore pouvoir travailler sur des projets open source et j’y consacre autant de temps que possible. En compagnie des autres contributeurs, j'ouvre ma vision du métier tout en bénéficiant de leur expertise.
+                    </aside>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/messages.jpg">
+                        <h1 class="highlight"><span>Messenger ?</span></h1>
+                        <aside class="notes">
+                            Commençons par un petit tour d'horizon de ce nouveau composant. Il a été créé par <a href="https://twitter.com/samuelroze">Samuel Roze</a> que vous avez peut être vu hier matin dans une conférence sur les design patterns.<br/>
+                            L'objectif est d'apporter à l'écosystème symfony une façon normalisée d'interagir avec des bus de message...
+                        </aside>
+                    </section>
+                    <section class="invert right" data-background-image="img/crazy.jpg">
+                        <h1 class="highlight"><span>Message Bus in the wild !</span></h1>
+                        <aside class="notes">
+                            Ces bus, permettent d'envoyer et recevoir des messages depuis d'autres applications ou depuis un système de fil d'attente comme RabbitMQ ou autre.<br/>
+                            Depuis votre code vous définifissez des messages qui contiennent les infos utiles à leur traitement.
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/event.jpg">
+                        <h1 class="highlight"><span>Oui mais on a déjà les <code>Event</code></span></h1>
+                        <p class="highlight"><span class="fragment">Adapter ≠ Informer</span></p>
+                        <aside class="notes">
+                            Effectivement dans Symfony, le composant Event Dispatcher est très connu et utilisé depuis bien longtemps.<br/>
+                            Les Events peuvent aussi être vus comme des sortent de messages mais il y a plusieurs différences importantes.<br/>
+                            Vous avez peut être entendu parler de la PSR14, Event Manager. Un groupe de travail essaie de normaliser la gestion des events et messages au sein d'une application. Ils introduisent le concept de Message avec la définition suivante :<br/>
+                            <blockquote>
+                                Un message est le cas spécifique d'un évènement unidirectionnel. L'émetteur n'attend pas de réponse des écouteurs qui peuvent être appelés dans n'importe quel ordre.
+                            </blockquote><br/>
+                            Les events sont principalement utilisés pour donner la possibilité de modifier le comportement de l'application (évènement du Kernel pour modifier requête et réponse par exemple).
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/lego.jpg">
+                        <h1 class="highlight"><span>Abstraction</span></h1>
+                        <p class="highlight"><span class="fragment">Simple…</span><span class="fragment">…but efficient !</span></p>
+                        <aside class="notes">
+                            Ce composant intègre des interfaces derrière les concepts importants (message, bus, transport, …) pour nous permettre de définir notre logique applicative dans un cadre.<br/>
+                            Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est jouer.
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Overview</span></h1>
+                        <img src="img/messenger-overview.png" class="plain" />
+                        <aside class="notes">
+                            Dans ce schéma, on voit 3 parties distinctes qui communiquent :
+                            <ul>
+                                <li>Le receiver, utilisé lorsqu'une application reçoit un message externe</li>
+                                <li>Le sender, quand un message est envoyé à travers un transport externe</li>
+                                <li>Le bus, quand le message transite dans l'application</li>
+                            </ul>
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/matrix.jpg">
+                        <h1 class="highlight"><span>First, take the red pill</span></h1>
+                        <aside class="notes">
+                            Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>So, what is a Message ?</span></h1>
+                        <pre>
+                            <code class="php">
+&lt;?php declare(strict_types=1);
+
+namespace App\Domain\Exam\Message;
+
+class ExamRated
+{
+    // Everything that defines the message...
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Considérez un message comme un `ValueObject`. Il contient toutes les informations utiles à son traitement et permet de les lire de façon structuré. Cependant, le composant n'impose pas d'interface pour les messages, tout les objets peuvent être utilisés.<br/>
+                            Il est très important de prendre en compte que cet objet sera sérialisé et surement envoyé dans un système externe comme une fil de message.<br/>
+                            Cet objet doit contenir les informations précises nécessaires à son traitement. S'il doit référencer une valeur issue d'un autre objet, il n'est peut être pas pertinent de seulement référencer l'identifiant de cet objet. Je préfère utiliser la valeur elle-même.<br/>
+                            Je considère les messages comme des entités autonomes qui font transiter de l'information. Ces entités sont coupées de toute source de données et embarque donc tout le nécessaire.
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>How to dispatch it ?</span></h1>
+                        <pre>
+                            <code class="php">
+&lt;?php declare(strict_types=1);
+
+namespace App\Controller\Api\Exam;
+
+use Symfony\Component\Messenger\MessageBusInterface;
+
+class Rate extends Controller
+{
+    public function __invoke(MessageBusInterface $bus): Response
+    {
+        $bus-&gt;dispatch(new ExamRated($exam, $rating, $updated));
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Grâce aux interfaces intégrées dans le composant et à l'auto-wiring de Symfony, il suffit d'injecter l'instance de MessageBusInterface et de l'utiliser.<br/>
+                            Bien sur le comportement de ces différents objets peut être contrôlé par la configuration.
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/bus.jpg">
+                        <h1 class="highlight top"><span>Message Bus ?</span></h1>
+                        <aside class="notes">
+                            Tout composant, matériel ou logiciel qui permet d'envoyer/recevoir des messages entre des systèmes distribués.<br/>
+                            Car oui l'objectif de tout ça est bien de distribuer le traitement des messages et de mieux gérer la scalabilité.<br/>
+                            Bien sur les traitement ne sont pas forcément asynchrone ou traités sur d'autres machines mais c'est facilement possible d'implémenter ce genre d'architecture.
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Configuration <small><code>messenger.yaml</code></small></span></h1>
+                        <pre>
+                            <code class="yaml">
+framework:
+    messenger:
+        transports:
+            default: '%env(MESSENGER_ADAPTER_DSN)%'
+
+        routing:
+            # Route your messages to the transports
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Comme tout composant Symfony, la configuration est gérée dans un fichier YAML.<br/>
+                            A travers ce fichier, vous pouvez définir les différents bus de messages.<br/>
+                            On retrouve aussi les deux parties <code>transports</code> et <code>routing</code>. Ces deux composantes nous aident à contrôler comment les messages transitent dans l'application.
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/transport.jpg">
+                        <h1 class="highlight"><span>Message is on its way…</span></h1>
+                        <p class="highlight"><span class="fragment">AMQP protocol…</span><span class="fragment">… plug'n'play with compatible tools</span></p>
+                        <p class="highlight"></p>
+                        <aside class="notes">
+                            Les transports vont être utilisés pour stocker et faire voyager notre message.<br/>
+                            ▶ Messenger intègre un transport par défaut, qui implémente le protocole AMQP pour Advanced Message Queuing Protocol. Pour l'utiliser, il suffit d'installer l'extension PECL <code>AMQP</code>.<br/>
+                            ▶ Il s'agit d'un protocole d'échange standard compatible avec des outils comme RabbitMQ ou OpenAMQ.
+                        </aside>
+                    </section>
+                    <section class="invert" data-background-image="img/plug.jpg">
+                        <h1 class="highlight"><span>…using an adapter…</span></h1>
+                        <p class="highlight"><code class="fragment shell">composer require <strong>enqueue/messenger-adapter</strong></code></p>
+                        <aside class="notes">
+                            Enqueue est un projet Open Source qui propose des packages de qualité autour des files de messages.<br/>
+                            Le plus intéressant pour commencer est la liste des différents transports implémentés. Il y a des connecteurs pours les systèmes les plus courants sur le marché : GearMan, Redis, SQS, Kafka, …<br/>
+                            Mais aussi des choses un peu plus "simples" comme un connecteur dbal qui permet de stocker la file de message dans une table ou encore un conncteur filesystem qui n'a rien besoin de plus qu'un dossier sur le disque pour fonctionner. Quand je dis "simple" ici c'est plus une question d'architecture de l'application finale que du connecteur lui même.<br/>
+                            Un adapter a été créé pour faciliter l'utilisation avec le composant Messenger, il suffit de l'installer avec Composer pour avoir accès à tous ces connecteurs.<br/>
+                            L'avantage de cette approche est que tout est géré en configuration, cet adapter aide vraiment à ouvrir le champ des possibles avec Messenger.<br/>
+                            L'installation de l'Adapter va ajouter le "enqueue-bundle" avec ses propres outils et configuration. C'est dans la configuration de ce bundle qu'il faut définir les différents transports pour ensuite pouvoir s'en servir dans Messenger.
+                        </aside>
+                    </section>
+                    <section class="invert" data-background-image="img/road.jpg">
+                        <h1 class="highlight"><span>… and the right road !</span></h1>
+                        <pre>
+                            <code class="yaml">
+framework:
+    messenger:
+        transports:
+            default: enqueue://redis
+            log: enqueue://file
+
+        routing:
+            'App\Domain\Exam\Message\ExamRated': [default, log]
+            '*': default
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Chaque message peut ensuite être envoyé vers un ou plusieurs transports. Oui, j'ai bien dit plusieurs.<br/>
+                            Il suffit dans le fichier de configuration de définir le mapping pour facilement gérer le routing.<br/>
+                            Comme on peut le voir ici, je peux définir plusieurs transports. Ici ils dépendent tout deux d'enqueue. Ensuite je fais mon mapping entre les messages et les différents transports dans la partie "routing".
+                        </aside>
+                    </section>
+                    <section class="invert right" data-background-image="img/consume.jpg">
+                        <h1 class="highlight"><span>Consume them all !</span></h1>
+                        <p class="highlight"><code class="fragment shell">bin/console messenger:consume-messages amqp</code></p>
+                        <aside class="notes">
+                            Messenger intègre aussi directement une commande pour consommer les messages.
+                            ▶ Consommer un message revient à le traiter donc lire les informations qu'il contient et agir en conséquence.<br/>
+                            Pour définir les actions à appliquer il faut aller un peu plus loin.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/components-3.jpg">
+                        <h1 class="highlight top"><span>Handle processing</span></h1>
+                        <aside class="notes">
+                            Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
+                        </aside>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section data-background-image="img/thank-you.jpg"></section>
+            </div>
+
+        </div>
+
+        <script src="../assets/reveal.js/lib/js/head.min.js"></script>
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+        </script>
+    </body>
+</html>
