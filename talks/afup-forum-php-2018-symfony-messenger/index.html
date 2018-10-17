@@ -458,7 +458,7 @@ services:
                     <section>
                         <h1 class="highlight"><span>Handler, Sender, Receiver</span></h1>
                         <pre>
-                                <code class="yaml">
+                            <code class="yaml">
 # config/packages/messenger.yaml
 framework:
     messenger:
@@ -466,8 +466,8 @@ framework:
             'My\Message\ThatIsGoingToBeSentAndHandledLocally':
                     senders: [amqp]
                     send_and_handle: true
-                                </code>
-                            </pre>
+                            </code>
+                        </pre>
                         <aside class="notes">
                             Un dernier petit morceau de configuration pour montrer ce qu'il est possible de faire ici.<br/>
                             Par défaut dans ce YAML, on définit comment les messages sont envoyés et ou. Il est possible de choisir d'avoir un handler synchrone en plus du sender.
@@ -475,7 +475,12 @@ framework:
                     </section>
                 </section>
 <!--#########################################################################-->
-                <section data-background-image="img/thank-you.jpg"></section>
+                <section class="invert" data-background-image="img/thank-you.jpg">
+                    <p class="highlight"><code class="fragment">composer req messenger</code></p>
+                    <aside class="notes">
+                        Merci de votre attention, n'oubliez pas que pour utiliser toutes ces features, il suffit de lancer.
+                    </aside>
+                </section>
             </div>
 
         </div>
