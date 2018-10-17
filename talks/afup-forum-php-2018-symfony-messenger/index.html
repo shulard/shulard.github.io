@@ -205,7 +205,7 @@
                     </section>
                     <section class="invert">
                         <h1 class="highlight"><span>Overview</span></h1>
-                        <img src="img/messenger-overview.png" class="plain" />
+                        <img src="img/messenger-overview.svg" class="plain no-background" />
                         <aside class="notes">
                             Dans ce schéma, on voit 3 parties distinctes qui communiquent :
                             <ul>
@@ -213,12 +213,13 @@
                                 <li>Le sender, quand un message est envoyé à travers un transport externe</li>
                                 <li>Le bus, quand le message transite dans l'application</li>
                             </ul>
+                            En dessous de la ligne en pointillé, on peut voir la partie vraiment spécifique à l'application. C'est à se niveau que se situe le code métier dans lequel les messages seront utilisés.
                         </aside>
                     </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/matrix.jpg">
-                        <h1 class="highlight"><span>Prenez la pilule rouge…</span></h1>
+                        <h1 class="highlight"><span>Take the red pill…</span></h1>
                         <aside class="notes">
                             Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
                         </aside>
@@ -350,10 +351,126 @@ framework:
                     </section>
                 </section>
                 <section class="stack">
+                    <section class="invert" data-background-image="img/sticky-notes.jpg">
+                        <h1 class="highlight"><span>Contrôler le dispatch</span></h1>
+                        <aside class="notes">
+                            Le composant nous donne la main sur la façon dont est dispatché le message. Il est possible d'appliquer des traitements avant que le message ne soit traité.
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Middlewares</span></h1>
+                        <pre>
+                            <code class="php">
+&lt;?php declare(strict_types=1);
+
+namespace Symfony\Component\Messenger\Middleware;
+
+interface MiddlewareInterface
+{
+    public function handle($message, callable $next);
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Autour d'un bus de messages gravitent des Middleware. La logique est la même que pour les middleware HTTP à savoir qu'il s'agit d'objet avec une méthode `handle`.<br/>
+                            Il existe plusieurs Middleware par défaut :
+                            <ul>
+                                <li>Logguer les messages</li>
+                                <li>Validation la structure du message</li>
+                            </ul>
+                            Il est possible d'ajouter des middlewares sur un bus particulier. Cette couche offre une grande souplesse et donne du sens à l'utilisation de plusieurs bus dans une application.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
                     <section data-background-image="img/components-3.jpg">
                         <h1 class="highlight top"><span>Traitement des messages</span></h1>
                         <aside class="notes">
                             Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1 class="highlight"><span>Définition d'un Handler</span></h1>
+                        <pre>
+                            <code class="php">
+&lt;?php declare(strict_types=1);
+
+namespace App\Domain\Exam\Message\Handler;
+
+use App\Domain\Exam\Message\ExamFlagged;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+
+class DeleteFlaggedExam implements MessageHandlerInterface
+{
+    public function __invoke(ExamFlagged $message)
+    {
+        dump($message);
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Un Handler est un objet spécifique qui implémente MessageHandlerInterface. Cette interface ne définit pas de méthode, elle structure "juste" le code.<br/>
+                            La version la plus courte est donc de créer un objet avec la méthode `__invoke`.<br/>
+                            On voit que le Handler prend en paramètre le message qui va bien, ensuite libre à l'utilisateur d'en faire ce qu'il a besoin.<br/>
+                            Grâce à l'auto-wiring, il est possible d'injecter dans le constructeur du Handler les objets utiles pour le traitement. On peut même dispatcher un nouveau message depuis le Handler.<br/>
+                            Il y a plusieurs points très importants à noter. Contrairement à un Event, un message doit forcément être traité donc envoyé dans une queue ou passer directement dans un Handler.<br/>
+                            Donc je ne peux pas "dispatch" un message sans rien faire.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1 class="highlight"><span>Configuration</span></h1>
+                        <pre>
+                            <code class="yaml">
+services:
+    App\Domain\Exam\Message\Handler\DeleteFlaggedExam:
+        tags: [messenger.message_handler]
+    App\Domain\Exam\Message\Handler\ExamRatedHandler:
+        tags: [messenger.message_handler]
+    App\Domain\Series\Message\Handler\DeleteFlaggedSeries:
+        tags: [messenger.message_handler]
+    App\Domain\Series\Message\Handler\SeriesRatedHandler:
+        tags: [messenger.message_handler]
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Le mapping entre le type de message et le handler est détecté automatiquement grâce au typage de paramètre dans la fonction `__invoke` que nous venons de voir.<br/>
+                            Cependant pour que Symfony sache que cet objet est bien un Handler, il faut le déclarer dans les services avec un tag particulier.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/execute.jpg">
+                        <h1 class="highlight"><span>Exécution</span></h1>
+                        <aside class="notes">
+                            Une fois que les messages sont envoyés pour être traités, il ne reste plus qu'à lancer le code qui va bien.<br/>
+                            Deux possibilités, le traitement est asynchrone donc le message est envoyé dans un transport. Il est sérializé et mis en attente. La commande `consume-messages` va ensuite être lancée pour déclencher le traitement.<br/>
+                            Ou le traitement est synchrone, donc le handler est invoqué et exécuté directement pendant la requête.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1 class="highlight"><span>Handler, Sender, Receiver</span></h1>
+                        <img src="img/messenger-overview.svg" class="plain no-background" />
+                        <aside class="notes">
+                            Pour pouvoir gérer l'envoi du message dans un broker. Le composant utilise un objet Sender. À chaque type de broker redis, RabbitMQ, ou autre est associé un sender qui sérialise le message et gère le stockage.<br/>
+                            De même, pour lire les messages venant d'un broker, il y a des objets Receiver. Ces objets vont être responsable de récupérer les messages et de les passer au Handler qui va traiter les messages.<br/>
+                            Pour chacun de ces éléments, il est possible de définir votre propre implémentation. Par exemple un Sender qui enverrait le message par e-mail. Ou un receiver qui construirait des messages à partir d'une source externe comme un fichier CSV. On est pas obligé de respecter le chaîne complète, tout peut être adapté.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1 class="highlight"><span>Handler, Sender, Receiver</span></h1>
+                        <pre>
+                                <code class="yaml">
+# config/packages/messenger.yaml
+framework:
+    messenger:
+        routing:
+            'My\Message\ThatIsGoingToBeSentAndHandledLocally':
+                    senders: [amqp]
+                    send_and_handle: true
+                                </code>
+                            </pre>
+                        <aside class="notes">
+                            Un dernier petit morceau de configuration pour montrer ce qu'il est possible de faire ici.<br/>
+                            Par défaut dans ce YAML, on définit comment les messages sont envoyés et ou. Il est possible de choisir d'avoir un handler synchrone en plus du sender.
                         </aside>
                     </section>
                 </section>
@@ -365,6 +482,7 @@ framework:
 
         <script src="../assets/reveal.js/lib/js/head.min.js"></script>
         <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
 
         <script>
             // Full list of configuration options available here:
@@ -388,6 +506,8 @@ framework:
                     { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
                 ]
             });
+
+            mermaid.initialize({startOnLoad:true});
         </script>
     </body>
 </html>
