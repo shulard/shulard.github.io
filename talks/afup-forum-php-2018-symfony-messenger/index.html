@@ -148,7 +148,7 @@
                 <section class="invert">
                     <p class="social-me">
                         <img src="img/moi.jpg" class="plain" width="250"/><br/>
-                        <a class="white" target="_blank" href="https://twitter.com/s_hulard"><i class="fa fa-twitter"></i></a>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a><br/>
                         <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
                         <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
                         <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
@@ -206,11 +206,12 @@
                         <p class="highlight"><span class="fragment">Interfaces…</span><span class="fragment">…et configuration !</span></p>
                         <aside class="notes">
                             Ce composant intègre des interfaces derrière les concepts importants (message, bus, transport, …) pour nous permettre de définir notre logique applicative dans un cadre.<br/>
-                            Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant l'auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est jouer.
+                            Nous allons détailler ces différentes interfaces pendant la suite de cette présentation<br/>
+                            Ensuite, grâce à la puissance du conteneur d'injection de dépendances de Symfony et maintenant l'auto-wiring, il suffit d'écrire quelques lignes de YAML et le tour est joué.
                         </aside>
                     </section>
                     <section class="invert">
-                        <h1 class="highlight"><span>Overview</span></h1>
+                        <h1 class="highlight"><span>Vue d'ensemble…</span></h1>
                         <img src="img/messenger-overview.svg" class="plain no-background" />
                         <aside class="notes">
                             Dans ce schéma, on voit 3 parties distinctes qui communiquent :
@@ -227,7 +228,8 @@
                     <section data-background-image="img/matrix.jpg">
                         <h1 class="highlight"><span>Take the red pill…</span></h1>
                         <aside class="notes">
-                            Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.
+                            Nous allons commencer à parler de l'intégration dans votre code, dans l'application. Il faut choisir les messages, les définir et aussi définir comment ils seront traités. Ensuite, grâce à la configuration, il sera relativement facile de les envoyer de part et d'autre du système.<br/>
+                            Pour illustrer les différents concepts je vais prendre un exemple extrait d'une de nos applications en cours de développement. Nous stockons une liste d'examen et l'utilisateur a la possibilité de flagguer un examen comme inapproprié. À partir de la plusieurs actions doivent s'exécuter.
                         </aside>
                     </section>
                     <section class="invert left">
@@ -251,7 +253,7 @@ class DeleteExamFromSearch
                             </code>
                         </pre>
                         <aside class="notes">
-                            Considérez un message comme un `DTO` ou `Data Transfer Object`. Il contient toutes les informations utiles à son traitement et permet de les lire de façon structurées. Cependant, il ne contient aucune logique métier. Le composant n'impose pas d'interface pour les messages, tout les objets peuvent être utilisés.<br/>
+                            Considérez un message comme un `DTO` ou `Data Transfer Object`. Il contient toutes les informations utiles à son traitement et permet de les lire de façon structuré. Cependant, il ne contient aucune logique métier. Le composant n'impose pas d'interface pour les messages, tout les objets peuvent être utilisés.<br/>
                             Il est très important de prendre en compte que cet objet sera sérialisé et surement envoyé dans un système externe comme une fil de message.<br/>
                             Cet objet doit contenir les informations précises nécessaires à son traitement. S'il doit référencer une valeur issue d'un autre objet, il n'est peut être pas pertinent de seulement référencer l'identifiant de cet objet. Je préfère utiliser la valeur elle-même.<br/>
                             Je considère les messages comme des entités autonomes qui font transiter de l'information. Ces entités sont coupées de toute source de données et embarque donc tout le nécessaire.
@@ -475,8 +477,6 @@ class DeleteFlaggedExam implements MessageHandlerInterface
 services:
     App\Domain\Exam\Message\Handler\DeleteFlaggedExam:
         tags: [messenger.message_handler]
-    App\Domain\Exam\Message\Handler\ExamRatedHandler:
-        tags: [messenger.message_handler]
                             </code>
                         </pre>
                         <aside class="notes">
@@ -489,46 +489,81 @@ services:
                         <p class="highlight"><span class="fragment shell">Synchrone, ou asynchrone</span></p>
                         <p class="highlight"><span class="fragment shell">bin/console messenger:consume-messages [amqp]</span></p>
                         <aside class="notes">
-                            Une fois que les messages sont envoyés pour être traités, il ne reste plus qu'à le consommer<br/>
+                            Une fois que les messages sont envoyés, il ne reste plus qu'à les consommer<br/>
                             Consommer un message revient à le traiter donc lire les informations qu'il contient et agir en conséquence.<br/>
                             ▶ Deux possibilités, le traitement est synchrone, donc le handler est invoqué et exécuté directement pendant la requête.<br/>
                             Ou le traitement est asynchrone donc le message est envoyé dans un transport. Il est sérializé et mis en attente.<br/>
-                            ▶ La commande `consume-messages` va ensuite être lancée pour déclencher le traitement.
+                            ▶ La commande `consume-messages` peut ensuite être lancée pour déclencher le traitement. A ce moment la, les messages sont extraits de la fil d'attente, désérialisés et le handler exécuté.
                         </aside>
                     </section>
                     <section>
                         <h1 class="highlight"><span>Handler, Sender, Receiver</span></h1>
                         <img src="img/messenger-overview.svg" class="plain no-background" />
                         <aside class="notes">
-                            Pour pouvoir gérer l'envoi du message dans un broker. Le composant utilise un objet Sender. À chaque type de broker redis, RabbitMQ, ou autre est associé un sender qui sérialise le message et gère le stockage.<br/>
-                            De même, pour lire les messages venant d'un broker, il y a des objets Receiver. Ces objets vont être responsable de récupérer les messages et de les passer au Handler qui va traiter les messages.<br/>
-                            Pour chacun de ces éléments, il est possible de définir votre propre implémentation. Par exemple un Sender qui enverrait le message par e-mail. Ou un receiver qui construirait des messages à partir d'une source externe comme un fichier CSV. On est pas obligé de respecter le chaîne complète, tout peut être adapté.
+                            Finalement, pour pouvoir gérer l'envoi du message, le composant utilise un objet Sender. À chaque type de broker redis, RabbitMQ, ou autre est associé un sender qui sérialise le message et gère le stockage.<br/>
+                            De même, pour lire les messages venant d'un broker, il y a des objets Receiver. Ces objets vont être responsables de récupérer les messages et de les passer au Handler qui va traiter les messages.<br/>
+                            Pour chacun de ces éléments, il est possible de définir votre propre implémentation. Par exemple un Sender qui enverrait le message par e-mail. Ou un receiver qui construirait des messages à partir d'une source externe comme un fichier CSV. On est pas obligé de respecter le chaîne complète, tout peut être adapté.<br/>
+                            La combinaison Sender / Receiver représente un Transport.
                         </aside>
                     </section>
                     <section>
-                        <h1 class="highlight"><span>Handler, Sender, Receiver</span></h1>
+                        <h1 class="highlight"><span>Sender personnalisé</span></h1>
                         <pre>
-                            <code class="yaml">
-# config/packages/messenger.yaml
-framework:
-    messenger:
-        transports:
-            custom_email: 'smtp://...'
-        routing:
-            App\Domain\Exam\Message\Handler\DeleteFlaggedExam:
-                senders: [custom_email]
-                send_and_handle: true
+                            <code class="full-height php">
+class SmtpSender implements SenderInterface
+{
+    /** @var SmtpConnection */
+    private $connection;
+
+    public function send($message): void
+    {
+        $this->connection->send(
+            // Transformer le message en e-mail
+        );
+    }
+}
                             </code>
                         </pre>
                         <aside class="notes">
-                            Un dernier petit morceau de configuration pour montrer ce qu'il est possible de faire ici.<br/>
-                            Par défaut dans ce YAML, on définit comment les messages sont envoyés et où. Il est possible de choisir d'avoir un handler synchrone en plus du sender.<br/>
-                            Dans l'exemple ici, on peut imaginer que le message sera traité par le handler que nous avons vu tout à l'heure et qu'en plus, un mail sera envoyé à l'utilisateur pour l'informer que l'examen a été supprimé de la recherche parce qu'il a été considéré inapproprié.
+                            Pour illustrer ce qu'il est possible d'intégrer, voici un exemple de Sender personnalisé. Cet objet sera responsable de deux choses :
+                            <ul>
+                                <li>Transformer le message en E-Mail</li>
+                                <li>Déclencher l'envoi dans la connection SMTP active</li>
+                            </ul>
+                            Bien sur, comme tout est configuré comme service Symfony, il est possible d'injecter tout les élément nécessaire. Ici j'injecte une SmtpConnection.
+                        </aside>
+                    </section>
+                    <section>
+                        <h1 class="highlight"><span>Configuration</span></h1>
+                        <pre><code class="full-height yaml">
+# config/services.yaml
+services:
+    App\Transport\SmtpSender:
+        tags:
+            - { name: 'messenger.sender', alias: 'custom_email' }
+                        </code></pre>
+                        <pre><code class="yaml">
+# config/packages/messenger.yaml
+framework:
+    messenger:
+        routing:
+            App\Domain\Exam\Message\Handler\DeleteFlaggedExam:
+                senders: ['custom_email']
+                send_and_handle: true
+                        </code></pre>
+                        <aside class="notes">
+                            Pour finaliser cet exemple, je termine avec deux petits morceaux de configuration pour montrer ce qu'il est possible de faire.<br/>
+                            On définit le Sender en tant que service en utilisant le tag approprié. Je choisit en plus de lui donner un alias pour pouvoir le référencer plus facilement.<br/>
+                            Ensuite dans messenger.yaml, je définit que mon message passera par le sender 'custom_email'.<br/>
+                            Petite subtilité ici, mon sender ne me permet pas de traiter le message en asynchrone, je choisis donc d'avoir un handler synchrone en plus du sender grâce à l'option `send_and_handle`.<br/>
+                            Si on reprend les différents exemples présentés jusqu'à maintenant, on peut imaginer que le message sera traité par le handler vu tout à l'heure pour supprimer l'info d'Elasticsearch, mais qu'en plus un mail sera envoyé à l'utilisateur pour l'informer que l'examen a été supprimé de la recherche parce qu'il a été considéré inapproprié.
                         </aside>
                     </section>
                 </section>
 <!--#########################################################################-->
                 <section class="invert" data-background-image="img/thank-you.jpg">
+                    <p class="right"><img class="plain" width="200" src="img/joindin.png" /><br/>
+                        <small><a href="https://joind.in/24671">https://joind.in/24671</a></small></p>
                     <aside class="notes">
                         Merci de votre attention.
                     </aside>
