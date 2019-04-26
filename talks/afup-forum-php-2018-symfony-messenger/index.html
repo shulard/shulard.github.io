@@ -321,14 +321,16 @@ framework:
                     </section>
                     <section class="invert left" data-background-image="img/plug.jpg">
                         <h1 class="highlight"><span>…avec un Adapter…</span></h1>
+                        <p class="highlight"><span class="fragment shell">queue-interop/queue-interop</span></p>
                         <p class="highlight"><span class="fragment shell">enqueue/messenger-adapter</span></p>
                         <p class="highlight"><span class="fragment shell">enqueue/enqueue-bundle</span></p>
                         <p class="highlight"><span class="fragment shell">enqueue/<code>*</code></span></p>
                         <aside class="notes">
-                            En PHP il n'existe pas encore un moyen normalisé officiel de traiter les messages, comprenez qu'il n'existe pas de PSR pour le moment. Plusieurs groups d'utilisateurs se sont posés des questions et des initiatives comme queue-interop ont vu le jour. L'objectif est bien sur de faciliter l'intégration de système complexes dans une application. Enqueue implémente les recommandations de Queue-Interop.<br/>
-                            ▶ C'est un projet Open Source qui propose des packages de qualité autour des files de messages.<br/>
+                            En PHP il n'existe pas encore un moyen normalisé officiel de traiter les messages, comprenez qu'il n'existe pas de PSR pour le moment. Plusieurs groups d'utilisateurs se sont posés des questions et des initiatives comme queue-interop ont vu le jour.<br/>
+                            ▶ L'objectif est bien sur de faciliter l'intégration de système complexes dans une application. Ensuite, enqueue est un autre projet qui implémente les recommandations de Queue-Interop.<br/>
+                            ▶ Enqueue est Open Source qui propose des packages de qualité autour des files de messages.<br/>
                             Le plus intéressant pour commencer est la liste des différents transports implémentés. Il y a des connecteurs pours les systèmes les plus courants sur le marché : GearMan, Redis, SQS, Kafka, …<br/>
-                            Mais aussi des choses un peu plus "simples" comme un connecteur dbal qui permet de stocker la file de message dans une table ou encore un conncteur filesystem qui n'a rien besoin de plus qu'un dossier sur le disque pour fonctionner. Quand je dis "simple" ici c'est plus une question d'architecture de l'application finale que du connecteur lui même.<br/>
+                            Mais aussi des choses un peu plus "simples" comme un connecteur dbal qui permet de stocker la file de message dans une table ou encore un connecteur filesystem qui n'a rien besoin de plus qu'un dossier sur le disque pour fonctionner. Quand je dis "simple" ici c'est plus une question d'architecture de l'application finale que du connecteur lui même.<br/>
                             Un adapter a été créé pour faciliter l'utilisation avec le composant Messenger, il suffit de l'installer avec Composer pour avoir accès à tous ces connecteurs.<br/>
                             L'avantage de cette approche est que tout est géré en configuration, cet adapter aide vraiment à ouvrir le champ des possibles avec Messenger.<br/>
                             L'installation de l'Adapter va ajouter le "enqueue-bundle" avec ses propres outils et configuration. C'est dans la configuration de ce bundle qu'il faut définir les différents transports pour ensuite pouvoir s'en servir dans Messenger.
