@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Laravel : the good, the bad and the ugly… - AFUP Day Lyon 2019 - Stéphane HULARD / CHStudio</title>
+
+        <meta name="description" content="En France Laravel fait l'objet de troll, et de critiques sur les patterns utilisés et l'approche technique de son créateur Taylor Otwell. La communauté grandit et de plus en plus de développeurs sont amenés à travailler sur ce framework. Comme pour n'importe quel outil, il faut apprendre à s'en servir !">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/tomorrow.css">
+
+        <style type="text/css">
+            .reveal .social-me {
+                float: right;
+            }
+            .reveal .social-me img {
+                margin-bottom: 0px;
+            }
+            .reveal .social-me a {
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .reveal .social-me a:hover {
+                color: rgba(4, 32, 41, 0.9);
+            }
+            .reveal .social-me a:last-child {
+                margin-right: 0;
+            }
+            .right {
+                text-align: right;
+            }
+            .bottom {
+                margin-top: 35% !important;
+            }
+            .top {
+                margin-bottom: 35% !important;
+            }
+            .left {
+                text-align: left;
+            }
+            .float-right {
+                float: right;
+            }
+            .background {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .no-background {
+                background: none !important;
+            }
+            .border-radius {
+                border-radius: 20px;
+            }
+            code.fragment {
+                padding: 12px;
+            }
+            .full-height {
+                max-height: unset !important;
+            }
+            .reveal {
+                background-color: rgba(0, 174, 239, 0.8);
+            }
+            .reveal h1.highlight *, .reveal p.highlight>* {
+                background-color: rgba(4, 32, 41, 0.9);
+                display: inline;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .reveal h1.highlight *:last-child {
+                line-height: 2em
+            }
+            .reveal section>p {
+                font-size: 1.2em;
+            }
+            .reveal section>a>img.plain {
+                margin: 23px 0;
+                height: 94px;
+            }
+            .reveal section>a+a>img.plain {
+                margin-right: 10px;
+            }
+            .reveal section.invert {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .reveal pre {
+                font-size: 1.25rem;
+            }
+            .reveal pre code {
+                padding: 5px 1.5rem;
+            }
+
+            .reveal section.invert p.highlight>* {
+                background-color: rgba(255, 255, 255, 0.9)
+            }
+            .speaker-controls-notes .value {
+                font-size: 1em !important;
+            }
+
+            .reveal .slide-background.present {
+                opacity: 0.9;
+            }
+        </style>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal concave center">
+            <div class="slides">
+                <section data-background-image="img/good-bad-ugly.jpg">
+                    <h1 class="left bottom highlight"><span>Laravel</span><br/><small>The good, the bad and the ugly…</small></h1>
+                    <p class="global-footer">
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <a href="https://afup.org"><img src="img/afup.png" width="20" class="plain" /></a>
+                        <span><time datetime="2019-05-17">2019</time>&nbsp;-&nbsp;AFUP Day Lyon / Laravel : the good, the bad and the ugly…</span>
+                    </p>
+                    <aside class="notes">
+                        Bonjour, et bienvenue à cette conférence sur Laravel. Je vais essayer durant les 40 prochaines minutes de vous faire découvrir cet outil, ses principales forces et faiblesses. Tout ça est bien sur complètement sujectif !<br/>
+                        Pour être sur que tout le monde va repartir avec la vision la plus claire possible, je ponctuerai d'exemple et de code pour illustrer mes propos.<br/>
+                        Nous allons voir du code moche, mais surtout nous allons voir comment l'embellir, à la sauce Laravel bien sur !
+                    </aside>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="img/moi.jpg" class="plain" width="250"/><br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a><br/>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
+                    <p class="left highlight">
+                        <span class="fragment">CTO, </span>
+                        <span class="fragment">Formateur, </span>
+                        <span class="fragment">Contributeur.</span>
+                    </p>
+                    <aside class="notes">
+                        Je commence par me présenter, je suis Stéphane Hulard, consultant indépendant.
+                        <br/>
+                        ▶ Les projets sur lesquelles j'interviens intègrent souvent des problématiques de gestion de données. On peut dire que ma spécialité est d'interpréter, traiter et transformer des masses de données pour aider mes clients à les exploiter.
+                        <br/>
+                        Aujourd'hui je travaille principalement avec Exoskills une entreprise Lyonnaise spécialisée dans l'accompagnement à la transformation digitale de ses clients. Nous sommes d'ailleurs en recherche de profil technique si vous êtes interessés, n'hésitez pas à venir me voir après.
+                        <br/>
+                        J'aime aussi beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
+                        <br/>
+                        ▶ Je suis aussi formateur et référencé en tant qu’organisme de formation. Je forme principalement aux outils et méthodes liés à la qualité logicielle : Architecture, intégration continue, déploiement continue, tests…
+                        <br/>
+                        ▶ J'adore pouvoir travailler sur des projets open source et j’y consacre à peu prêt 20% de mon temps. Bien sur c'est variable en fonction du reste et des projets clients mais ça me permet d'élargir ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux.
+                    </aside>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/laravel.svg" data-background-color="rgba(255, 255, 255, 1)">
+                        <h1 class="highlight"><span>Laravel ?</span></h1>
+                        <aside class="notes">
+                            C'est un framework open source développé en PHP et créé par Taylor Otwell. Il est considéré comme ayant des idées arrêtés et est assez souvent mal vue par la communauté. Je pense que ses échauffements sur Twitter y sont pour beaucoup.<br/>
+                            Nous ne sommes pas ici pour parler de lui personnellement bien sur mais plutôt des outils qu'il apporte à la communauté.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/time.jpg" class="invert left">
+                        <h1 class="highlight"><span>Un peu d'histoire…</span></h1>
+                        <p class="highlight">
+                            <span class="fragment"><strong>2011</strong>: Premier commit,</span><br/>
+                            <span class="fragment"><strong>2013</strong>: v4.0.0, </span><br/>
+                            <span class="fragment"><strong>2015</strong>: v5.0.0, </span><br/>
+                            <span class="fragment"><strong>2019</strong>: v5.9.0 ?</span>
+                        </p>
+                        <aside class="notes">
+                            Il existe depuis presque 10 ans mais il s'est créé une place bien au chaud parmis les frameworks les plus populaires depuis la version 5.0 seulement.<br/>
+                            En france il peine à se faire connaître, nous sommes ici pour lever le voile.<br/>
+                            ▶ La branche 5.0 est celle qui est active actuellement. Avec un rythme de deux releases mineures par ans, les presques 500 contributeurs du projet sont très actifs.<br/>
+                            Il y a même aujourd'hui deux développeurs payés à temps plein sur le projet.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/lego.jpg" class="invert left">
+                        <h1 class="highlight"><span>Des racines communes…</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">… pour les habitués à Symfony 😊</span>
+                        </p>
+                        <aside class="notes">
+                            Avec la sortie de la 4.0, la structure du projet s'est professionnalisée. Une gestion de dépendances solide, un attachement à l'utilisation de librairie open source de référence permettent une meilleure adoption de la communauté.<br/>
+                            Par exemple, le coeur est construit autour des composants Symfony les plus connues:<br/>
+                            ▶ HttpFoundation, HttpKernel, Console.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/layers.jpg" class="left invert">
+                        <h1 class="highlight"><span>Une surcouche spécifique !</span></h1>
+                        <p class="highlight"><span class="fragment">Et une documentation très accessible…</span></p>
+                        <aside class="notes">
+                            Ce n'est pas parce qu'il est basé sur les composants de Symfony que vous vous retrouverez à manipuler ces objets directement. Les fonctionnalités sont utilisées mais en étant entièrement décorées par une vision Laravel.<br/>
+                            Je trouve ça particulièrement intéressant que Laravel étende ces composants. D'abord parce que c'est un cas concret d'utilisation mais aussi parce que ça montre que la roue n'est pas réinventée inutilement.<br/>
+                            Bien sur on peut toujours se poser la question de l'empreinte de Symfony dans l'écosystème PHP, il est presque partout aujourd'hui et peut être considéré en monopole… Mais heureusement il y a d'autres solutions qui continuent d'exister et vivre en dehors de tout ça.<br/>
+                            ▶ En plus de cette couche, une documentation disponible en ligne permet d'avoir rapidement accès aux exemples et explications utiles à tout développeur. Cette doc est un des gros avantages du projet, elle est simple et va à l'essentiel. Tout est centralisé à un seul endroit et le niveau de langage utilisé est très accessible.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/tools.jpg" class="left invert">
+                        <h1 class="highlight"><span>Tout est dans la boite</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">▶ composer.json</span><br/>
+                            <span class="fragment">▶ .env</span><br/>
+                            <span class="fragment">▶ ORM <small><code>(ActiveRecord)</code></small> + Migrations</span><br/>
+                            <span class="fragment">▶ CLI</span><br/>
+                            <span class="fragment">▶ Templates</span><br/>
+                            <span class="fragment">▶ Intégration frontend <small>(<code>Elixir</code>)</small></span><br/>
+                        </p>
+                        <aside class="notes">
+                            Laravel est un framework complet qui peut être utilisé pour travailler de manière efficace et dans un cadre fiable, respectant les dernières pratiques en matière de développement.<br/>
+                            ▶ Gestion de dépendance, ▶ configuration par environnement, ▶ manipulation des données par un modèle objet, ▶ outil en ligne de commande pour les tâches courantes, ▶ langage de template, ▶ intégration avec la couche frontend grâce à un package nommé Elixir.<br/>
+                            Tout ces points sont décrits dans la documentation en ligne et nous n'allons pas rentrer dans tout le détail.<br/>
+                            Bien sur, son architecture, ses dépendances, et sa philosophie lui sont propre et il faut apprendre à les découvrir et les utiliser.<br/>
+                            Comme n'importe quel outil il n'apporte pas de réelle solution, seulement une approche technique. Libre à l'utilisateur d'en faire quelque chose !
+                        </aside>
+                    </section>
+                    <section data-background-image="img/building-blocks.jpg" class="left invert">
+                        <h1 class="highlight"><span>Un peu de contexte</span></h1>
+                        <pre>
+                            <code class="bash fragment">
+# Création d'un projet vierge
+composer create-project laravel/laravel
+                            </code>
+                            <code class="bash fragment">
+# Démarrage du serveur web intégré à PHP
+./artisan serve
+
+# Homepage: http://localhost:8000
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.<br/>
+                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.<br/>
+                            ▶ Ensuite il suffit de lancer le serveur web intégré à PHP pour pouvoir accéder à l'application depuis un navigateur.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Arborescence du projet</span></h1>
+                        <div style="display: flex; background: white">
+                            <pre style="width: 50%; margin: 0;">
+                                <code class="bash">
+├── app
+│   ├── Console
+│   │   └── Kernel.php
+│   ├── Exceptions
+│   ├── Http
+│   │   ├── Controllers
+│   │   ├── Middleware
+│   │   └── Kernel.php
+│   ├── Providers
+│   └── User.php
+├── bootstrap
+                                </code>
+                            </pre>
+                            <pre style="width: 50%; margin: 0;">
+                                <code class="bash">
+├── config
+│   ├── app.php
+│   └── …
+├── database
+│   ├── migations
+│   ├── seeds
+├── routes
+│   ├── api.php
+│   ├── web.php
+│   └── …
+├── public
+├── resources
+└── storages
+                                </code>
+                            </pre>
+                        </div>
+                        <aside class="notes">
+                            Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.<br/>
+                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.<br/>
+                            ▶ Ensuite il suffit de lancer le serveur web intégré à PHP pour pouvoir accéder à l'application depuis un navigateur.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/ugly.png" class="left invert">
+                        <aside class="notes">
+                            Maintenant, nous allons rentrer dans le vif du sujet et parler de développement. L'idée n'est pas de vous faire un cours de développement Laravel mais plutôt de vous montrer ce qu'il est possible de faire en bien et en mal.<br/>
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/bad.png" class="left invert">
+                        <aside class="notes"></aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/good.png" class="left invert">
+                        <aside class="notes"></aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/conclusion.jpg" class="left invert" style="margin-top: -10%">
+                        <h1 class="highlight"><span>Au final…</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">▶ Laravel est un outil et seulement un outil.</span><br/>
+                            <span class="fragment">▶ Très rapide pour prototyper.</span><br/>
+                            <span class="fragment">▶ Très riche en fonctionnalités par défaut.</span>
+                        </p>
+                        <aside class="notes"></aside>
+                    </section>
+                    <section data-background-image="img/danger.jpg" class="left invert">
+                        <h1 class="highlight bottom "><span>Attention à…</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">▶ Ne pas prendre tout les raccourcis possible.</span><br/>
+                            <span class="fragment">▶ Prendre le temps d'apprendre.</span><br/>
+                            <span class="fragment">▶ Réfléchir au projet dans son ensemble.</span><br/>
+                            <span class="fragment">▶ Comprendre l'architecture de votre code.</span>
+                        </p>
+                        <aside class="notes"></aside>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section class="invert" data-background-image="img/thank-you.jpg">
+                    <p class="right">
+                        <img class="plain" width="200" src="img/joindin.png" />
+                    </p>
+                    <p class="right highlight">
+                        <span><a href="https://joind.in/talk/a77e5">https://joind.in/talk/a77e5</a></span>
+                    </p>
+                    <aside class="notes">
+                        Merci de votre attention.
+                    </aside>
+                </section>
+            </div>
+        </div>
+
+        <script src="../assets/reveal.js/lib/js/head.min.js"></script>
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            mermaid.initialize({startOnLoad:true});
+        </script>
+    </body>
+</html>
