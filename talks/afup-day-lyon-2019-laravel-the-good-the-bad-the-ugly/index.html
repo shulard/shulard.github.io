@@ -94,10 +94,10 @@
                 color: rgba(0, 0, 0, 0.8);
             }
             .reveal pre {
-                font-size: 1.25rem;
+                font-size: 2rem;
             }
             .reveal pre code {
-                padding: 5px 1.5rem;
+                padding: 1rem 1.5rem;
             }
 
             .reveal section.invert p.highlight>* {
@@ -131,7 +131,7 @@
         <div class="reveal concave center">
             <div class="slides">
                 <section data-background-image="img/good-bad-ugly.jpg">
-                    <h1 class="left bottom highlight"><span>Laravel</span><br/><small>The good, the bad and the ugly…</small></h1>
+                    <h1 class="highlight" style="font-size: 3.5em;"><span>Laravel</span></h1>
                     <p class="global-footer">
                         <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
                         <a href="https://afup.org"><img src="img/afup.png" width="20" class="plain" /></a>
@@ -189,8 +189,8 @@
                             <span class="fragment"><strong>2019</strong>: v5.9.0 ?</span>
                         </p>
                         <aside class="notes">
-                            Il existe depuis presque 10 ans mais il s'est créé une place bien au chaud parmis les frameworks les plus populaires depuis la version 5.0 seulement.<br/>
-                            En france il peine à se faire connaître, nous sommes ici pour lever le voile.<br/>
+                            ▶ Il existe depuis presque 10 ans mais il s'est créé une place bien au chaud parmis les frameworks les plus populaires depuis la version 5.0, il y a 4 ans.<br/>
+                            ▶ Cette version apporte d'ailleurs un conteneur d'injection de dépendance avec du contextual binding, un des premiers outils à le proposer. C'est ce qui m'a fait basculer sur Laravel à cette période.<br/>
                             ▶ La branche 5.0 est celle qui est active actuellement. Avec un rythme de deux releases mineures par ans, les presques 500 contributeurs du projet sont très actifs.<br/>
                             Il y a même aujourd'hui deux développeurs payés à temps plein sur le projet.
                         </aside>
@@ -255,7 +255,7 @@ composer create-project laravel/laravel
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Arborescence du projet</span></h1>
+                        <h1 class="highlight"><span>Arborescence</span></h1>
                         <div style="display: flex; background: white">
                             <pre style="width: 50%; margin: 0;">
                                 <code class="bash">
@@ -291,22 +291,83 @@ composer create-project laravel/laravel
                             </pre>
                         </div>
                         <aside class="notes">
-                            Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.<br/>
-                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.<br/>
-                            ▶ Ensuite il suffit de lancer le serveur web intégré à PHP pour pouvoir accéder à l'application depuis un navigateur.
+                            Un petit tour d'horizon de l'arborescence de répertoire…<br/>
+                            On peut noter qu'elle est plutôt standard par rapport à ce qui se fait aujourd'hui. Tout le code applicatif se trouve dans le dossier `app` qui porte plutôt bien son nom.<br/>
+                            Une notion un peut différente est le terme `Providers`. Ce sont les objets qui vont contenir la configuration du conteneur d'injection de dépendances et des différents services. On aura par exemple le RouteServiceProvider pour le routing, EventServiceProvider pour les évènements applicatifs…<br/>
+                            La définition des routes et de la configuration générale est entièrement faite en PHP.<br/>
+                            Les prochaines slides vont mentionner du code, avec les noms de fichiers ci-dessus, nous allons principalement naviguer entre les dossiers routes et app.<br/>
+                            J'ai choisit de vous montrer comment gérer un upload de fichier.
                         </aside>
                     </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/ugly.png" class="left invert">
                         <aside class="notes">
-                            Maintenant, nous allons rentrer dans le vif du sujet et parler de développement. L'idée n'est pas de vous faire un cours de développement Laravel mais plutôt de vous montrer ce qu'il est possible de faire en bien et en mal.<br/>
+                            Nous commençons par le plus terrible…<br/>
+                            Tout le code présenté fonctionne et est utilisable dans une application mais il n'est pas toujours idéal. Tout est toujours une question de choix, disons que l'objectif est d'avoir un code compréhensible et maintenable dans le temps.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Une première version</span></h1>
+                        <pre>
+                            <code class="php" data-line-numbers>//routes/api.php
+Route::post('/upload', function() {
+    request('image')->store('images');
+});
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Certains prennent surement un peu peur, mais oui, il suffit de ces trois lignes pour gérer un upload de fichier et son stockage dans un dossier "images" quelque part.<br/>
+                            Bien sur il manque pas mal de vérifications pour que ce code soit complètement viable mais nous verrons ça dans la suite.<br/>
+                            Je m'attarde un peu sur ces quelques lignes.<br/>
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Facades <small>🤔</small></span></h1>
+                        <pre>
+                            <code class="php">Route::post('/upload', function() {
+    ...
+});</code>
+                        </pre>
+                        <aside class="notes">
+                            On voit que la route est définie à l'aide d'une fonction statique, il s'agit des fameuses facades de Laravel. Pour ceux qui n'en ont pas entendu parler, ces sont des proxy vers des services déclarés dans le coeur de l'application.<br/>
+                            Pour la déclaration des routes c'est pratique, pour le reste je préfère les éviter au maximum !<br/>
+                            Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible.<br/>
+                            Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de `Request` ensuite, elle lit le contenu de la clé 'image' et nous retourne son contenu. Ici, par change il s'agit d'un object UploadedFile…
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Helpers <small>😱</small></span></h1>
+                        <pre>
+                            <code class="php">/** @var UploadedFile */
+request('image')->store('images');</code>
+                        </pre>
+                        <aside class="notes">
+                            Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de requête. Dedans elle le contenu de la clé 'image' et nous retourne son contenu. Ici, par chance il s'agit d'un objet UploadedFile qui dispose d'une méthode "store" et donc mon code fonctionne.<br/>
+                            Je dis bien par chance, ici rien n'assure que la clé 'image' existe ou est bien un fichier uploadé.<br/>
+                            Ces helpers sont à éviter absolument. Trop de comportement cachés, les différentes couches de l'application sont complètement transpercées pour récupérer ce dont nous avons besoin.<br/>
+                            Heureusement, il y a d'autres solutions pour arriver à ce résultat.
                         </aside>
                     </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/bad.png" class="left invert">
                         <aside class="notes"></aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Un peu moins pire</span></h1>
+                        <pre style="font-size: 1.5rem">
+                            <code class="php" data-line-numbers>Route::post('/upload', function(Request $request) {
+    $request->validate([
+        'image' => 'required|image'
+    ]);
+
+    $request->file('image')->store('images');
+});
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
                     </section>
                 </section>
                 <section class="stack">
