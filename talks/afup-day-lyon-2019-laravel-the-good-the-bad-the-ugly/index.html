@@ -110,6 +110,19 @@
             .reveal .slide-background.present {
                 opacity: 0.9;
             }
+
+            .light-background .reveal .slide-background.present {
+                opacity: 0.6;
+            }
+
+            .relative {
+                position: relative;
+            }
+            .absolute {
+                position: absolute !important;
+                top: 0;
+                left: 0;
+            }
         </style>
 
         <!-- Printing and PDF exports -->
@@ -237,11 +250,11 @@
                     <section data-background-image="img/building-blocks.jpg" class="left invert">
                         <h1 class="highlight"><span>Un peu de contexte</span></h1>
                         <pre>
-                            <code class="bash fragment">
+                            <code class="bash fragment" data-trim>
 # Création d'un projet vierge
 composer create-project laravel/laravel
                             </code>
-                            <code class="bash fragment">
+                            <code class="bash fragment" data-trim>
 # Démarrage du serveur web intégré à PHP
 ./artisan serve
 
@@ -257,8 +270,8 @@ composer create-project laravel/laravel
                     <section class="left invert">
                         <h1 class="highlight"><span>Arborescence</span></h1>
                         <div style="display: flex; background: white">
-                            <pre style="width: 50%; margin: 0;">
-                                <code class="bash">
+                            <pre style="width: 50%; margin: 0; font-size: 1.6rem">
+                                <code class="bash" data-trim>
 ├── app
 │   ├── Console
 │   │   └── Kernel.php
@@ -272,8 +285,8 @@ composer create-project laravel/laravel
 ├── bootstrap
                                 </code>
                             </pre>
-                            <pre style="width: 50%; margin: 0;">
-                                <code class="bash">
+                            <pre style="width: 50%; margin: 0; font-size: 1.6rem">
+                                <code class="bash" data-trim>
 ├── config
 │   ├── app.php
 │   └── …
@@ -352,12 +365,31 @@ request('image')->store('images');</code>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/bad.png" class="left invert">
+                        <p class="highlight bottom">
+                            <span class="fragment">Not so bad…</span><br/>
+                            <span class="fragment">…l'amélioration continue !</span>
+                        </p>
                         <aside class="notes"></aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Un peu moins pire</span></h1>
+                        <h1 class="highlight"><span>Injection</span></h1>
                         <pre style="font-size: 1.5rem">
-                            <code class="php" data-line-numbers>Route::post('/upload', function(Request $request) {
+                            <code class="php" data-line-numbers="1,3,4">use Illuminate\Http\Request;
+
+Route::post('/upload', function(Request $request) {
+    $request
+        ->file('image')
+        ->store('images');
+});
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Validation</span></h1>
+                        <pre style="font-size: 1.5rem">
+                            <code class="php" data-line-numbers="2-4">Route::post('/upload', function(Request $request) {
     $request->validate([
         'image' => 'required|image'
     ]);
@@ -369,10 +401,311 @@ request('image')->store('images');</code>
                         <aside class="notes">
                         </aside>
                     </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Contrats</span></h1>
+                        <pre style="font-size: 1.5rem">
+                            <code class="php" data-line-numbers="1,5,8-12">use Illuminate\Contracts\Filesystem\Filesystem;
+
+Route::post(
+    '/upload',
+    function(Request $request, Filesystem $filesystem) {
+        //[...] Validation
+
+        $file = $request->file('image');
+        $filesystem->put(
+            sprintf('images/%s', $file->hashName()),
+            $file
+        );
+    }
+);
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/good.png" class="left invert">
                         <aside class="notes"></aside>
+                    </section>
+                    <section class="left invert" data-background-image="img/separation-of-concerns.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>Separation of concerns</span></h1>
+                        <p class="highlight"><span class="fragment">Chaque chose à sa place…</span></p>
+                        <p class="highlight right"><span class="fragment">…Contrôleur, </span><span class="fragment">Route, </span><span class="fragment">Service.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Contrôleur</span></h1>
+                        <div class="relative">
+                            <pre style="font-size: 1.5rem" class="absolute">
+                                <code class="php" data-line-numbers>namespace App\Http\Controllers\Api\User;
+
+class UploadProfilePicture
+{
+    private $filesystem;
+
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
+    public function __invoke(Request $request) {
+        // ... Action code
+    }
+}
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment absolute fade-in">
+                                <code class="php" data-line-numbers="5,7-9">namespace App\Http\Controllers\Api\User;
+
+class UploadProfilePicture
+{
+    private $filesystem;
+
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
+    public function __invoke(Request $request) {
+        // ... Action code
+    }
+}
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment absolute fade-in">
+                                <code class="php" data-line-numbers="11-13">namespace App\Http\Controllers\Api\User;
+
+class UploadProfilePicture
+{
+    private $filesystem;
+
+    public function __construct(Filesystem $filesystem) {
+        $this->filesystem = $filesystem;
+    }
+
+    public function __invoke(Request $request) {
+        // ... Action code
+    }
+}
+                                </code>
+                            </pre>
+                        </div>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Route</span></h1>
+                        <pre>
+                            <code class="php" data-line-numbers="">Route::post(
+    '/upload',
+    'Api\User\UploadProfilePicture'
+);
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert" data-background-image="img/container.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>Services et conteneur</span></h1>
+                        <p class="highlight"><span class="fragment">Les services sont des objets…</span></p>
+                        <p class="highlight right"><span class="fragment">… construits et gérés par le conteneur …</span></p>
+                        <p class="highlight"><span class="fragment">… injectés à l'exécution.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Définition <small><code>AppServiceProvider::boot</code></small></span></h1>
+                        <div class="relative">
+                            <pre style="font-size: 1.5rem" class="absolute">
+                                <code class="php" data-line-numbers="">use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Foundation\Application;
+
+$this->app->bind(
+    Filesystem::class,
+    function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+    }
+);
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="5-12">use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Foundation\Application;
+
+$this->app->bind(
+    Filesystem::class,
+    function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+    }
+);
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="8-10">use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Foundation\Application;
+
+$this->app->bind(
+    Filesystem::class,
+    function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+    }
+);
+                                </code>
+                            </pre>
+                        </div>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Contextual Binding</span></h1>
+                        <div class="relative">
+                            <pre style="font-size: 1.5rem" class="absolute">
+                                <code class="php" data-line-numbers="">//...
+use App\Http\Controllers\Api\User;
+
+$this->app
+     ->when(User\UploadProfilePicture::class)
+     ->needs(Filesystem::class),
+     ->give(function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+     });
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="5">//...
+use App\Http\Controllers\Api\User;
+
+$this->app
+     ->when(User\UploadProfilePicture::class)
+     ->needs(Filesystem::class),
+     ->give(function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+     });
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="6">//...
+use App\Http\Controllers\Api\User;
+
+$this->app
+     ->when(User\UploadProfilePicture::class)
+     ->needs(Filesystem::class),
+     ->give(function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+     });
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="7-11">//...
+use App\Http\Controllers\Api\User;
+
+$this->app
+     ->when(User\UploadProfilePicture::class)
+     ->needs(Filesystem::class),
+     ->give(function(Application $app) {
+        return $app
+            ->make(FilesystemManager::class)
+            ->disk('local');
+     });
+                                </code>
+                            </pre>
+                        </div>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert" data-background-image="img/unplug.jpg">
+                        <h1 class="highlight"><span>Valider en amont de l'action</span></h1>
+                        <p class="highlight"><span class="fragment">Arrêter le processus le plus tôt possible…</span></p>
+                        <p class="highlight right"><span class="fragment">… <code>Middlewares</code> et <code>FormRequest</code>.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert" data-background-image="img/layers.jpg">
+                        <h1 class="highlight"><span>Middlewares ?</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>FormRequest</span></h1>
+                        <pre style="font-size: 1.4rem"><code class="bash">./artisan make:request UploadUserProfile</code></pre>
+                        <pre style="font-size: 1.4rem;"><code class="php" data-line-numbers>namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
+
+class UploadUserProfile extends FormRequest
+{
+    public function rules() {
+        return ['image' => 'required|image'];
+    }
+
+    public function image(): UploadedFile {
+        return $this->validated()['image'];
+    }
+}
+                        </code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Modification du contrôleur</span></h1>
+                        <div class="relative">
+                            <pre style="font-size: 1.25rem" class="absolute">
+                                <code class="php" data-line-numbers>namespace App\Http\Controllers\Api\User;
+
+use App\Http\Requests\UploadUserProfile;
+
+class UploadProfilePicture
+{
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
+    public function __invoke(UploadUserProfile $request)
+    {
+        $image = $request->image();
+        $this->filesystem->put('images', $image);
+    }
+}
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.25rem" class="fragment absolute fade-in">
+                                <code class="php" data-line-numbers="3,12,14">namespace App\Http\Controllers\Api\User;
+
+use App\Http\Requests\UploadUserProfile;
+
+class UploadProfilePicture
+{
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
+    public function __invoke(UploadUserProfile $request)
+    {
+        $image = $request->image();
+        $this->filesystem->put('images', $image);
+    }
+}
+                                </code>
+                            </pre>
+                        </div>
                     </section>
                 </section>
                 <section class="stack">
@@ -411,7 +744,6 @@ request('image')->store('images');</code>
             </div>
         </div>
 
-        <script src="../assets/reveal.js/lib/js/head.min.js"></script>
         <script src="../assets/reveal.js/js/reveal.js"></script>
         <script src="../assets/javascripts/mermaid.min.js"></script>
 
