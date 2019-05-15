@@ -123,6 +123,12 @@
                 top: 0;
                 left: 0;
             }
+
+            @media print {
+                .fragment.absolute {
+                    display: none;
+                }
+            }
         </style>
 
         <!-- Printing and PDF exports -->
@@ -644,7 +650,9 @@ $this->app
                     <section class="left invert">
                         <h1 class="highlight"><span>FormRequest</span></h1>
                         <pre style="font-size: 1.4rem"><code class="bash">./artisan make:request UploadUserProfile</code></pre>
-                        <pre style="font-size: 1.4rem;"><code class="php" data-line-numbers>namespace App\Http\Requests;
+                        <div class="relative" style="margin-top: -20px">
+                            <pre style="font-size: 1.4rem;" class="absolute">
+                                <code class="php" data-line-numbers>namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -659,7 +667,45 @@ class UploadUserProfile extends FormRequest
         return $this->validated()['image'];
     }
 }
-                        </code></pre>
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.4rem;" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="8-10">namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
+
+class UploadUserProfile extends FormRequest
+{
+    public function rules() {
+        return ['image' => 'required|image'];
+    }
+
+    public function image(): UploadedFile {
+        return $this->validated()['image'];
+    }
+}
+                                </code>
+                            </pre>
+                            <pre style="font-size: 1.4rem;" class="fragment fade-in absolute">
+                                <code class="php" data-line-numbers="12-14">namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
+
+class UploadUserProfile extends FormRequest
+{
+    public function rules() {
+        return ['image' => 'required|image'];
+    }
+
+    public function image(): UploadedFile {
+        return $this->validated()['image'];
+    }
+}
+                                </code>
+                            </pre>
+                        </div>
                         <aside class="notes">
                         </aside>
                     </section>
@@ -766,6 +812,7 @@ class UploadProfilePicture
                 progress: true,
                 history: true,
                 center: true,
+                pdfSeparateFragments: false,
 
                 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
                 transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
