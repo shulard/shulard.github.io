@@ -157,15 +157,19 @@
                         <span><time datetime="2019-05-17">2019</time>&nbsp;-&nbsp;AFUP Day Lyon / Laravel : the good, the bad and the ugly…</span>
                     </p>
                     <aside class="notes">
-                        Bonjour, et bienvenue à cette conférence sur Laravel. Je vais essayer durant les 40 prochaines minutes de vous faire découvrir cet outil, ses principales forces et faiblesses. Tout ça est bien sur complètement sujectif !<br/>
-                        Pour être sur que tout le monde va repartir avec la vision la plus claire possible, je ponctuerai d'exemple et de code pour illustrer mes propos.<br/>
+                        Bonjour, et bienvenue à cette conférence sur Laravel. Je vais essayer durant les 40 prochaines minutes de vous faire découvrir cet outil, ses principales forces et faiblesses. Tout ça est bien sur complètement sujectif !
+                        <br/>
+                        Pour être sur que tout le monde va repartir avec la vision la plus claire possible, je ponctuerai d'exemple et de code pour illustrer mes propos.
+                        <br/>
                         Nous allons voir du code moche, mais surtout nous allons voir comment l'embellir, à la sauce Laravel bien sur !
                     </aside>
                 </section>
                 <section class="invert">
                     <p class="social-me">
-                        <img src="img/moi.jpg" class="plain" width="250"/><br/>
-                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a><br/>
+                        <img src="img/moi.jpg" class="plain" width="250"/>
+                        <br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
+                        <br/>
                         <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
                         <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
                         <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
@@ -195,7 +199,8 @@
                     <section data-background-image="img/laravel.svg" data-background-color="rgba(255, 255, 255, 1)">
                         <h1 class="highlight"><span>Laravel ?</span></h1>
                         <aside class="notes">
-                            C'est un framework open source développé en PHP et créé par Taylor Otwell. Il est considéré comme ayant des idées arrêtés et est assez souvent mal vue par la communauté. Je pense que ses échauffements sur Twitter y sont pour beaucoup.<br/>
+                            C'est un framework open source développé en PHP et créé par Taylor Otwell. Il est considéré comme ayant des idées arrêtés et est assez souvent mal vue par la communauté. Je pense que ses échauffements sur Twitter y sont pour beaucoup.
+                            <br/>
                             Nous ne sommes pas ici pour parler de lui personnellement bien sur mais plutôt des outils qu'il apporte à la communauté.
                         </aside>
                     </section>
@@ -208,9 +213,12 @@
                             <span class="fragment"><strong>2019</strong>: v5.9.0 ?</span>
                         </p>
                         <aside class="notes">
-                            ▶ Il existe depuis presque 10 ans mais il s'est créé une place bien au chaud parmis les frameworks les plus populaires depuis la version 5.0, il y a 4 ans.<br/>
-                            ▶ Cette version apporte d'ailleurs un conteneur d'injection de dépendance avec du contextual binding, un des premiers outils à le proposer. C'est ce qui m'a fait basculer sur Laravel à cette période.<br/>
-                            ▶ La branche 5.0 est celle qui est active actuellement. Avec un rythme de deux releases mineures par ans, les presques 500 contributeurs du projet sont très actifs.<br/>
+                            ▶ Il existe depuis presque 10 ans mais il s'est créé une place bien au chaud parmis les frameworks les plus populaires depuis la version 5.0, il y a 4 ans.
+                            <br/>
+                            ▶ Cette version apporte d'ailleurs un conteneur d'injection de dépendance avec du contextual binding, un des premiers outils à le proposer. C'est ce qui m'a fait basculer sur Laravel à cette période.
+                            <br/>
+                            ▶ La branche 5.0 est celle qui est active actuellement. Avec un rythme de deux releases mineures par ans, les presques 500 contributeurs du projet sont très actifs.
+                            <br/>
                             Il y a même aujourd'hui deux développeurs payés à temps plein sur le projet.
                         </aside>
                     </section>
@@ -220,8 +228,10 @@
                             <span class="fragment">… pour les habitués à Symfony 😊</span>
                         </p>
                         <aside class="notes">
-                            Avec la sortie de la 4.0, la structure du projet s'est professionnalisée. Une gestion de dépendances solide, un attachement à l'utilisation de librairie open source de référence permettent une meilleure adoption de la communauté.<br/>
-                            Par exemple, le coeur est construit autour des composants Symfony les plus connues:<br/>
+                            Avec la sortie de la 4.0, la structure du projet s'est professionnalisée. Une gestion de dépendances solide, un attachement à l'utilisation de librairie open source de référence permettent une meilleure adoption de la communauté.
+                            <br/>
+                            Par exemple, le coeur est construit autour des composants Symfony les plus connues:
+                            <br/>
                             ▶ HttpFoundation, HttpKernel, Console.
                         </aside>
                     </section>
@@ -229,9 +239,12 @@
                         <h1 class="highlight"><span>Une surcouche spécifique !</span></h1>
                         <p class="highlight"><span class="fragment">Et une documentation très accessible…</span></p>
                         <aside class="notes">
-                            Ce n'est pas parce qu'il est basé sur les composants de Symfony que vous vous retrouverez à manipuler ces objets directement. Les fonctionnalités sont utilisées mais en étant entièrement décorées par une vision Laravel.<br/>
-                            Je trouve ça particulièrement intéressant que Laravel étende ces composants. D'abord parce que c'est un cas concret d'utilisation mais aussi parce que ça montre que la roue n'est pas réinventée inutilement.<br/>
-                            Bien sur on peut toujours se poser la question de l'empreinte de Symfony dans l'écosystème PHP, il est presque partout aujourd'hui et peut être considéré en monopole… Mais heureusement il y a d'autres solutions qui continuent d'exister et vivre en dehors de tout ça.<br/>
+                            Ce n'est pas parce qu'il est basé sur les composants de Symfony que vous vous retrouverez à manipuler ces objets directement. Les fonctionnalités sont utilisées mais en étant entièrement décorées par une vision Laravel.
+                            <br/>
+                            Je trouve ça particulièrement intéressant que Laravel étende ces composants. D'abord parce que c'est un cas concret d'utilisation mais aussi parce que ça montre que la roue n'est pas réinventée inutilement.
+                            <br/>
+                            Bien sur on peut toujours se poser la question de l'empreinte de Symfony dans l'écosystème PHP, il est presque partout aujourd'hui et peut être considéré en monopole… Mais heureusement il y a d'autres solutions qui continuent d'exister et vivre en dehors de tout ça.
+                            <br/>
                             ▶ En plus de cette couche, une documentation disponible en ligne permet d'avoir rapidement accès aux exemples et explications utiles à tout développeur. Cette doc est un des gros avantages du projet, elle est simple et va à l'essentiel. Tout est centralisé à un seul endroit et le niveau de langage utilisé est très accessible.
                         </aside>
                     </section>
@@ -246,10 +259,14 @@
                             <span class="fragment">▶ Intégration frontend <small>(<code>Elixir</code>)</small></span><br/>
                         </p>
                         <aside class="notes">
-                            Laravel est un framework complet qui peut être utilisé pour travailler de manière efficace et dans un cadre fiable, respectant les dernières pratiques en matière de développement.<br/>
-                            ▶ Gestion de dépendance, ▶ configuration par environnement, ▶ manipulation des données par un modèle objet, ▶ outil en ligne de commande pour les tâches courantes, ▶ langage de template, ▶ intégration avec la couche frontend grâce à un package nommé Elixir.<br/>
-                            Tout ces points sont décrits dans la documentation en ligne et nous n'allons pas rentrer dans tout le détail.<br/>
-                            Bien sur, son architecture, ses dépendances, et sa philosophie lui sont propre et il faut apprendre à les découvrir et les utiliser.<br/>
+                            Laravel est un framework complet qui peut être utilisé pour travailler de manière efficace et dans un cadre fiable, respectant les dernières pratiques en matière de développement.
+                            <br/>
+                            ▶ Gestion de dépendance, ▶ configuration par environnement, ▶ manipulation des données par un modèle objet, ▶ outil en ligne de commande pour les tâches courantes, ▶ langage de template, ▶ intégration avec la couche frontend grâce à un package nommé Elixir.
+                            <br/>
+                            Tout ces points sont décrits dans la documentation en ligne et nous n'allons pas rentrer dans tout le détail.
+                            <br/>
+                            Bien sur, son architecture, ses dépendances, et sa philosophie lui sont propre et il faut apprendre à les découvrir et les utiliser.
+                            <br/>
                             Comme n'importe quel outil il n'apporte pas de réelle solution, seulement une approche technique. Libre à l'utilisateur d'en faire quelque chose !
                         </aside>
                     </section>
@@ -268,8 +285,10 @@ composer create-project laravel/laravel
                             </code>
                         </pre>
                         <aside class="notes">
-                            Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.<br/>
-                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.<br/>
+                            Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.
+                            <br/>
+                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.
+                            <br/>
                             ▶ Ensuite il suffit de lancer le serveur web intégré à PHP pour pouvoir accéder à l'application depuis un navigateur.
                         </aside>
                     </section>
@@ -310,11 +329,16 @@ composer create-project laravel/laravel
                             </pre>
                         </div>
                         <aside class="notes">
-                            Un petit tour d'horizon de l'arborescence de répertoire…<br/>
-                            On peut noter qu'elle est plutôt standard par rapport à ce qui se fait aujourd'hui. Tout le code applicatif se trouve dans le dossier `app` qui porte plutôt bien son nom.<br/>
-                            Une notion un peut différente est le terme `Providers`. Ce sont les objets qui vont contenir la configuration du conteneur d'injection de dépendances et des différents services. On aura par exemple le RouteServiceProvider pour le routing, EventServiceProvider pour les évènements applicatifs…<br/>
-                            La définition des routes et de la configuration générale est entièrement faite en PHP.<br/>
-                            Les prochaines slides vont mentionner du code, avec les noms de fichiers ci-dessus, nous allons principalement naviguer entre les dossiers routes et app.<br/>
+                            Un petit tour d'horizon de l'arborescence de répertoire…
+                            <br/>
+                            On peut noter qu'elle est plutôt standard par rapport à ce qui se fait aujourd'hui. Tout le code applicatif se trouve dans le dossier `app` qui porte plutôt bien son nom.
+                            <br/>
+                            Une notion un peut différente est le terme `Providers`. Ce sont les objets qui vont contenir la configuration du conteneur d'injection de dépendances et des différents services. On aura par exemple le RouteServiceProvider pour le routing, EventServiceProvider pour les évènements applicatifs…
+                            <br/>
+                            La définition des routes et de la configuration générale est entièrement faite en PHP
+                            .<br/>
+                            Les prochaines slides vont mentionner du code, avec les noms de fichiers ci-dessus, nous allons principalement naviguer entre les dossiers routes et app.
+                            <br/>
                             J'ai choisit de vous montrer comment gérer un upload de fichier.
                         </aside>
                     </section>
@@ -322,7 +346,8 @@ composer create-project laravel/laravel
                 <section class="stack">
                     <section data-background-image="img/ugly.png" class="left invert">
                         <aside class="notes">
-                            Nous commençons par le plus terrible…<br/>
+                            Nous commençons par le plus terrible…
+                            <br/>
                             Tout le code présenté fonctionne et est utilisable dans une application mais il n'est pas toujours idéal. Tout est toujours une question de choix, disons que l'objectif est d'avoir un code compréhensible et maintenable dans le temps.
                         </aside>
                     </section>
@@ -336,9 +361,12 @@ Route::post('/upload', function() {
                             </code>
                         </pre>
                         <aside class="notes">
-                            Certains prennent surement un peu peur, mais oui, il suffit de ces trois lignes pour gérer un upload de fichier et son stockage dans un dossier "images" quelque part.<br/>
-                            Bien sur il manque pas mal de vérifications pour que ce code soit complètement viable mais nous verrons ça dans la suite.<br/>
-                            Je m'attarde un peu sur ces quelques lignes.<br/>
+                            Certains prennent surement un peu peur, mais oui, il suffit de ces trois lignes pour gérer un upload de fichier et son stockage dans un dossier "images" quelque part.
+                            <br/>
+                            Bien sur il manque pas mal de vérifications pour que ce code soit complètement viable mais nous verrons ça dans la suite.
+                            <br/>
+                            Je m'attarde un peu sur ces quelques lignes.
+                            <br/>
                         </aside>
                     </section>
                     <section class="left invert">
@@ -349,9 +377,12 @@ Route::post('/upload', function() {
 });</code>
                         </pre>
                         <aside class="notes">
-                            On voit que la route est définie à l'aide d'une fonction statique, il s'agit des fameuses facades de Laravel. Pour ceux qui n'en ont pas entendu parler, ces sont des proxy vers des services déclarés dans le coeur de l'application.<br/>
-                            Pour la déclaration des routes c'est pratique, pour le reste je préfère les éviter au maximum !<br/>
-                            Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible.<br/>
+                            On voit que la route est définie à l'aide d'une fonction statique, il s'agit des fameuses facades de Laravel. Pour ceux qui n'en ont pas entendu parler, ces sont des proxy vers des services déclarés dans le coeur de l'application.
+                            <br/>
+                            Pour la déclaration des routes c'est pratique, pour le reste je préfère les éviter au maximum !
+                            <br/>
+                            Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible.
+                            <br/>
                             Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de `Request` ensuite, elle lit le contenu de la clé 'image' et nous retourne son contenu. Ici, par change il s'agit d'un object UploadedFile…
                         </aside>
                     </section>
@@ -362,20 +393,26 @@ Route::post('/upload', function() {
 request('image')->store('images');</code>
                         </pre>
                         <aside class="notes">
-                            Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de requête. Dedans elle le contenu de la clé 'image' et nous retourne son contenu. Ici, par chance il s'agit d'un objet UploadedFile qui dispose d'une méthode "store" et donc mon code fonctionne.<br/>
-                            Je dis bien par chance, ici rien n'assure que la clé 'image' existe ou est bien un fichier uploadé.<br/>
-                            Ces helpers sont à éviter absolument. Trop de comportement cachés, les différentes couches de l'application sont complètement transpercées pour récupérer ce dont nous avons besoin.<br/>
+                            Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de requête. Dedans elle le contenu de la clé 'image' et nous retourne son contenu. Ici, par chance il s'agit d'un objet UploadedFile qui dispose d'une méthode "store" et donc mon code fonctionne.
+                            <br/>
+                            Je dis bien par chance, ici rien n'assure que la clé 'image' existe ou est bien un fichier uploadé.
+                            <br/>
+                            Ces helpers sont à éviter absolument. Trop de comportement cachés, les différentes couches de l'application sont complètement transpercées pour récupérer ce dont nous avons besoin.
+                            <br/>
                             Heureusement, il y a d'autres solutions pour arriver à ce résultat.
                         </aside>
                     </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/bad.png" class="left invert">
-                        <p class="highlight bottom">
-                            <span class="fragment">Not so bad…</span><br/>
-                            <span class="fragment">…l'amélioration continue !</span>
+                        <p class="highlight bottom right">
+                            <span class="fragment" style="font-size: 3rem">… not so bad !</span>
                         </p>
-                        <aside class="notes"></aside>
+                        <aside class="notes">
+                            Après cette frayeur terrible nous allons voir comment, pas à pas améliorer ce code.
+                            <br/>
+                            ▶ Nous allons passer par la case de la brute mais on ne va pas s'y attarder. Le code présenté dans les prochaines slides risque encore de vous inquiéter un peu…
+                        </aside>
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Injection</span></h1>
@@ -390,6 +427,11 @@ Route::post('/upload', function(Request $request) {
                             </code>
                         </pre>
                         <aside class="notes">
+                            D'abord, tordre le coup des helpers, ces petites fonctions qui embarquent trop de logique non contrôlée. Il y a toujours une solution pour s'en passer !
+                            <br/>
+                            On s'appuyait dessus pour pouvoir récupérer le contenu de la requête, autant injecter directement l'objet Request et l'utiliser.
+                            <br/>
+                            Le code va être analysé grâce à l'API Reflection de PHP. Laravel va ainsi savoir quels objets sont obligatoires et pouvoir les fournir au moment de l'appel, pratique et efficace.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -405,6 +447,17 @@ Route::post('/upload', function(Request $request) {
                             </code>
                         </pre>
                         <aside class="notes">
+                            Ensuite, utiliser une information provenant de la requête est risqué dans le sens ou on ne maitrise pas le contenu de se que l'on va lire.
+                            <br/>
+                            Laravel embarque une API de validation utilisant une syntaxe assez simple. Il suffit de décrire les règles à appliquer séparées par des pipes dans une chaine de caractères.
+                            <br/>
+                            Ici par exemple, je veux m'assurer que l'entrée "image" de ma requête est bien présente et qu'il s'agit d'une image.
+                            <br/>
+                            Il existe tout un tas de règles qui répondent à la plupart des besoins et il est possible d'étendre pour des cas plus spécifiques.
+                            <br/>
+                            La fonction "validate" déclenche une exception si les règles ne sont pas respéctées. Cette exception sera transformée en erreur HTTP 422, Unprocessable entity par le Kernel de Laravel et donc permettrant à l'appelant de bien comprendre ce qui coince.
+                            <br/>
+                            On limite les cas d'erreur possible tout en garantissant un comportement cohérent de l'application.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -427,18 +480,40 @@ Route::post(
                             </code>
                         </pre>
                         <aside class="notes">
+                            Les contrats sont des interfaces intégrées au coeur de Laravel. Ces interfaces décrivent la plupart des comportements interne au framework : génération d'URL, authentification, base de données, encryption, etc.
+                            <br/>
+                            Ensuite elles peuvent être associées à des implémentations dans le conteneur de l'application.
+                            <br/>
+                            Ici par exemple, comme nous sauvegardons le fichier envoyé dans un dossier local, nous manipulons le système de fichier. Je choisis donc d'injecter un instance de Filesystem dans mon action.
+                            <br/>
+                            Je n'ai rien besoin de faire de plus que déclarer cette nouvelle dépendances parce qu'une implémentation par défaut est configurée dans le framework. Le choix du par défaut peut être modifié facilement dans la configuration.
+                            <br/>
+                            La méthode "store" que nous utilisions précédemment était un raccourci pour cette injection de dépendance, mais elle cachait entièrement la logique et l'utilisation de cet objet. Personnellement je n'aime pas trop quand le framework contrôle tout.
                         </aside>
                     </section>
                 </section>
                 <section class="stack">
                     <section data-background-image="img/good.png" class="left invert">
-                        <aside class="notes"></aside>
+                        <aside class="notes">
+                            Maintenant on a un code qui est propre mais qui peut encore être largement amélioré. Pour un gros projet, définir les actions directement dans les fichiers de routes peut vite devenir le bazar.
+                            <br/>
+                            En plus on mélange des logiques différentes, validation, stockage dans notre action, voyons comment allez plus loin.
+                        </aside>
                     </section>
                     <section class="left invert" data-background-image="img/separation-of-concerns.jpg" data-state="light-background">
                         <h1 class="highlight"><span>Separation of concerns</span></h1>
                         <p class="highlight"><span class="fragment">Chaque chose à sa place…</span></p>
                         <p class="highlight right"><span class="fragment">…Contrôleur, </span><span class="fragment">Route, </span><span class="fragment">Service.</span></p>
                         <aside class="notes">
+                            La voix du sage vous dira toujours de garder votre code le plus simple et compréhensible possible.
+                            <br/>
+                            ▶ Pour ça j'aime que les choses soient à leur place, chaque objet contenant uniquement le strict minimum.
+                            <br/>
+                            ▶ D'abord le contrôleur, il va contenir le code permettant d'exécuter notre action. Ici nous voulons "simplement" stocker le fichier uploadé.
+                            <br/>
+                            ▶ Ensuite, la route, doit être définie simplement avec l'URL et le contrôleur qui sera exécuté.
+                            <br/>
+                            ▶ Et enfin les services, je n'aime pas ce terme mais je n'en ai pas trouvé d'autre regroupant tout les objets utiles au fonctionnement de notre action. En fait ils lui rendent service pour aboutir au résultat final.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -497,6 +572,15 @@ class UploadProfilePicture
                             </pre>
                         </div>
                         <aside class="notes">
+                            Un contrôleur est un objet contenant une ou plusieurs méthodes. Une méthode sera définie comme action et donc liée à la route.
+                            <br/>
+                            Par convention ces objets sont placés dans le dossier "app/Http/Controllers". J'ai choisit de créer un objet invokable, donc utilisant la méthode <code>__invoke</code>. Pour ceux qui ne connaitraient pas, cette méthode permet d'appeler l'objet comme une fonction.
+                            <br/>
+                            L'avantage ici est que cette unique méthode sera l'unique action de mon objet. Je préfère créer un contrôleur par action, embarquant toute la logique utile à son exécution.
+                            <br/>
+                            ▶ On retrouve l'injection du <code>Filesystem</code> mais cette fois si dans le constructeur. Je trouve ça plus compréhensible de mettre dans le constructeur les services et dans l'action ce qui est lié à la requête et à la route.
+                            <br/>
+                            ▶ Enfin notre action qui prend en paramètre la requête. Je n'ai pas repêté le code ici par manque de place mais on retrouve la validation et le stockage du fichier.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -509,6 +593,11 @@ class UploadProfilePicture
                             </code>
                         </pre>
                         <aside class="notes">
+                            La route est beaucoup plus simple que précédemment. On a uniquement l'URL et le à appeler. Comme il s'agit d'un objet invokable, il n'y a pas besoin de spécifier la méthode à appeler.
+                            <br/>
+                            Une petite subtilité quand même qui est lié à la configuration par défaut du framework. Je ne peux pas utiliser le nom complet de la classe, seulement une partie de son namespace.
+                            <br/>
+                            C'est adaptable, ici je suis juste sur une installation entièrement vierge de l'outil.
                         </aside>
                     </section>
                     <section class="left invert" data-background-image="img/container.jpg" data-state="light-background">
@@ -517,6 +606,13 @@ class UploadProfilePicture
                         <p class="highlight right"><span class="fragment">… construits et gérés par le conteneur …</span></p>
                         <p class="highlight"><span class="fragment">… injectés à l'exécution.</span></p>
                         <aside class="notes">
+                            ▶ Le conteneur d'injection de dépendances contient la définition de la construction de tout les objets utiles au fonctionnement de l'application.
+                            <br/>
+                            ▶ Ces objets sont ensuites assemblés ensemble et
+                            <br/>
+                            ▶ construit au besoin.
+                            <br/>
+                            Par défaut il existe des tas de services comme nous l'avons vu avec le Filesystem mais il est possible d'en créer de nouveaux ou d'adapter le comportement de l'existant.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -538,7 +634,7 @@ $this->app->bind(
                                 </code>
                             </pre>
                             <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
-                                <code class="php" data-line-numbers="5-12">use Illuminate\Contracts\Filesystem\Filesystem;
+                                <code class="php" data-line-numbers="5-7,11-12">use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Foundation\Application;
 
@@ -569,6 +665,15 @@ $this->app->bind(
                             </pre>
                         </div>
                         <aside class="notes">
+                            Les définitions sont écrites en PHP dans les <code>ServiceProviders</code>. Pour tout ce qui est lié à l'application j'ai tendance à utiliser <code>AppServiceProvider</code>. Dans la méthode <code>boot</code> on va placer ce genre de code pour dire au conteneur ce qu'on veut.
+                            <br/>
+                            ▶ En combinant avec les contrats, on peut entièrement piloter l'application. Ici je décide de l'instance par défaut de <code>Filesystem</code> utilisée par Laravel.
+                            <br/>
+                            Une fonction anonyme me permet de décider comment sera créée mon instance. On voit qu'un objet <code>Application</code> est passé en paramètre de cette fonction. Cette application est notre conteneur, je vais donc pouvoir l'utiliser pour paramétrer mon instance.
+                            <br/>
+                            ▶ Je créé grâce au <code>FilesystemManager</code>, qui est une factory de Filesystem, une instance du disque "local" que je retourne. Le nom local est définit dans la configuration du projet, je ne fais que l'utiliser ici.
+                            <br/>
+                            Cette technique est pratique mais je peux avoir envie d'un peu plus de précision. Ici je déclare globalement pour toute l'application.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -632,6 +737,20 @@ $this->app
                             </pre>
                         </div>
                         <aside class="notes">
+                            Si je ne souhaite pas modifier le comportement global du framework, je peux utiliser une définition contextuelle dans mon conteneur. L'avantage est de pouvoir gérer très finement les instances utilisées par certains objets.
+                            <br/>
+                            Toute mon application ne va peut être pas utiliser le même <code>Filesystem</code>.
+                            <br/>
+                            Ce code sera toujours placé dans le <code>AppServiceProvider</code>.
+                            ▶ La fonction <code>when</code>, détermine quand ou plutôt qui sera touché par cette règle. Ici c'est notre contrôleur.
+                            <br/>
+                            ▶ Ensuite la fonction <code>needs</code>, cible un type d'objet à injecter.
+                            <br/>
+                            ▶ Enfin on retrouve dans la fonction <code>give</code> le code d'initialisation de notre objet.
+                            <br/>
+                            On lit donc, quand notre contrôleur a besoin d'un objet Filesystem alors on lui donne une instance du disque local.
+                            <br/>
+                            Il y a d'autres façon encore d'utiliser le conteneur mais je vous laisserai aller regarder dans la documentation si vous voulez aller plus loin.
                         </aside>
                     </section>
                     <section class="left invert" data-background-image="img/unplug.jpg">
@@ -639,18 +758,26 @@ $this->app
                         <p class="highlight"><span class="fragment">Arrêter le processus le plus tôt possible…</span></p>
                         <p class="highlight right"><span class="fragment">… <code>Middlewares</code> et <code>FormRequest</code>.</span></p>
                         <aside class="notes">
+                            Notre contrôleur est là pour appliquer l'action concrête, c'est à dire stocker le fichier. Il ne devrait pas avoir à se préoccuper de la validation de la requête ou d'autres points de ce genre comment l'authentification ou la vérification de token CSRF.
+                            <br/>
+                            ▶ Toute la logique qui peut être déportée en amont doit l'être pour alléger le contrôleur et éviter les objets trop complexes qui font tout.
+                            <br/>
+                            ▶ Il existe deux choses pour nous aider dans cette tâche.
                         </aside>
                     </section>
                     <section class="left invert" data-background-image="img/layers.jpg">
                         <h1 class="highlight"><span>Middlewares ?</span></h1>
                         <p class="highlight"><span class="fragment">Centraliser les comportements…</span></p>
                         <aside class="notes">
+                            Les middlewares sont des objets contenant de la logique à appliquer en amont ou en aval du contrôleur. Par exemple l'authentification est gérée par un middleware.
+                            <br/>
+                            ▶ L'avantage de ces objets est qu'on peut facilement les réutiliser pour les différentes parties de notre application. Mais ici ce n'est pas exactement ce qui nous intéresse. La validation du format de la requête est spécifiques à notre contrôleur.
                         </aside>
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>FormRequest</span></h1>
                         <pre style="font-size: 1.4rem"><code class="bash">./artisan make:request UploadUserProfile</code></pre>
-                        <div class="relative" style="margin-top: -20px">
+                        <div class="fragment relative" style="margin-top: -20px">
                             <pre style="font-size: 1.4rem;" class="absolute">
                                 <code class="php" data-line-numbers>namespace App\Http\Requests;
 
@@ -707,10 +834,23 @@ class UploadUserProfile extends FormRequest
                             </pre>
                         </div>
                         <aside class="notes">
+                            Les objets FormRequest, comme leur nom l'indique sont adaptés aux requêtes liées aux formulaires. Ils ont été ajouté dans Laravel pour faciliter la validation des requêtes.
+                            <br/>
+                            On peut utiliser la commande <code>artisan</code> pour pouvoir créer facilement une nouvelle FormRequest. Un nouveau fichier PHP est ensuite ajouté dans le dossier app/Http/Requests avec un squelete à remplir.
+                            <br/>
+                            ▶ Voici ce que donnerait la validation de notre requête.
+                            <br/>
+                            ▶ La méthode rules contient le tableau de règles à appliquer au validateur. Pour rappel veut s'assurer que la clé "image" est bien présente et est une image valide. Ces règles de validation seront exécutées avant d'atteindre le contrôleur, c'est exactement ce que nous cherchons.
+                            <br/>
+                            ▶ Enfin je rajoute une méthode sur mon objet FormRequest pour m'aider à facilement accéder aux éléments qui m'intéressent, ici le fichier uploadé. Grâce au typage de retour introduit en PHP7, je force PHP à s'assurer que le champ image est bien une instance d'UploadedFile.
+                            <br/>
+                            Je vais avoir besoin d'utiliser des méthodes sur cet objet, il faut que je m'assure qu'il est bien ce qu'il est. Je ne me prive jamais d'utiliser le typage aussi bien en paramètre qu'en retour. Un code qui déclare ces types est un code plus clair.
+                            <br/>
+                            Maintenant que nous avons définit tout ce qu'il faut, revenons au contrôleur.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Contrôleur final</span></h1>
+                        <h1 class="highlight"><span>Contrôleur</span></h1>
                         <div class="relative">
                             <pre style="font-size: 1.25rem" class="absolute">
                                 <code class="php" data-line-numbers>namespace App\Http\Controllers\Api\User;
@@ -753,37 +893,71 @@ class UploadProfilePicture
                                 </code>
                             </pre>
                         </div>
+                        <aside class="notes">
+                            La version finale de cet objet utilise tout les éléments déclarés précédemment. L'objet Filesystem est injecté par le Contextual Binding, et j'ai remplacé l'injection de l'objet Request par l'objet FormRequest.
+                            <br/>
+                            ▶ On peut récupérer sans crainte le contenu grâce à la méthode <code>image</code> et l'utiliser pour sauvegarder le fichier.
+                            <br/>
+                            L'action contient finalement deux lignes de code contre une pour la version ugly. Bien sur nous avons rajouté plusieurs éléments autour pour stabiliser et valider le comportement.
+                        </aside>
                     </section>
                 </section>
                 <section class="stack">
-                        <section data-background-image="img/finish.jpg" class="left invert" style="margin-top: -10%">
-                            <h1 class="highlight bottom"><span>Et voilà !</span></h1>
-                            <p class="highlight">
-                                <span class="fragment">Une micro application,</span><br/>
-                                <span class="fragment">Testable, maintenable,</span><br/>
-                                <span class="fragment">Et surtout pas de magie !</span>
-                            </p>
-                            <aside class="notes"></aside>
-                        </section>
+                    <section data-background-image="img/finish.jpg" class="left invert" style="margin-top: -10%">
+                        <h1 class="highlight bottom"><span>Et voilà !</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">Une micro application,</span><br/>
+                            <span class="fragment">Testable, maintenable,</span><br/>
+                            <span class="fragment">Et surtout pas de magie !</span>
+                        </p>
+                        <aside class="notes">
+                            Super, nous venons de terminer d'implémenter notre contrôleur.
+                            <br/>
+                            ▶ Nous venons de créer une mini application.
+                            <br/>
+                            ▶ Elle est facilement testable en injectant des Mock dans notre contrôleur et la maintenance est facilité car chaque partie du code est à sa place, légère et concise.
+                            <br/>
+                            ▶ Ce qu'il faut retenir de plus important par rapport à la version ugly, c'est qu'il n'y a pas de magie. Tout ce qui est magique est à proscrire absolument.
+                            <br/>
+                            Ce que j'entends par magie correspond à tout ce qui se passe et qu'on ne contrôle pas ou ne comprends pas.
+                        </aside>
+                    </section>
                     <section data-background-image="img/conclusion.jpg" class="left invert" style="margin-top: -10%">
                         <h1 class="highlight"><span>Au final…</span></h1>
                         <p class="highlight">
-                            <span class="fragment">Laravel est un outil et seulement un outil…</span><br/>
+                            <span class="fragment">Laravel est un outil et seulement un outil …</span><br/>
                             <span class="fragment">Très rapide pour prototyper …</span><br/>
                             <span class="fragment">Très riche en fonctionnalités par défaut …</span><br/>
                             <span class="fragment">Mais pas adapté à tout les cas !</span>
                         </p>
-                        <aside class="notes"></aside>
+                        <aside class="notes">
+                            Finalement après ces différentes étapes, voici selon moi les principaux avantages de Laravel.
+                            <br/>
+                            ▶ Ce n'est qu'un outil, libre à l'utilisateur de s'en servir de la bonne façon.
+                            <br/>
+                            ▶ Il est possible de créer une application très rapidement en utilisant les outils intégrés.
+                            <br/>
+                            ▶ Il embarque beaucoup de fonctionnalités par défaut, envoi de mail, notification, websocket, queue, etc. Tout ces éléments sont présents, il suffit de les configurer pour les utiliser.
+                            <br/>
+                            ▶ Il n'est cependant pas adapté à tout les cas. Chaque outil a ses forces et faiblesses, aujourd'hui j'utilise Laravel sur des projets en production, Symfony sur d'autres. Il faut essayer de prendre du recul pour tirer avantage de la meilleure solution en fonction du contexte et du projet.
+                        </aside>
                     </section>
                     <section data-background-image="img/danger.jpg" class="left invert" data-state="light-background">
                         <h1 class="highlight bottom "><span>Attention à…</span></h1>
                         <p class="highlight">
                             <span class="fragment">Ne pas prendre tout les raccourcis possible…</span><br/>
                             <span class="fragment">Prendre le temps d'apprendre…</span><br/>
-                            <span class="fragment">Réfléchir au projet dans son ensemble…</span><br/>
                             <span class="fragment">Comprendre l'architecture de votre code.</span>
                         </p>
-                        <aside class="notes"></aside>
+                        <aside class="notes">
+                            Un dernier point sur ce qui amène selon moi les incompréhensions et certaines versions ugly dans un projet.
+                            <br/>
+                            ▶ Il faut éviter de prendre les raccourcis, surtout s'ils sont trop simple. J'entends par la que chaque choix à ses conséquences, il faut éviter de cacher la complexité quand on peut.
+                            <br/>
+                            ▶ Toujours prendre le temps d'apprendre, se documenter, lire la documentation. Souvent ça permet d'avoir une vision plus globale et donc de prendre de meilleures décisions.
+                            <br/>
+                            ▶ Et enfin, il ne faut jamais jamais écrire du code que l'on ne comprend pas. C'est le meilleure moyen d'arriver à une solution bancale, difficile à faire évoluer.
+                        </aside>
                     </section>
                 </section>
 <!--#########################################################################-->
