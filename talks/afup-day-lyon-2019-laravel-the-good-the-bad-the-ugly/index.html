@@ -177,22 +177,18 @@
                     </p>
                     <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
                     <p class="left highlight">
-                        <span class="fragment">CTO, </span>
+                        <span class="fragment">Consultant, </span>
                         <span class="fragment">Formateur, </span>
                         <span class="fragment">Contributeur.</span>
                     </p>
                     <aside class="notes">
-                        Je commence par me présenter, je suis Stéphane Hulard, consultant indépendant.
+                        Je commence par me présenter, je suis Stéphane Hulard, ▶ consultant indépendant. J'aime beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
                         <br/>
-                        ▶ Les projets sur lesquelles j'interviens intègrent souvent des problématiques de gestion de données. On peut dire que ma spécialité est d'interpréter, traiter et transformer des masses de données pour aider mes clients à les exploiter.
+                        ▶ Je suis aussi formateur principalement autour des outils et méthodes liés à la qualité logicielle.
+                        <br/>
+                        ▶ Et enfin contributeur, pas autant que je le voudrais mais les projets open sources me permettent d'élargir ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux.
                         <br/>
                         Aujourd'hui je travaille principalement avec Exoskills une entreprise Lyonnaise spécialisée dans l'accompagnement à la transformation digitale de ses clients. Nous sommes d'ailleurs en recherche de profil technique si vous êtes interessés, n'hésitez pas à venir me voir après.
-                        <br/>
-                        J'aime aussi beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
-                        <br/>
-                        ▶ Je suis aussi formateur et référencé en tant qu’organisme de formation. Je forme principalement aux outils et méthodes liés à la qualité logicielle : Architecture, intégration continue, déploiement continue, tests…
-                        <br/>
-                        ▶ J'adore pouvoir travailler sur des projets open source et j’y consacre à peu prêt 20% de mon temps. Bien sur c'est variable en fonction du reste et des projets clients mais ça me permet d'élargir ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux.
                     </aside>
                 </section>
                 <section class="stack">
@@ -287,7 +283,7 @@ composer create-project laravel/laravel
                         <aside class="notes">
                             Nous allons maintenant rentrer dans le vif du sujet et parler de code. Pour être sur que tout le monde soit au même niveau de compréhension, je vais détailler la procédure d'installation d'un projet. Ce projet est construit en utilisant la version 5.8 de Laravel, qui est la version stable actuelle.
                             <br/>
-                            ▶ Composer est utilisé pour créer le squelette du projet. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.
+                            ▶ Composer est utilisé pour créer le squelette. Grâce aux scripts de post installation, la configuration locale est créée à la volée dans un .env tout neuf.
                             <br/>
                             ▶ Ensuite il suffit de lancer le serveur web intégré à PHP pour pouvoir accéder à l'application depuis un navigateur.
                         </aside>
@@ -333,13 +329,13 @@ composer create-project laravel/laravel
                             <br/>
                             On peut noter qu'elle est plutôt standard par rapport à ce qui se fait aujourd'hui. Tout le code applicatif se trouve dans le dossier `app` qui porte plutôt bien son nom.
                             <br/>
-                            Une notion un peut différente est le terme `Providers`. Ce sont les objets qui vont contenir la configuration du conteneur d'injection de dépendances et des différents services. On aura par exemple le RouteServiceProvider pour le routing, EventServiceProvider pour les évènements applicatifs…
+                            Quelques infos sur les `Providers`, ce sont les objets qui vont contenir la configuration du conteneur d'injection de dépendances et des différents services. On aura par exemple le RouteServiceProvider pour le routing, EventServiceProvider pour les évènements applicatifs…
                             <br/>
                             La définition des routes et de la configuration générale est entièrement faite en PHP
                             .<br/>
-                            Les prochaines slides vont mentionner du code, avec les noms de fichiers ci-dessus, nous allons principalement naviguer entre les dossiers routes et app.
+                            Les prochaines slides vont mentionner du code, nous allons principalement naviguer entre les dossiers routes et app.
                             <br/>
-                            J'ai choisit de vous montrer comment gérer un upload de fichier.
+                            J'ai choisi de vous montrer comment gérer un upload de fichier.
                         </aside>
                     </section>
                 </section>
@@ -382,8 +378,6 @@ Route::post('/upload', function() {
                             Pour la déclaration des routes c'est pratique, pour le reste je préfère les éviter au maximum !
                             <br/>
                             Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible.
-                            <br/>
-                            Enfin la fonction `request`, c'est pour moi le pire. Cette fonction cache un appel direct au conteneur pour récupérer l'instance courante de `Request` ensuite, elle lit le contenu de la clé 'image' et nous retourne son contenu. Ici, par change il s'agit d'un object UploadedFile…
                         </aside>
                     </section>
                     <section class="left invert">
@@ -486,7 +480,7 @@ Route::post(
                             <br/>
                             Ici par exemple, comme nous sauvegardons le fichier envoyé dans un dossier local, nous manipulons le système de fichier. Je choisis donc d'injecter un instance de Filesystem dans mon action.
                             <br/>
-                            Je n'ai rien besoin de faire de plus que déclarer cette nouvelle dépendances parce qu'une implémentation par défaut est configurée dans le framework. Le choix du par défaut peut être modifié facilement dans la configuration.
+                            Je n'ai rien besoin de plus que déclarer cette nouvelle dépendances parce qu'une implémentation par défaut est configurée dans le framework. Le choix du par défaut peut être modifié facilement dans la configuration.
                             <br/>
                             La méthode "store" que nous utilisions précédemment était un raccourci pour cette injection de dépendance, mais elle cachait entièrement la logique et l'utilisation de cet objet. Personnellement je n'aime pas trop quand le framework contrôle tout.
                         </aside>
@@ -574,7 +568,7 @@ class UploadProfilePicture
                         <aside class="notes">
                             Un contrôleur est un objet contenant une ou plusieurs méthodes. Une méthode sera définie comme action et donc liée à la route.
                             <br/>
-                            Par convention ces objets sont placés dans le dossier "app/Http/Controllers". J'ai choisit de créer un objet invokable, donc utilisant la méthode <code>__invoke</code>. Pour ceux qui ne connaitraient pas, cette méthode permet d'appeler l'objet comme une fonction.
+                            Par convention ces objets sont placés dans le dossier "app/Http/Controllers". J'ai choisi de créer un objet invokable, donc utilisant la méthode <code>__invoke</code>. Pour ceux qui ne connaitraient pas, cette méthode permet d'appeler l'objet comme une fonction.
                             <br/>
                             L'avantage ici est que cette unique méthode sera l'unique action de mon objet. Je préfère créer un contrôleur par action, embarquant toute la logique utile à son exécution.
                             <br/>
