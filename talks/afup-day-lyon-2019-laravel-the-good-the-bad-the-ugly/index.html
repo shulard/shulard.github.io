@@ -377,7 +377,7 @@ Route::post('/upload', function() {
                             <br/>
                             Pour la déclaration des routes c'est pratique, pour le reste je préfère les éviter au maximum !
                             <br/>
-                            Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible.
+                            Ensuite, on peut voir que le code exécuté est déclaré sous la forme d'une fonction anonyme sans paramètre, on est sur le plus basique possible. Je ne suis pas particulièrement fan des fonctions anonymes parce qu'elles déclarent des entités dans notre code complètement dynamique. Il me semble que leur contenu est quand même géré par OPCache, à confirmer…
                         </aside>
                     </section>
                     <section class="left invert">
@@ -893,6 +893,43 @@ class UploadProfilePicture
                             ▶ On peut récupérer sans crainte le contenu grâce à la méthode <code>image</code> et l'utiliser pour sauvegarder le fichier.
                             <br/>
                             L'action contient finalement deux lignes de code contre une pour la version ugly. Bien sur nous avons rajouté plusieurs éléments autour pour stabiliser et valider le comportement.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🧁 Cerise sur le gâteau !</span></h1>
+                        <p class="highlight"><span>Vous pouvez désactiver les facades !</span></p>
+                        <div class="relative">
+                            <pre style="font-size: 1.15rem">
+                                <code class="php" data-line-numbers>// config/app.php
+[
+    /*
+    |--------------------------------------------------------------------------
+    | Class Aliases
+    |--------------------------------------------------------------------------
+    |
+    | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the aliases are "lazy" loaded so they don't hinder performance.
+    |
+    */
+
+    'aliases' => [
+        …
+    ],
+]
+                                </code>
+                            </pre>
+                        </div>
+                        <aside class="notes">
+                            Si vraiment utiliser les facades vous exaspère, il est possible de les désactiver.
+                            Cette manipulation n'empêchera pas le framework de fonctionner correctement mais
+                            interdira aux développeur des les utiliser !
+                            <br/>
+                            Dans le fichier de configuration <code>config/app.php</code>, il suffit de chercher
+                            la clé <code>aliases</code> et de vider le tableau qu'elle contient. Cette clé
+                            de configuration déclare tout les symbole qui pourront être utilisé comme facade.
+                            <br/>
+                            Simple et rapide, ensuite plus de raison de s'arracher les cheveux !
                         </aside>
                     </section>
                 </section>
