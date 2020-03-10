@@ -350,11 +350,10 @@ composer create-project laravel/laravel
                     <section class="left invert">
                         <h1 class="highlight"><span>Une première version</span></h1>
                         <pre>
-                            <code class="php" data-line-numbers>//routes/api.php
+                            <code class="php">//routes/api.php
 Route::post('/upload', function() {
     request('image')->store('images');
-});
-                            </code>
+});</code>
                         </pre>
                         <aside class="notes">
                             Certains prennent surement un peu peur, mais oui, il suffit de ces trois lignes pour gérer un upload de fichier et son stockage dans un dossier "images" quelque part.
@@ -674,7 +673,7 @@ $this->app->bind(
                         <h1 class="highlight"><span>Contextual Binding</span></h1>
                         <div class="relative">
                             <pre style="font-size: 1.5rem" class="absolute">
-                                <code class="php" data-line-numbers="">//...
+                                <code class="php" data-line-numbers="">...
 use App\Http\Controllers\Api\User;
 
 $this->app
@@ -688,7 +687,7 @@ $this->app
                                 </code>
                             </pre>
                             <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
-                                <code class="php" data-line-numbers="5">//...
+                                <code class="php" data-line-numbers="5">...
 use App\Http\Controllers\Api\User;
 
 $this->app
@@ -702,7 +701,7 @@ $this->app
                                 </code>
                             </pre>
                             <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
-                                <code class="php" data-line-numbers="6">//...
+                                <code class="php" data-line-numbers="6">...
 use App\Http\Controllers\Api\User;
 
 $this->app
@@ -716,7 +715,7 @@ $this->app
                                 </code>
                             </pre>
                             <pre style="font-size: 1.5rem" class="fragment fade-in absolute">
-                                <code class="php" data-line-numbers="7-11">//...
+                                <code class="php" data-line-numbers="7-11">...
 use App\Http\Controllers\Api\User;
 
 $this->app
@@ -900,7 +899,7 @@ class UploadProfilePicture
                         <p class="highlight"><span>Vous pouvez désactiver les facades !</span></p>
                         <div class="relative">
                             <pre style="font-size: 1.15rem">
-                                <code class="php" data-line-numbers>// config/app.php
+                                <code class="php" data-line-numbers>/* config/app.php */
 [
     /*
     |--------------------------------------------------------------------------
