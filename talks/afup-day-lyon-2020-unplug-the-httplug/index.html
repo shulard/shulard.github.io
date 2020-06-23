@@ -94,10 +94,10 @@
                 color: rgba(0, 0, 0, 0.8);
             }
             .reveal pre {
-                font-size: 2rem;
+                font-size: 1.3rem;
             }
             .reveal pre code {
-                padding: 1rem 1.5rem;
+                padding: 5px 1.5rem;
             }
 
             .reveal section.invert p.highlight>* {
@@ -128,6 +128,10 @@
                 .fragment.absolute {
                     display: none;
                 }
+            }
+
+            .reveal .slide-background-content {
+                opacity: 0.8;
             }
         </style>
 
@@ -161,7 +165,7 @@
                 </section>
                 <section class="invert">
                     <p class="social-me">
-                        <img src="img/moi.jpg" class="plain" width="250"/>
+                        <img src="img/moi.jpg" class="plain" width="225"/>
                         <br/>
                         <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
                         <br/>
@@ -177,21 +181,175 @@
                         <span class="fragment">Contributeur.</span>
                     </p>
                     <aside class="notes">
-                        Je commence par me présenter, je suis Stéphane Hulard, ▶ consultant indépendant. J'aime beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
-                        <br/>
-                        ▶ Je suis aussi formateur principalement autour des outils et méthodes liés à la qualité logicielle.
-                        <br/>
-                        ▶ Et enfin contributeur, pas autant que je le voudrais mais les projets open sources me permettent d'élargir ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté ce qui est un atout précieux.
+
                     </aside>
+                </section>
+                <section>
+                    <section class="invert" data-background-image="img/elephant.jpg">
+                        <img src="img/httplug.png" class="plain float-right" width="250" />
+                        <h1 class="highlight left"><span>HTTPlug ?</span></h1>
+                        <p class="highlight left">
+                            <span class="fragment">Un nouvel éléphant qui parle HTTP !</span>
+                        </p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/swiss-knife-mess.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>Un besoin</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">Des appels HTTP partout aujourd'hui,</span><br/>
+                            <span class="fragment">Touche l'application et les vendors,</span><br/>
+                            <span class="fragment">Un outil pour les gouverner tous.</span>
+                        </p>
+                        <aside class="notes">
+                            HTTPlug allows you to write reusable libraries and applications that need an HTTP client without binding to a specific implementation. When all packages used in an application only specify HTTPlug, the application developers can choose the client that best fits their project and use the same client with all packages.
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/story.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>Une histoire</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">Quelques tentatives comme <code>IvoryHttpAdapter</code>,</span><br/>
+                            <span class="fragment">Recherche de normalisation,</span><br/>
+                            <span class="fragment">Participation aux PSR liées (PSR7, PSR18).</span>
+                        </p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/story.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>🐣 Naissance d'HTTPlug</span></h1>
+                        <p class="highlight">
+                            <span class="fragment"><b>Avril 2015</b> - Premier commit</span><br/>
+                            <span class="fragment"><b>Octobre 2018</b> - Version 2.0, compatible PSR18</span><br/>
+                            <span class="fragment"><b>Novembre 2018</b> - Sortie de la PSR18</span><br/>
+                            <span class="fragment"><b>2020</b> - Intégration de plus en plus répandue</span>
+                        </p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/build.jpg">
+                        <h1 class="highlight"><span>Un écosystème riche</span></h1>
+                        <p class="highlight"><span class="fragment"><b>Clients:</b></span><span class="fragment">cURL,</span><span class="fragment">socket.</span></p>
+                        <p class="highlight"><span class="fragment"><b>Adapteurs:</b></span><span class="fragment">Guzzle(5/6),</span><span class="fragment">Symfony&nbsp;HTTPClient,</span><span class="fragment">ReactPHP…</span></p>
+                        <p class="highlight"><span class="fragment"><b>Plugins:</b></span><span class="fragment">Authentification,</span><span class="fragment">Log,</span><span class="fragment">Cache…</span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/travel-adapter.jpg">
+                        <h1 class="highlight bottom"><span>We ❤️ PSRs</span></h1>
+                        <p class="highlight"><span class="fragment">Entièrement compatible avec PSR7 et PSR18.</span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/reuse.jpg" data-state="light-background">
+                        <h1 class="highlight"><span>We ❤️ composer</span></h1>
+                        <pre style="font-size: 2rem;">
+                            <code class="bash">composer require php-http/[client,plugin]</code>
+                        </pre>
+                        <p class="highlight"><span class="fragment"><b>Package virtuel:</b> <code>php-http/client-implementation</code></span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="invert" data-background-image="img/bored.jpg">
+                        <h1 class="highlight left top"><span>Encore un nouvel outil ?</span></h1>
+                        <p class="highlight right bottom"><span class="fragment">Moi je préfère <b>Guzzle</b> et c'est tout !</p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/building-blocks.jpg">
+                        <h1 class="highlight bottom"><span>Oui mais !</span></h1>
+                        <p class="highlight"><span class="fragment">Interopérabilité ?</span><span class="fragment">Injection de dépendances ?</span></p>
+                        <aside class="notes">
+                            Even with the request factory, libraries still had to depend on a concrete HTTP client implementation like Guzzle to actually send the request. (They can also do things themselves very low-level with curl calls, but this basically means implementing an own HTTP client.) Using a specific implementation of an HTTP client is not ideal. It becomes a problem when your application uses a client as well, or you start combining more than one client and they use different clients - or even more when needing different major versions of the same client. For example, Guzzle had to change its namespace from Guzzle to GuzzleHttp when switching from version 3 to 4 to allow both versions to be installed in parallel.
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Du code, du code…</span></h1>
+                        <pre>
+                            <code class="full-height php">
+use Psr\Http\Client\ClientInterface;   //Hello PSR18
+use Psr\Http\Message\RequestInterface; //Hello PSR7
+
+class MyApiDataRetriever
+{
+    private $httpClient;
+
+    public function __construct(ClientInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function retrieveData(RequestInterface $message): AwesomeDTO
+    {
+        return AwesomeDTO::fromResponse(
+            $this->httpClient->sendRequest($message)
+        );
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Mise en route…</span></h1>
+                        <pre>
+                            <code class="full-height php">
+use Http\Client\Socket\Client;
+use Laminas\Diactoros\RequestFactory;
+
+$client = new Client(/* options */);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    (new RequestFactory)->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <h1 class="highlight"><span>Plus simplement…</span></h1>
+                        <pre>
+                            <code class="full-height php">
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+
+$client         = HttpClientDiscovery::find();
+$messageFactory = MessageFactoryDiscovery::find();
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/build.jpg">
+                        <h1 class="highlight" style="font-size: 2em;"><span>Configuration et dépendances…</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">Construire des clients HTTP selon nos propres règles,</span><br/>
+                            <span class="fragment">Assembler une application,</span><br/>
+                            <span class="fragment">Pas de surprise dans les vendors,</span><br/>
+                            <span class="fragment">Centraliser les flux sortants.</span>
+                        </p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
                 </section>
 <!--#########################################################################-->
                 <section class="invert" data-background-image="img/thank-you.jpg">
-                    <p class="right">
-                        <!-- <img class="plain" width="200" src="img/joindin.png" /> -->
-                    </p>
-                    <p class="right highlight">
-                        <!-- <span><a href="https://joind.in/talk/a77e5">https://joind.in/talk/a77e5</a></span> -->
-                    </p>
                     <aside class="notes">
                         Merci de votre attention.
                     </aside>
