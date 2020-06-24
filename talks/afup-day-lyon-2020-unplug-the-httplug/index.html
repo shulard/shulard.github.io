@@ -120,7 +120,7 @@
             }
             .absolute {
                 position: absolute !important;
-                top: 0;
+                top: 70%;
                 left: 0;
             }
 
@@ -158,9 +158,10 @@
                     <p class="global-footer">
                         <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
                         <a href="https://afup.org"><img src="img/afup.png" width="20" class="plain" /></a>
-                        <span><time datetime="2019-05-17">2019</time>&nbsp;-&nbsp;AFUP Day Lyon 2020</span>
+                        <span><time datetime="2020-06-24">2020</time>&nbsp;-&nbsp;AFUP Day Lyon</span>
                     </p>
                     <aside class="notes">
+                        Bonjour à tous !
                     </aside>
                 </section>
                 <section class="invert">
@@ -181,7 +182,11 @@
                         <span class="fragment">Contributeur.</span>
                     </p>
                     <aside class="notes">
-
+                        Je commence par me présenter, ▶ consultant indépendant. J'aime beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
+                        <br/>
+                        ▶ Je suis aussi formateur principalement autour des outils et méthodes liés à la qualité logicielle.
+                        <br/>
+                        ▶ Et enfin contributeur, pas autant que je le voudrais mais les projets open sources me permettent d'élargir ma vision du métier en bénéficiant de l’expertise et du soutien de la communauté.
                     </aside>
                 </section>
                 <section>
@@ -189,36 +194,50 @@
                         <img src="img/httplug.png" class="plain float-right" width="250" />
                         <h1 class="highlight left"><span>HTTPlug ?</span></h1>
                         <p class="highlight left">
-                            <span class="fragment">Un nouvel éléphant qui parle HTTP !</span>
+                            <span class="fragment">Un éléphant qui parle HTTP !</span>
                         </p>
                         <aside class="notes">
-
+                            Rentrons dans le vif du sujet, HTTPlug est un ensemble
+                            de librairie qui permet de gérer les appels HTTP dans
+                            vos applications.<br/>
+                            ▶ Très impliqués dans les PSR, les mainteneurs essaient
+                            de structurer cette partie de plus en plus centrale
+                            dans les projets.<br/>
+                            J'ai découvert ces outils il y a quelques années et
+                            j'avais même contribué au développement de l'adapteur
+                            ReactPHP. Je reviendrai dessus un peu plus tard.<br/>
+                            Aujourd'hui, je ne démarre pas un projet sans utiliser
+                            HTTPlug et c'est même un critère de choix dans les
+                            dépendances que je vais installer.
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/swiss-knife-mess.jpg" data-state="light-background">
-                        <h1 class="highlight"><span>Un besoin</span></h1>
+                        <h1 class="highlight"><span>Pourquoi ?</span></h1>
                         <p class="highlight">
-                            <span class="fragment">Des appels HTTP partout aujourd'hui,</span><br/>
-                            <span class="fragment">Touche l'application et les vendors,</span><br/>
-                            <span class="fragment">Un outil pour les gouverner tous.</span>
+                            <span class="fragment">Centraliser les appels HTTP de plus en plus présents.</span><br/>
+                            <span class="fragment">Faciliter les tests et le debug.</span>
                         </p>
                         <aside class="notes">
-                            HTTPlug allows you to write reusable libraries and applications that need an HTTP client without binding to a specific implementation. When all packages used in an application only specify HTTPlug, the application developers can choose the client that best fits their project and use the same client with all packages.
+                            HTTPlug permet d'écrire des librairies et applications
+                            nécessitant un client HTTP sans pour autant les lier
+                            à une implémentation spécifique.<br/>
+                            ▶ Un client, c'est quoi ? Finalement c'est un objet à qui
+                            on peut donner une `Request` et obtenir une `Response`.<br/>
+                            Si tout les packages dans une application utilisent
+                            HTTPlug, les développeurs peuvent choisir une implementation
+                            qui sera partagée par tout le code.<br/>
+                            ▶ On centralise ainsi tout les appels ce qui permettra d'aider
+                            à gérer les logs ou contrôler le comportement autour.<br/>
+                            Ça facilite aussi le debug et les tests parce qu'on
+                            sait toujours où regarder quand on a un soucis autour
+                            de ces appels.<br/>
+                            Enfin, on ne s'intéresse pas directement au fait que
+                            le client soit capable de réellement faire un appel
+                            réseau mais simplement qu'il existe.
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/story.jpg" data-state="light-background">
-                        <h1 class="highlight"><span>Une histoire</span></h1>
-                        <p class="highlight">
-                            <span class="fragment">Quelques tentatives comme <code>IvoryHttpAdapter</code>,</span><br/>
-                            <span class="fragment">Recherche de normalisation,</span><br/>
-                            <span class="fragment">Participation aux PSR liées (PSR7, PSR18).</span>
-                        </p>
-                        <aside class="notes">
-
-                        </aside>
-                    </section>
-                    <section class="invert left" data-background-image="img/story.jpg" data-state="light-background">
-                        <h1 class="highlight"><span>🐣 Naissance d'HTTPlug</span></h1>
+                        <h1 class="highlight"><span>🐣 L'arrivée d'HTTPlug</span></h1>
                         <p class="highlight">
                             <span class="fragment"><b>Avril 2015</b> - Premier commit</span><br/>
                             <span class="fragment"><b>Octobre 2018</b> - Version 2.0, compatible PSR18</span><br/>
@@ -226,57 +245,127 @@
                             <span class="fragment"><b>2020</b> - Intégration de plus en plus répandue</span>
                         </p>
                         <aside class="notes">
-
+                            ▶ Avant HTTPlug, il y avait déjà des outils pour faciliter
+                            l'utilisation des différents clients du marché. L'arrivée
+                            des PSR a permis de faire émerger cette nouvelle solution.<br/>
+                            ▶ HTTPlug, est un écosystème et ne vient pas comme une
+                            brique complète à installer, on choisit seulement les
+                            morceaux utiles et on limite les dépendances.<br/>
+                            ▶ Les mainteneurs ont porté la PSR18 liée au client HTTP,
+                            et ont mené au bout cette recommendation qui est sortie
+                            en 2018.<br/>
+                            ▶ Comme la compatibilité était au rendez-vous dès la
+                            validation, HTTPlug c'est pour moi imposé comme une
+                            référence. Aujourd'hui, de plus en plus de
+                            librairie utilisent ces interfaces et on commence à
+                            découpler de plus en plus ces problématiques.
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/build.jpg">
-                        <h1 class="highlight"><span>Un écosystème riche</span></h1>
-                        <p class="highlight"><span class="fragment"><b>Clients:</b></span><span class="fragment">cURL,</span><span class="fragment">socket.</span></p>
-                        <p class="highlight"><span class="fragment"><b>Adapteurs:</b></span><span class="fragment">Guzzle(5/6),</span><span class="fragment">Symfony&nbsp;HTTPClient,</span><span class="fragment">ReactPHP…</span></p>
-                        <p class="highlight"><span class="fragment"><b>Plugins:</b></span><span class="fragment">Authentification,</span><span class="fragment">Log,</span><span class="fragment">Cache…</span></p>
-                        <aside class="notes">
-
-                        </aside>
-                    </section>
-                    <section class="invert left" data-background-image="img/travel-adapter.jpg">
-                        <h1 class="highlight bottom"><span>We ❤️ PSRs</span></h1>
-                        <p class="highlight"><span class="fragment">Entièrement compatible avec PSR7 et PSR18.</span></p>
-                        <aside class="notes">
-
-                        </aside>
-                    </section>
-                    <section class="invert left" data-background-image="img/reuse.jpg" data-state="light-background">
-                        <h1 class="highlight"><span>We ❤️ composer</span></h1>
-                        <pre style="font-size: 2rem;">
+                        <h1 class="highlight"><span>Un écosystème complet</span></h1>
+                        <p class="highlight"><span><b>Clients:</b> cURL, socket.</span></p>
+                        <p class="highlight"><span><b>Adapteurs:</b> Guzzle(5/6), Symfony&nbsp;HTTPClient, ReactPHP…</span></p>
+                        <p class="highlight"><span><b>Plugins:</b> Authentification, Log, Cache…</span></p>
+                        <pre style="font-size: 2rem;" class="fragment">
                             <code class="bash">composer require php-http/[client,plugin]</code>
                         </pre>
-                        <p class="highlight"><span class="fragment"><b>Package virtuel:</b> <code>php-http/client-implementation</code></span></p>
                         <aside class="notes">
-
+                            L'éventail de solution proposée est large et permet donc
+                            de s'adapter aux habitudes de chaque équipe. C'est pour
+                            moi une des forces parce que si vous êtes habitué à
+                            utilisé cURL, vous pouvez continuer de le faire, pareil
+                            si vous préférez Guzzle ou autre.<br/>
+                            Finalement c'est un ensemble d'interfaces et d'implémentations
+                            qui sont interchengeables en fonction des besoins.<br/>
+                            Malgré tout, chaque implémentation est spécifique.
+                            Par exemple, le client HTTP de Symfony gérait le
+                            HTTP2 à sa sortie ce qui n'était pas le cas de tout les autres.<br/>
+                            ▶ Si vous avez des besoins précis, il suffit juste de remplacer
+                            l'implémentation avec le bon paquet composer et voila.<br/>
+                            Le code de l'application ne changera pas et vos tests
+                            continueront de fonctionner !
                         </aside>
                     </section>
                 </section>
                 <section>
                     <section class="invert" data-background-image="img/bored.jpg">
                         <h1 class="highlight left top"><span>Encore un nouvel outil ?</span></h1>
-                        <p class="highlight right bottom"><span class="fragment">Moi je préfère <b>Guzzle</b> et c'est tout !</p>
+                        <p class="highlight right bottom"><span class="fragment">Pourquoi faire simple…</p>
                         <aside class="notes">
-
+                            C'est bien beau mais ça semble quand même compliqué. <br/>
+                            ▶ On sait déjà faire des appels HTTP, on a déjà nos petites
+                            habitudes. En mode simpliste, on passe même par des simple
+                            <code>file_get_contents</code> alors pourquoi rajouter
+                            une abstraction dans notre code ?
                         </aside>
                     </section>
-                    <section class="invert left" data-background-image="img/building-blocks.jpg">
-                        <h1 class="highlight bottom"><span>Oui mais !</span></h1>
-                        <p class="highlight"><span class="fragment">Interopérabilité ?</span><span class="fragment">Injection de dépendances ?</span></p>
+                    <section class="invert left" data-background-image="img/door.jpg">
+                        <h1 class="highlight bottom"><span>Prendre du recul</span></h1>
+                        <p class="highlight"><span class="fragment">Interopérabilité ?</span></p>
                         <aside class="notes">
-                            Even with the request factory, libraries still had to depend on a concrete HTTP client implementation like Guzzle to actually send the request. (They can also do things themselves very low-level with curl calls, but this basically means implementing an own HTTP client.) Using a specific implementation of an HTTP client is not ideal. It becomes a problem when your application uses a client as well, or you start combining more than one client and they use different clients - or even more when needing different major versions of the same client. For example, Guzzle had to change its namespace from Guzzle to GuzzleHttp when switching from version 3 to 4 to allow both versions to be installed in parallel.
+                            Dépendre d'une implémentation va demander
+                            aux développeurs de maintenir et faire évoluer le code
+                            applicatif avec. Par exemple, Guzzle a changé son namespace
+                            en passant de la version 3 à la version 4. Si vous dépendez
+                            directement de Guzzle, il faut repasser sur votre code.<br/>
+                            ▶ Ensuite viennent les PSR, ces recommandations portées
+                            par le PHP-FIG qui tiennent à améliorer l'interopérabilité
+                            entre les projets.<br/>
+                            Il y a une vraie dynamique ces dernières années autour de
+                            ces recommandations. HTTPlug s'inscrit dans cette dynamique.<br/>
+                            HTTPlug ne porte donc pas sa propre vision mais plutôt
+                            une façon d'intégrer ces recommandations dans votre projet.<br/>
                         </aside>
                     </section>
                     <section class="invert">
-                        <h1 class="highlight"><span>Du code, du code…</span></h1>
-                        <pre>
-                            <code class="full-height php">
-use Psr\Http\Client\ClientInterface;   //Hello PSR18
-use Psr\Http\Message\RequestInterface; //Hello PSR7
+                        <h1 class="highlight"><span>Utilisation des PSRs</span></h1>
+                        <pre class="absolute">
+                            <code class="full-height php" data-line-numbers="">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+
+class MyApiDataRetriever
+{
+    private $httpClient;
+
+    public function __construct(ClientInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function retrieveData(RequestInterface $message): AwesomeDTO
+    {
+        return AwesomeDTO::fromResponse(
+            $this->httpClient->sendRequest($message)
+        );
+    }
+}
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="1,8-11">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+
+class MyApiDataRetriever
+{
+    private $httpClient;
+
+    public function __construct(ClientInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function retrieveData(RequestInterface $message): AwesomeDTO
+    {
+        return AwesomeDTO::fromResponse(
+            $this->httpClient->sendRequest($message)
+        );
+    }
+}
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="2,13-18">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
 
 class MyApiDataRetriever
 {
@@ -297,14 +386,52 @@ class MyApiDataRetriever
                             </code>
                         </pre>
                         <aside class="notes">
-
+                            Je parle beaucoup des PSR, concrètement qu'est-ce que
+                            ça veut dire ?<br/>
+                            ▶ La PSR18 va définir ce qu'est un client HTTP donc si
+                            j'ai besoin de ce type de fonctionnalités, j'utilise
+                            l'interface.<br/>
+                            ▶ La PSR7 définit la structure des messages HTTP, Request,
+                            Response et tout ce qui va avec.<br/>
+                            Pour construire mon objet <code>AwesomeDTO</code> j'ai
+                            besoin d'une réponse PSR7. Je peux donc utiliser mon
+                            client et obtenir cette réponse à partir d'une requête.<br/>
+                            Ici il n'est pas important de connaître les interfaces
+                            ou les PSR dans le détail.<br/>
+                            Le code n'est pas du tout dépendant d'HTTPlug,
+                            j'ai un objet assez simple qui décrit ses dépendances
+                            et ses paramètres.<br/>
+                            HTTPlug va me permettre de fournir des implémentations
+                            concrètes pour cet objet.<br/>
+                            Mon code est complétement découplé de l'implémentation.
                         </aside>
                     </section>
                     <section class="invert">
-                        <h1 class="highlight"><span>Mise en route…</span></h1>
-                        <pre>
-                            <code class="full-height php">
-use Http\Client\Socket\Client;
+                        <h1 class="highlight"><span>Implémentation</span></h1>
+                        <pre class="absolute">
+                            <code class="full-height php" data-line-numbers="">use Http\Client\Socket\Client;
+use Laminas\Diactoros\RequestFactory;
+
+$client = new Client(/* options */);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    (new RequestFactory)->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="1,4">use Http\Client\Socket\Client;
+use Laminas\Diactoros\RequestFactory;
+
+$client = new Client(/* options */);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    (new RequestFactory)->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="2,7">use Http\Client\Socket\Client;
 use Laminas\Diactoros\RequestFactory;
 
 $client = new Client(/* options */);
@@ -315,14 +442,34 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             </code>
                         </pre>
                         <aside class="notes">
-
+                            Voici un exemple d'implementation.<br/>
+                            ▶ J'ai choisit d'importer le client <code>socket</code>
+                            que je construis. Si vous utilisez un framework, cette étape serait réalisée dans
+                            le conteneur d'injection de dépendances.<br/>
+                            Ensuite, je construis mon objet en lui passant les bons
+                            paramètres. HTTPlug est compatible avec PSR18 donc je peux
+                            directement passer mon objet.<br/>
+                            ▶ Pour construire la requête à passer, j'utiliser une factory,
+                            objet qui a pour rôle d'initialiser ma requête. C'est une
+                            autre histoire, je vous invite à voir la PSR17 pour plus de détails.
                         </aside>
                     </section>
                     <section class="invert">
-                        <h1 class="highlight"><span>Plus simplement…</span></h1>
-                        <pre>
-                            <code class="full-height php">
-use Http\Discovery\HttpClientDiscovery;
+                        <h1 class="highlight"><span>Automatisation</span></h1>
+                        <pre class="absolute">
+                            <code class="full-height php" data-line-numbers="1-2,4-5">use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+
+$client         = HttpClientDiscovery::find();
+$messageFactory = MessageFactoryDiscovery::find();
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="7-9">use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 
 $client         = HttpClientDiscovery::find();
@@ -334,21 +481,295 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             </code>
                         </pre>
                         <aside class="notes">
+                            Pour aller un peu plus loin, un composant spécifique
+                            nommé <code>Discovery</code> permet de faire de la
+                            détection de contexte automatique.<br/>
+                            Bien sûr, aucune magie, différentes stratégies sont
+                            utilisées pour cette découverte: un simple tableau de
+                            mapping avec les implémentations reconnues ou des outils
+                            tiers comme Puli.<br/>
+                            ▶ Cette approche permet de remonter l'abstraction d'un
+                            niveau, je ne veux pas savoir quel client est installé
+                            j'en veux juste un. Si aucun n'est présent, une belle
+                            exception sera lancée et il suffira d'en ajouter un !<br/>
+                            Le principal avantage est surtout d'éviter d'importer
+                            du code si jamais il y a déjà une solution disponible.
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/build.jpg">
-                        <h1 class="highlight" style="font-size: 2em;"><span>Configuration et dépendances…</span></h1>
+                        <h1 class="highlight"><span>Une complexité faible</span></h1>
                         <p class="highlight">
-                            <span class="fragment">Construire des clients HTTP selon nos propres règles,</span><br/>
-                            <span class="fragment">Assembler une application,</span><br/>
-                            <span class="fragment">Pas de surprise dans les vendors,</span><br/>
-                            <span class="fragment">Centraliser les flux sortants.</span>
+                            <span class="fragment">Séparation des responsabilités (client, messages…),</span><br/>
+                            <span class="fragment">Définition des prérequis pour chacun de vos objets.</span>
                         </p>
                         <aside class="notes">
+                            En s'appuyant sur les recommandations de la communauté,
+                            des interfaces sont définies pour chacun des besoins.<br/>
+                            ▶ Votre code doit s'appuyer sur ces séparations pour limiter
+                            la complexité. Il faut se poser quelques questions :
+                            <ul>
+                                <li>Mon objet doit envoyer des requêtes, est-ce qu'il est responsable de leur création ?</li>
+                                <li>Est-ce que mes requêtes ne seraient pas des objets immutables métiers ?</li>
+                            </ul>
+                            ▶ Souvent, la séparation des messages et leur traitement
+                            permet d'avoir un code beaucoup plus clair et maintenable,
+                            des plus petits objets, mieux maîtrisés.
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Adaptabilité et décorateurs</span></h1>
+                        <pre class="absolute" style="font-size:1.2rem">
+                            <code class="full-height php" data-line-numbers>class AwesomeDecorator implements ClientInterface
+{
+    private $decorated;
+    public function __construct(ClientInterface $client)
+    {
+        $this->decorated = $client;
+    }
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* Vérification ou traitement spécifique */
+        $response = $this->decorated->sendRequest($request);
+        /* Vérification ou traitement spécifique */
+        return $response;
+    }
+}
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in" style="font-size:1.2rem">
+                            <code class="full-height php" data-line-numbers="1">class AwesomeDecorator implements ClientInterface
+{
+    private $decorated;
+    public function __construct(ClientInterface $client)
+    {
+        $this->decorated = $client;
+    }
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* Vérification ou traitement spécifique */
+        $response = $this->decorated->sendRequest($request);
+        /* Vérification ou traitement spécifique */
+        return $response;
+    }
+}
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in" style="font-size:1.2rem">
+                            <code class="full-height php" data-line-numbers="3-7">class AwesomeDecorator implements ClientInterface
+{
+    private $decorated;
+    public function __construct(ClientInterface $client)
+    {
+        $this->decorated = $client;
+    }
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* Vérification ou traitement spécifique */
+        $response = $this->decorated->sendRequest($request);
+        /* Vérification ou traitement spécifique */
+        return $response;
+    }
+}
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in" style="font-size:1.2rem">
+                            <code class="full-height php" data-line-numbers="9-15">class AwesomeDecorator implements ClientInterface
+{
+    private $decorated;
+    public function __construct(ClientInterface $client)
+    {
+        $this->decorated = $client;
+    }
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* Vérification ou traitement spécifique */
+        $response = $this->decorated->sendRequest($request);
+        /* Vérification ou traitement spécifique */
+        return $response;
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            Avec les designs patterns, il est possible d'adapter
+                            le code fourni par défaut aux besoins très spécifiques
+                            de votre application.<br/>
+                            Quand vous avez besoin de faire des appels HTTP, il
+                            est intéressant de ne pas réinventer la roue. Mais vous
+                            voudrez surement ajouter des contrôles ou de la logique
+                            spécifique en amont ou aval de l'appel réel.<br/>
+                            Ici j'ai un petit exemple que j'utilise
+                            régulièrement et qui permet de s'approcher d'un système
+                            de Middleware pour ceux qui connaissent.<br/>
+                            ▶ Mon objet va implémenter l'interface `ClientInterface`,
+                            il devient donc un client HTTP à part entière.<br/>
+                            ▶ Je dois donc implémenter les méthodes mais je choisi
+                            de dépendre d'un autre client qui est passé au constructeur.<br/>
+                            Je peux ainsi appeler mon client sans redéfinir toute
+                            la logique et ajouter avant, ou après ce que j'ai besoin de faire.<br/>
+                            ▶ Mon objet reste très simple, facile à tester et je
+                            peux empiler plusieurs couches de décorateurs si nécessaire.<br/>
+                            C'est d'ailleurs ce principe qui est utilisé par HTTPlug
+                            dans les différents plugins (authentification, cache, log…).
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="invert" data-background-image="img/tests.jpg">
+                        <h1 class="highlight bottom right"><span>Tester c'est compliqué…</span></h1>
+                        <p class="highlight right"><span class="fragment">…dès qu'il y a des tiers.</span></p>
+                        <aside class="notes">
+                            Quand on écrit des tests, on entend souvent qu'il est compliqué
+                            de valider les appels aux services externes.<br/>
+                            On est typiquement dans ce contexte quand on parle d'appels
+                            HTTP. Votre code doit s'assurer que, s'il reçoit la bonne
+                            réponse au bon appel il devra la traiter correctement.<br/>
+                            La complexité augmente à ce niveau dès que du code dépend
+                            d'implémentation spécifiques.
+                        </aside>
+                    </section>
+                    <section class="invert left" data-background-image="img/lego.jpg">
+                        <h1 class="highlight"><span>Les interfaces à la rescousse</span></h1>
+                        <p class="highlight">
+                            <span class="fragment"><code>Psr\Http\Client\ClientInterface</code></span><br/>
+                            <span class="fragment"><code>Psr\Http\Message\*</code></span>
+                        </p>
+                        <aside class="notes">
+                            Ici, on sort du contexte HTTPlug pour revenir sur les PSR.<br/>
+                            Il y a une vraie dynamique ces dernières années autour
+                            de l'assemblage de briques respectant ces recommandations.
+                            HTTPlug s'inscrit dans cette dynamique.<br/>
+                            Un client HTTP, une <code>Request</code>, une <code>ResponseFactory</code> ?<br/>
+                            Il suffit d'injecter une implémentation qui colle pour
+                            que le code fonctionne. Une belle preuve de l'intérêt
+                            des PSRs !
+                        </aside>
+                    </section>
+                    <section class="invert">
+                        <p class="highlight"><span><code>php-http/mock-client
+                        </code></span></p>
+                        <pre class="absolute">
+                            <code class="full-height php" data-line-numbers="1">$client = new Http\Mock\Client;
+
+$client->on(
+    new RequestMatcher('/api', 'example.com'),
+    function (): ResponseInterface {
+        /* Créer une réponse adaptée */
+        return $response;
+    }
+);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="3-9">$client = new Http\Mock\Client;
+
+$client->on(
+    new RequestMatcher('/api', 'example.com'),
+    function (): ResponseInterface {
+        /* Créer une réponse adaptée */
+        return $response;
+    }
+);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="4">$client = new Http\Mock\Client;
+
+$client->on(
+    new RequestMatcher('/api', 'example.com'),
+    function (): ResponseInterface {
+        /* Créer une réponse adaptée */
+        return $response;
+    }
+);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="5-8">$client = new Http\Mock\Client;
+
+$client->on(
+    new RequestMatcher('/api', 'example.com'),
+    function (): ResponseInterface {
+        /* Créer une réponse adaptée */
+        return $response;
+    }
+);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <pre class="fragment absolute fade-in">
+                            <code class="full-height php" data-line-numbers="11-13">$client = new Http\Mock\Client;
+
+$client->on(
+    new RequestMatcher('/api', 'example.com'),
+    function (): ResponseInterface {
+        /* Créer une réponse adaptée */
+        return $response;
+    }
+);
+
+$dto = (new MyApiDataRetriever($client))->retrieveData(
+    $messageFactory->createRequest('GET', 'http://example.com/api')
+);
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            ▶ Un client dédié aux tests est maintenu officiellement,
+                            et permet de construire une séquence de traitement
+                            entièrement figée et maîtrisée.<br/>
+                            ▶ Il y a plusieurs façons de l'utiliser, celle que
+                            j'intègre le plus souvent est basée sur le <code>RequestMatcher</code>.<br/>
+                            ▶ Ce <code>Matcher</code> va permettre de venir jouer
+                            avec les réponses à envoyer. Votre code métier fait
+                            un appel, vers un domaine particulier, avec une URL
+                            particulière, on peut capturer cette requête pour
+                            envoyer une réponse donnée.<br/>
+                            ▶ Il devient assez simple de créer des cas d'erreurs,
+                            ou de validation. On ne dépend absolument pas du
+                            service externe et il n'y aura pas du tout d'appel
+                            réseau pendant les tests.<br/>
+                            ▶ On gagne sur les deux tableaux, les tests sont plus
+                            rapides et maîtrisés. On obtient aussi des tests
+                            idempotent car ils ne s'appuient que sur eux même sans
+                            changer l'implémentation dans l'application.
                         </aside>
                     </section>
                 </section>
 <!--#########################################################################-->
+                <section class="invert" data-background-image="img/power.jpg">
+                    <h1 class="highlight top right"><span>Vous avez le pouvoir</span></h1>
+                    <aside class="notes">
+                        Maintenant vous avez une nouvelle vision des clients HTTP,
+                        de leur impact et des solutions proposées.<br/>
+                        Personnellement j'aime beaucoup la simplicité du code qui
+                        va avec.<br/>
+                        La centralisation m'a permis plusieurs fois de mieux comprendre
+                        les séquences d'appels, échanger avec mon client autour de logs
+                        complets.<br/>
+                        Au niveau des tests, les outils intégrés m'ont aussi permis
+                        d'avoir une bonne maîtrise pour valider des séquences de
+                        traitements complexes.<br/>
+                    </aside>
+                </section>
                 <section class="invert" data-background-image="img/thank-you.jpg">
                     <aside class="notes">
                         Merci de votre attention.
