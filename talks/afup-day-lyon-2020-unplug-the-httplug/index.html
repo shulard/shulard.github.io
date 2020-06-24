@@ -294,7 +294,7 @@
                         <aside class="notes">
                             C'est bien beau mais ça semble quand même compliqué. <br/>
                             ▶ On sait déjà faire des appels HTTP, on a déjà nos petites
-                            habitudes. En mode simpliste, on passe même par des simple
+                            habitudes. Parfois, en mode simpliste, on passe même par des simple
                             <code>file_get_contents</code> alors pourquoi rajouter
                             une abstraction dans notre code ?
                         </aside>
@@ -409,7 +409,7 @@ class MyApiDataRetriever
                     <section class="invert">
                         <h1 class="highlight"><span>Implémentation</span></h1>
                         <pre class="absolute">
-                            <code class="full-height php" data-line-numbers="">use Http\Client\Socket\Client;
+                            <code class="full-height php" data-line-numbers="">use Http\Adapter\React\Client;
 use Laminas\Diactoros\RequestFactory;
 
 $client = new Client(/* options */);
@@ -420,7 +420,7 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             </code>
                         </pre>
                         <pre class="fragment absolute fade-in">
-                            <code class="full-height php" data-line-numbers="1,4">use Http\Client\Socket\Client;
+                            <code class="full-height php" data-line-numbers="1,4">use Http\Adapter\React\Client;
 use Laminas\Diactoros\RequestFactory;
 
 $client = new Client(/* options */);
@@ -431,7 +431,7 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             </code>
                         </pre>
                         <pre class="fragment absolute fade-in">
-                            <code class="full-height php" data-line-numbers="2,7">use Http\Client\Socket\Client;
+                            <code class="full-height php" data-line-numbers="2,7">use Http\Adapter\React\Client;
 use Laminas\Diactoros\RequestFactory;
 
 $client = new Client(/* options */);
@@ -443,7 +443,7 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                         </pre>
                         <aside class="notes">
                             Voici un exemple d'implementation.<br/>
-                            ▶ J'ai choisit d'importer le client <code>socket</code>
+                            ▶ J'ai choisit d'importer l'adapteur <code>React</code>
                             que je construis. Si vous utilisez un framework, cette étape serait réalisée dans
                             le conteneur d'injection de dépendances.<br/>
                             Ensuite, je construis mon objet en lui passant les bons
@@ -485,9 +485,9 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             nommé <code>Discovery</code> permet de faire de la
                             détection de contexte automatique.<br/>
                             Bien sûr, aucune magie, différentes stratégies sont
-                            utilisées pour cette découverte: un simple tableau de
-                            mapping avec les implémentations reconnues ou des outils
-                            tiers comme Puli.<br/>
+                            utilisées: un simple tableau de mapping avec les
+                            implémentations reconnues ou des outils tiers comme
+                            Puli.<br/>
                             ▶ Cette approche permet de remonter l'abstraction d'un
                             niveau, je ne veux pas savoir quel client est installé
                             j'en veux juste un. Si aucun n'est présent, une belle
@@ -601,14 +601,15 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                             Quand vous avez besoin de faire des appels HTTP, il
                             est intéressant de ne pas réinventer la roue. Mais vous
                             voudrez surement ajouter des contrôles ou de la logique
-                            spécifique en amont ou aval de l'appel réel.<br/>
+                            spécifique en amont ou aval.<br/>
                             Ici j'ai un petit exemple que j'utilise
                             régulièrement et qui permet de s'approcher d'un système
                             de Middleware pour ceux qui connaissent.<br/>
                             ▶ Mon objet va implémenter l'interface `ClientInterface`,
                             il devient donc un client HTTP à part entière.<br/>
                             ▶ Je dois donc implémenter les méthodes mais je choisi
-                            de dépendre d'un autre client qui est passé au constructeur.<br/>
+                            de dépendre d'un autre client qui est passé au constructeur,
+                            Mon objet devient un décorateur.<br/>
                             Je peux ainsi appeler mon client sans redéfinir toute
                             la logique et ajouter avant, ou après ce que j'ai besoin de faire.<br/>
                             ▶ Mon objet reste très simple, facile à tester et je
@@ -620,16 +621,18 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                 </section>
                 <section>
                     <section class="invert" data-background-image="img/tests.jpg">
-                        <h1 class="highlight bottom right"><span>Tester c'est compliqué…</span></h1>
+                        <h1 class="highlight bottom right"><span>Tester les appels HTTP 😱…</span></h1>
                         <p class="highlight right"><span class="fragment">…dès qu'il y a des tiers.</span></p>
                         <aside class="notes">
                             Quand on écrit des tests, on entend souvent qu'il est compliqué
-                            de valider les appels aux services externes.<br/>
-                            On est typiquement dans ce contexte quand on parle d'appels
-                            HTTP. Votre code doit s'assurer que, s'il reçoit la bonne
+                            de valider les relations avec les services externes.<br/>
+                            ▶ On est typiquement dans ce contexte quand on parle d'appels
+                            HTTP.<br/>
+                            Globalement un test valide que s'il reçoit la bonne
                             réponse au bon appel il devra la traiter correctement.<br/>
                             La complexité augmente à ce niveau dès que du code dépend
-                            d'implémentation spécifiques.
+                            d'implémentation spécifiques. Il faut faire des mocks,
+                            comprendre les fonctions "cachées" dans le client…
                         </aside>
                     </section>
                     <section class="invert left" data-background-image="img/lego.jpg">
@@ -735,14 +738,14 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                         <aside class="notes">
                             ▶ Un client dédié aux tests est maintenu officiellement,
                             et permet de construire une séquence de traitement
-                            entièrement figée et maîtrisée.<br/>
+                            entièrement figée et maîtrisée. Bien sur, compatible
+                            avec les PSR.<br/>
                             ▶ Il y a plusieurs façons de l'utiliser, celle que
                             j'intègre le plus souvent est basée sur le <code>RequestMatcher</code>.<br/>
                             ▶ Ce <code>Matcher</code> va permettre de venir jouer
                             avec les réponses à envoyer. Votre code métier fait
-                            un appel, vers un domaine particulier, avec une URL
-                            particulière, on peut capturer cette requête pour
-                            envoyer une réponse donnée.<br/>
+                            un appel, vers une URL particulière, on peut capturer
+                            cette requête pour envoyer une réponse donnée.<br/>
                             ▶ Il devient assez simple de créer des cas d'erreurs,
                             ou de validation. On ne dépend absolument pas du
                             service externe et il n'y aura pas du tout d'appel
@@ -763,11 +766,11 @@ $dto = (new MyApiDataRetriever($client))->retrieveData(
                         Personnellement j'aime beaucoup la simplicité du code qui
                         va avec.<br/>
                         La centralisation m'a permis plusieurs fois de mieux comprendre
-                        les séquences d'appels, échanger avec mon client autour de logs
-                        complets.<br/>
+                        les séquences d'appels, d'échanger avec mon client autour de logs
+                        exhaustifs.<br/>
                         Au niveau des tests, les outils intégrés m'ont aussi permis
                         d'avoir une bonne maîtrise pour valider des séquences de
-                        traitements complexes.<br/>
+                        traitements complexes.
                     </aside>
                 </section>
                 <section class="invert" data-background-image="img/thank-you.jpg">
