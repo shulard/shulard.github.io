@@ -65,6 +65,9 @@
             code.fragment {
                 padding: 12px;
             }
+            .reveal code a {
+                color: rgb(65, 65, 65);
+            }
             .full-height {
                 max-height: unset !important;
             }
@@ -102,6 +105,10 @@
 
             .reveal section.invert p.highlight>* {
                 background-color: rgba(255, 255, 255, 0.9)
+            }
+            .reveal h1.highlight.white * {
+                background-color: rgba(255, 255, 255, 0.9);
+                color: rgba(0, 0, 0, 0.8);
             }
             .speaker-controls-notes .value {
                 font-size: 1em !important;
@@ -149,11 +156,11 @@
 
         <div class="reveal concave center">
             <div class="slides">
-                <section data-background-image="img/network.jpg">
-                    <h1 class="highlight" style="font-size: 2em;"><span>Once upon a load test in real time…</span></h1>
+                <section data-background-image="img/load-test.jpg">
+                    <h1 class="highlight white" style="font-size: 2em;"><span>Once upon a load test<small>in real time…</small></span></h1>
                     <p class="global-footer">
                         <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
-                        <a href="https://phpconference.com"><img src="img/IPC.png" height="20" class="plain" /></a>
+                        <a href="https://phpconference.com"><img src="../assets/images/ipc-logo.png" height="20" class="plain" /></a>
                         <span><time datetime="2020-05-27">2020</time>&nbsp;-&nbsp;PHP Conference Berlin</span>
                     </p>
                     <aside class="notes">
@@ -173,8 +180,8 @@
                     <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
                     <p class="left highlight">
                         <span class="fragment">Consultant, </span>
-                        <span class="fragment">Formateur, </span>
-                        <span class="fragment">Contributeur.</span>
+                        <span class="fragment">Trainer, </span>
+                        <span class="fragment">Contributor.</span>
                     </p>
                     <aside class="notes">
                         Je commence par me présenter, je suis Stéphane Hulard, ▶ consultant indépendant. J'aime beaucoup travailler sur des projets legacy pour accompagner les équipes à les reprendre en main.
@@ -185,15 +192,187 @@
                     </aside>
                 </section>
 <!--#########################################################################-->
-                <section class="invert" data-background-image="img/thank-you.jpg">
-                    <p class="right">
-                        <!-- <img class="plain" width="200" src="img/joindin.png" /> -->
-                    </p>
-                    <p class="right highlight">
-                        <!-- <span><a href="https://joind.in/talk/a77e5">https://joind.in/talk/a77e5</a></span> -->
-                    </p>
+                <section>
+                    <section class="invert" data-background-image="img/control.jpg">
+                        <h1 class="highlight white"><span>Load test ?</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>A special kind of testing…</span></h1>
+                        <p class="highlight"><span class="fragment">Not at the code level</span></p>
+                        <p class="highlight"><span class="fragment">Automatic application interaction</span></p>
+                        <p class="highlight"><span class="fragment">Ensure correct behaviour</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>… under heavy load !</span></h1>
+                        <p class="highlight"><span class="fragment">Analyse performances and limitations</span></p>
+                        <p class="highlight"><span class="fragment">Optimise and check for regression</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Validate behaviour</span></h1>
+                        <p class="highlight"><span class="fragment">Identify critical scenarios</span></p>
+                        <p class="highlight"><span class="fragment">Optimise and check for regression</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>How ?</span></h1>
+                        <p class="highlight"><span class="fragment">For <strong>HTTP</strong>: <code><a href="https://httpd.apache.org/docs/current/programs/ab.html">ApacheBench</a></code>, <code><a href="https://www.joedog.org/siege-home/">Siege</a></code>, …</span></p>
+                        <p class="highlight"><span class="fragment">And for the others ?</span><span class="fragment">It depends 😄</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="left invert" data-background-image="img/websockets.jpg">
+                        <h1 class="highlight white"><span>What about WebSockets ?</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Standard real-time protocol</span></h1>
+                        <p class="highlight fragment"><span><code><a href="http://tools.ietf.org/html/rfc6455">RFC6455</a></code> released in 2011</span></p>
+                        <p class="highlight fragment"><span><strong>Full-Duplex</strong>: Client to server and server to client</span></p>
+                        <p class="highlight fragment"><span>&laquo;&nbsp;Just&nbsp;&raquo; a <strong>protocol</strong>, language agnostic</span></p>
+                        <p class="highlight fragment"><span>Only transfer data when useful</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>A persistent connection</span></h1>
+                        <p class="highlight fragment"><span>Different <strong>paradigm</strong>, different <strong>problems</strong></span></p>
+                        <p class="highlight fragment"><small>Memory management, long running process, shared state between clients…</small></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>🤔 how to test like HTTP ?</span></h1>
+                        <p class="highlight fragment"><span>&laquo; Just &raquo; <strong>simulate</strong> client interaction</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="invert left">
+                        <h1 class="highlight"><a style="color: #FFF;" href="https://artillery.io/docs/guides/overview/welcome.html"><code><img src="img/artillery-logo.png" class="plain" width="100"/> artillery.io</code></a></h1>
+                        <p class="highlight"><span>Open source & easy-to-use performance testing toolkit.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Installing</span></h1>
+                        <pre>
+                            <code class="bash"># Install
+npm install artillery
+
+# Verify it works
+npm exec artillery dino</code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Hello Dino !</span></h1>
+                        <pre>
+                            <code class="bash" style="font-size:1.4rem; font-weight: bold;"> ------------
+< Artillery! >
+ ------------
+           \
+               __
+              / _)
+     _/\/\/\_/ /
+   _|         /
+ _|  (  | (  |
+/__.-'|_|--|_|</code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Your first scenario…</span></h1>
+                        <pre>
+                            <code class="yaml">config:
+  target: "https://example.org/"
+scenarios:
+  - name: "Look at some page"
+    flow:
+      - get:
+          url: "/"</code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Understanding virtual users</span></h1>
+                        <p class="highlight"><span>How much &laquo; users &raquo; for how long…</span></p>
+                        <pre>
+                            <code class="yaml">config:
+  phases:
+    - duration: 5
+      arrivalRate: 5
+      name: "Say hello"</code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Sample report</span></h1>
+                        <div style="display: flex; background: white">
+                            <pre style="width:50%; margin: 0;"><code class="log" style="font-size: 1.6rem;">Elapsed time: 5 seconds
+  Scenarios launched:  25
+  Scenarios completed: 25
+  Requests completed:  25
+  Mean response/sec: 4.75</code></pre>
+                            <pre style="width:50%; margin: 0;"><code class="log" style="font-size: 1.6rem;">Response time (msec):
+  min: 425.7
+  max: 711.9
+  median: 428.7
+  p95: 665.5
+  p99: 711.9
+Codes:
+  200: 25</code></pre>
+                        </div>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Now with WebSockets</span></h1>
+                        <pre>
+                            <code class="yaml" style="line-height: 2.25rem;" data-line-numbers="2,7,9,11">config:
+  target: "wss://echo.wss-websocket.net"
+  phases:
+    - duration: 5
+      arrivalRate: 5
+scenarios:
+  - engine: ws
+    flow:
+      - send: "hello"
+      - think: 1
+      - send: "world"</code>
+                        </pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Custom environments</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Processor</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section class="invert" data-background-image="../assets/images/thank-you.jpg">
                     <aside class="notes">
-                        Merci de votre attention.
+                        Thank for your attention… Feel free to ask any question !
                     </aside>
                 </section>
             </div>

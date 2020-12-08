@@ -65,6 +65,9 @@
             code.fragment {
                 padding: 12px;
             }
+            .reveal code a {
+                color: rgb(65, 65, 65);
+            }
             .full-height {
                 max-height: unset !important;
             }
@@ -190,21 +193,29 @@
                 </section>
                 <section class="stack">
                     <section data-background-image="img/websockets.jpg" data-background-color="rgba(255, 255, 255, 1)">
-                        <h1 class="highlight"><span>WebSocket ?</span></h1>
+                        <h1 class="highlight"><span>WebSockets ?</span></h1>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Standard real-time protocol</span></h1>
-                        <p class="highlight fragment"><span><a href="http://tools.ietf.org/html/rfc6455">RFC 6455</a> released in 2011</span></p>
+                        <p class="highlight fragment"><span><code><a href="http://tools.ietf.org/html/rfc6455">RFC6455</a></code> released in 2011</span></p>
                         <p class="highlight fragment"><span><strong>Full-Duplex</strong>: Client to server and server to client</span></p>
                         <p class="highlight fragment"><span>&laquo;&nbsp;Just&nbsp;&raquo; a <strong>protocol</strong>, language agnostic</span></p>
+                        <p class="highlight fragment"><span>Only transfer data when useful</span></p>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>A persistent connection</span></h1>
                         <p class="highlight fragment"><span>Different <strong>paradigm</strong>, different <strong>problems</strong></span></p>
+                        <p class="highlight fragment"><small>Memory management, long running process, shared state between clients…</small></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Real world usage ?</span></h1>
+                        <p class="highlight fragment"><span>Send long process update to a user…</span></p>
                         <p class="highlight fragment"><small>Memory management, long running process, shared state between clients…</small></p>
                         <aside class="notes">
                         </aside>
