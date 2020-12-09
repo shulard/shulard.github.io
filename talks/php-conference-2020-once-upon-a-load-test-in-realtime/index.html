@@ -266,20 +266,17 @@
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Installing</span></h1>
-                        <pre>
-                            <code class="bash"># Install
+                        <pre><code class="bash"># Install
 npm install artillery
 
 # Verify it works
-npm exec artillery dino</code>
-                        </pre>
+npm exec artillery dino</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Hello Dino !</span></h1>
-                        <pre>
-                            <code class="bash" style="font-size:1.4rem; font-weight: bold;"> ------------
+                        <pre><code class="bash" style="font-size:1.4rem; font-weight: bold;"> ------------
 < Artillery! >
  ------------
            \
@@ -288,40 +285,39 @@ npm exec artillery dino</code>
      _/\/\/\_/ /
    _|         /
  _|  (  | (  |
-/__.-'|_|--|_|</code>
-                        </pre>
+/__.-'|_|--|_|</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Your first scenario…</span></h1>
-                        <pre>
-                            <code class="yaml">config:
+                        <pre><code class="yaml">config:
   target: "https://example.org/"
+  phases:
+    #…
 scenarios:
   - name: "Look at some page"
     flow:
       - get:
-          url: "/"</code>
-                        </pre>
+          url: "/"</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Understanding virtual users</span></h1>
                         <p class="highlight"><span>How much &laquo; users &raquo; for how long…</span></p>
-                        <pre>
-                            <code class="yaml">config:
+                        <pre><code class="yaml">config:
+  #[...]
   phases:
     - duration: 5
       arrivalRate: 5
-      name: "Say hello"</code>
-                        </pre>
+      name: "Say hello"
+#[...]</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
-                        <h1 class="highlight"><span>Sample report</span></h1>
+                        <h1 class="highlight"><span>Simple report</span></h1>
                         <div style="display: flex; background: white">
                             <pre style="width:50%; margin: 0;"><code class="log" style="font-size: 1.6rem;">Elapsed time: 5 seconds
   Scenarios launched:  25
@@ -342,8 +338,7 @@ Codes:
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Now with WebSockets</span></h1>
-                        <pre>
-                            <code class="yaml" style="line-height: 2.25rem;" data-line-numbers="2,7,9,11">config:
+                        <pre><code class="yaml" style="font-size:1.5rem; line-height: 2.25rem;" data-line-numbers="2,7,9,11">config:
   target: "wss://echo.wss-websocket.net"
   phases:
     - duration: 5
@@ -353,18 +348,113 @@ scenarios:
     flow:
       - send: "hello"
       - think: 1
-      - send: "world"</code>
+      - send: "world"</code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Go further, <code>Processor</code></span></h1>
+                        <p class="highlight"><span>Enrich artillery with your own code.</span></p>
+                        <p class="highlight"><span class="fragment">Hooks: <small style="vertical-align: middle;"><code>beforeRequest</code>,<code>afterResponse</code>,<code>{before,after}Scenario</code></small></span></p>
+                        <pre class="fragment"><code class="yaml" style="line-height: 2rem; font-size:1.4rem;" data-line-numbers="2,6">config:
+  processor: "./my-functions.js"
+scenarios:
+  - flow:
+      - send: "hello"
+        afterResponse: logHeaders</code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Some <code>JavaScript</code></span></h1>
+                        <pre><code class="javascript" style="line-height: 2.25rem; font-size:1.4rem;" data-line-numbers="">module.exports = {
+    logHeaders: logHeaders
+}
+
+function logHeaders(requestParams, response, context, ee, next) {
+    console.log(response.headers);
+    /* MUST be called for the scenario to continue */
+    return next();
+}</code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Scenario's context</span></h1>
+                        <pre><code class="javascript" style="line-height: 2.25rem; font-size:1.4rem;" data-line-numbers="2">function readContent(requestParams, response, context, ee, next) {
+    context.vars.lastContent = response.body;
+
+    return next();
+}</code></pre><pre><code class="yaml" style="font-size:1.4rem; line-height: 2.25rem;" data-line-numbers="3-5">scenarios:
+  - flow:
+      - send: "hello"
+        afterResponse: readContent
+      - send: "hello {{ lastContent }}"</code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Environment configuration</span></h1>
+                        <pre><code class="yaml" style="line-height: 1.9rem; font-size:1.4rem;" data-line-numbers="3-13">config:
+  target: "wss://echo.wss-websocket.net"
+  variables:
+    httpUrl: http://localhost:8000
+  environments:
+    staging:
+      target: "wss://custom.staging.url"
+      variables:
+        httpUrl: https://example.org/
+    prod:
+      target: "wss://custom.staging.url"
+      variables:
+        httpUrl: https://example.com/</code></pre>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Environment configuration</span></h1>
+                        <pre>
+                            <code class="bash">npm exec artillery run -e staging</code>
                         </pre>
                         <aside class="notes">
                         </aside>
                     </section>
-                    <section class="invert left">
-                        <h1 class="highlight"><span>Custom environments</span></h1>
+                    <section class="invert" data-background-image="img/finish.jpg">
+                        <h1 class="highlight white bottom"><span>Demo Time 🚀</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="invert left" data-background-image="img/swiss-knife-mess.jpg">
+                        <h1 class="highlight white"><span>💡 Quick overview</span></h1>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
-                        <h1 class="highlight"><span>Processor</span></h1>
+                        <h1 class="highlight"><span>YAML configuration</span></h1>
+                        <p class="highlight"><span class="fragment"><strong>Clearly</strong> define tests steps</span></p>
+                        <p class="highlight"><span class="fragment"><strong>Configure</strong> and <strong>adapt</strong> per environment</span></p>
+                        <p class="highlight"><span class="fragment">Well <strong>documented</strong> !</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Extend with code</span></h1>
+                        <p class="highlight"><span class="fragment"><strong>Hooks</strong> and <strong>context</strong> during execution</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Simple CLI interface</span></h1>
+                        <pre><code class="bash">npm exec artillery run file.yaml</code></pre>
+                        <p class="highlight"><span class="fragment"><strong>Runtime flags</strong> for grained control (<code>-e</code>, <code>-v</code>, …)</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert" data-background-image="img/graph.jpg">
+                        <h1 class="highlight bottom"><span>Now you can test</span><br/><small>your WebSocket application !</small></h1>
+                        <p class="highlight"><span>https://artillery.io/docs/guides/overview/welcome.html</span></p>
                         <aside class="notes">
                         </aside>
                     </section>
