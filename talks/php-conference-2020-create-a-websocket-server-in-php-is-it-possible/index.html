@@ -202,7 +202,7 @@
                         <p class="highlight fragment"><span><code><a href="http://tools.ietf.org/html/rfc6455">RFC6455</a></code> released in 2011</span></p>
                         <p class="highlight fragment"><span><strong>Full-Duplex</strong>: Client to server and server to client</span></p>
                         <p class="highlight fragment"><span>&laquo;&nbsp;Just&nbsp;&raquo; a <strong>protocol</strong>, language agnostic</span></p>
-                        <p class="highlight fragment"><span>Only transfer data when useful</span></p>
+                        <p class="highlight fragment"><span>Only transfer data when useful ≠ polling</span></p>
                         <aside class="notes">
                         </aside>
                     </section>
@@ -215,8 +215,10 @@
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Real world usage ?</span></h1>
-                        <p class="highlight fragment"><span>Send long process update to a user…</span></p>
-                        <p class="highlight fragment"><small>Memory management, long running process, shared state between clients…</small></p>
+                        <p class="highlight fragment"><span>Retrieve sensor data,</span></p>
+                        <p class="highlight fragment"><span>Chat and social feeds,</span></p>
+                        <p class="highlight fragment"><span>Collaborative editing/coding,</span></p>
+                        <p class="highlight fragment"><span>Gaming…</span></p>
                         <aside class="notes">
                         </aside>
                     </section>
@@ -293,6 +295,26 @@ composer require ratchet/pawl</code>
                 <section class="stack">
                     <section data-background-image="img/thinking.jpg" data-background-color="rgba(255, 255, 255, 1)">
                         <h1 class="left bottom highlight"><span>What to do now ?</span></h1>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Learn to run PHP workers !</span></h1>
+                        <p class="highlight"><span>A bit different than the <strong>Request</strong> / <strong>Response</strong> model.</span></p>
+                        <p class="highlight"><span class="fragment">👉 Use tools like <strong>Supervisor</strong> or <strong>SystemD</strong>.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Don't rush on WebSockets !</span></h1>
+                        <p class="highlight"><span>Do you really need <strong>Full-Duplex</strong>?</span></p>
+                        <p class="highlight"><span class="fragment">👉 For Server to Client only, check <strong>Server-Sent Events</strong>!</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Advantages to do it in PHP ?</span></h1>
+                        <p class="highlight"><span class="fragment">Sharing code,</span><span class="fragment">domain expertise,</span><span class="fragment">team knowledge…</span></p>
                         <aside class="notes">
                         </aside>
                     </section>
