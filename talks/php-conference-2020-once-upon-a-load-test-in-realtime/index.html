@@ -355,41 +355,29 @@ scenarios:
                     <section class="invert left">
                         <h1 class="highlight"><span>Go further, <code>Processor</code></span></h1>
                         <p class="highlight"><span>Enrich artillery with your own code.</span></p>
-                        <p class="highlight"><span class="fragment">Hooks: <small style="vertical-align: middle;"><code>beforeRequest</code>,<code>afterResponse</code>,<code>{before,after}Scenario</code></small></span></p>
+                        <p class="highlight"><span class="fragment">Hooks (http): <small style="vertical-align: middle;"><code>beforeRequest</code>,<code>afterResponse</code>,<code>{before,after}Scenario</code></small></span></p>
+                        <p class="highlight"><span class="fragment">Your function as step</span></p>
                         <pre class="fragment"><code class="yaml" style="line-height: 2rem; font-size:1.4rem;" data-line-numbers="2,6">config:
   processor: "./my-functions.js"
 scenarios:
   - flow:
-      - send: "hello"
-        afterResponse: logHeaders</code></pre>
+      - function: doSomething
+      - send: "hello"</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
                     <section class="invert left">
                         <h1 class="highlight"><span>Some <code>JavaScript</code></span></h1>
                         <pre><code class="javascript" style="line-height: 2.25rem; font-size:1.4rem;" data-line-numbers="">module.exports = {
-    logHeaders: logHeaders
+    doSomething: doSomething
 }
 
-function logHeaders(requestParams, response, context, ee, next) {
-    console.log(response.headers);
+function doSomething(context, ee, next) {
+    context.ws /* <= Actual WebSocket connection */
+
     /* MUST be called for the scenario to continue */
     return next();
 }</code></pre>
-                        <aside class="notes">
-                        </aside>
-                    </section>
-                    <section class="invert left">
-                        <h1 class="highlight"><span>Scenario's context</span></h1>
-                        <pre><code class="javascript" style="line-height: 2.25rem; font-size:1.4rem;" data-line-numbers="2">function readContent(requestParams, response, context, ee, next) {
-    context.vars.lastContent = response.body;
-
-    return next();
-}</code></pre><pre><code class="yaml" style="font-size:1.4rem; line-height: 2.25rem;" data-line-numbers="3-5">scenarios:
-  - flow:
-      - send: "hello"
-        afterResponse: readContent
-      - send: "hello {{ lastContent }}"</code></pre>
                         <aside class="notes">
                         </aside>
                     </section>
