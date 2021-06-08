@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Dive in the dependency injection container… - Stéphane HULARD / CHStudio</title>
+
+        <meta name="description" content="Let's discover this pattern and how it works using real world examples. We'll talk about the Symfony integrated container, but I'll try to open to the most common solutions (aka PSR11). I hope that you'll discover hidden features in you application!
+
+        Dependency injection containers are built inside most of our day to day frameworks. We can even tell that it's your application core. Today we try to automate most of their configuration to ease their usage. However they allow to create, combine, configure objects. It's really interesting to learn how they work and how to control their behaviour.">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/tomorrow.css">
+
+        <style type="text/css">
+            .reveal .social-me {
+                float: right;
+            }
+            .reveal .social-me img {
+                margin-bottom: 0px;
+            }
+            .reveal .social-me a {
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .reveal .social-me a:hover {
+                color: rgba(4, 32, 41, 0.9);
+            }
+            .reveal .social-me a:last-child {
+                margin-right: 0;
+            }
+            .right {
+                text-align: right;
+            }
+            .bottom {
+                margin-top: 35% !important;
+            }
+            .top {
+                margin-bottom: 35% !important;
+            }
+            .left {
+                text-align: left;
+            }
+            .float-right {
+                float: right;
+            }
+            .background {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .no-background {
+                background: none !important;
+            }
+            .border-radius {
+                border-radius: 20px;
+            }
+            code.fragment {
+                padding: 12px;
+            }
+            .full-height {
+                max-height: unset !important;
+            }
+            .reveal {
+                background-color: rgba(0, 174, 239, 0.8);
+            }
+            .reveal h1.highlight *, .reveal p.highlight>* {
+                background-color: rgba(4, 32, 41, 0.9);
+                display: inline;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .reveal h1.highlight *:last-child {
+                line-height: 2em
+            }
+            .reveal section>p {
+                font-size: 1.2em;
+            }
+            .reveal section>a>img.plain {
+                margin: 23px 0;
+                height: 94px;
+            }
+            .reveal section>a+a>img.plain {
+                margin-right: 10px;
+            }
+            .reveal section.invert {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .reveal pre {
+                font-size: 2rem;
+                line-height: 1.5;
+            }
+            .reveal pre code {
+                padding: 1rem 1.5rem;
+            }
+
+            .reveal section.invert p.highlight>* {
+                background-color: rgba(255, 255, 255, 0.9)
+            }
+            .speaker-controls-notes .value {
+                font-size: 1em !important;
+            }
+
+            .reveal .slide-background.present {
+                opacity: 0.9;
+            }
+
+            .light-background .reveal .slide-background.present {
+                opacity: 0.6;
+            }
+
+            .relative {
+                position: relative;
+            }
+            .absolute {
+                position: absolute !important;
+                top: 0;
+                left: 0;
+            }
+            .top120 {
+                top: 120px;
+            }
+
+            @media print {
+                .fragment.absolute {
+                    display: none;
+                }
+            }
+        </style>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal concave center">
+            <div class="slides">
+                <section data-background-image="img/dive.jpg">
+                    <h1 class="highlight" style="font-size: 1.5em;"><span>Dive in the dependency injection container</span></h1>
+                    <p class="global-footer">
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <a href="https://afup.org"><img src="img/afup.png" width="20" class="plain" /></a>
+                        <span><time datetime="2020-10-27">2020</time>&nbsp;-&nbsp;Dive in the dependency injection container</span>
+                    </p>
+                    <aside class="notes">
+                        Hello !
+                        <br/>
+                        Today we are going to talk about design pattern and development conventions. Most of your day to day tools are using Design Patterns. As developers it is interesting to understand them deeply. If you are not familiar with those patterns, there are a lot of online resources and books.
+                        <br/>
+                        We are going to look specifically to one of them, the dependency injection container.
+                        <br/>
+                        This pattern allows to create a huge object factory that'll help you combine them like lego bricks. Today, the frameworks like Symfony, Laravel and others are built around this container.
+                    </aside>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="img/moi.jpg" class="plain" width="250"/>
+                        <br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
+                        <br/>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
+                    <p class="left highlight">
+                        <span class="fragment">Consultant, </span>
+                        <span class="fragment">Trainer, </span>
+                        <span class="fragment">Contributor.</span>
+                    </p>
+                    <aside class="notes">
+                        I'll start by a quick prestation. I'm Stephane Hulard, ▶ indenpendant consultant. I love working on legacy projects to help the teams take them back.
+                        <br/><br/>
+                        ▶ I'm also a trainer, mainly around the software quality tools and methods.
+                        <br/>
+                        ▶ Finally, I'm also a contributor. I try to work on Open Source, read a lot of community content and attend conferences. Those different actions help me enlarge my vision regarding my work and my daily routine.
+                    </aside>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/layers.jpg" data-background-color="rgba(255, 255, 255, 1)">
+                        <h1 class="highlight"><span>A pattern ?</span></h1>
+                        <aside class="notes">
+                            Why did someone have the idea to add this object factory in our applications? <br/>
+                            Mainly to limit complexity and improve code maintainability.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/separation-of-concerns.jpg" class="invert left">
+                        <h1 class="highlight"><span>Why ?</span></h1>
+                        <aside class="notes">
+                            When creating complex applications, you have to put together dozens of different objects. To be built, each object has its constraints that must be understood in order to know how to initialize it correctly. <br/>
+                            <br/>
+                            Also, when defining dependencies on an object through interfaces, you also have to choose the correct implementation at the right time. <br/>
+                            You can have several implementations, used in several places of the application. We begin to feel the complexity of this object construction.<br/>
+                            <br/>
+                            Depending on the context, the environment, and potentially a lot of other criteria, your applications are initialized and built dynamically.<br/>
+                            <br/>
+                            To be able to better control what happens, the principle of dependency injection containers has been imposed. The process of creating objects is declared more or less automatically. Then when we need it, we ask the container to create an instance for us using these rules. <br/>
+                            <br/>
+                            The object thus constructed is viable and usable. <br/>
+                            <br/>
+                            We can also easily share the same object instance without going through a singleton or a static reference, which is clearly not a very good practice today.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/separation-of-concerns.jpg" class="invert left">
+                        <h1 class="highlight"><span>How ?</span></h1>
+                        <aside class="notes">
+                            Container implementations can seem complex, and some really are. However, to simplify things, we can imagine that we create an object definition table.<br/>
+                            <br/>
+                            You should know that some real implementations like the Pimple project are also simple.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>A basic version</span></h1>
+                        <pre style="font-size: 1.35rem" class="">
+                            <code class="php">class Engine
+{
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            Let start with two objects: `Car` and` Engine`. Our Car object needs an Engine to run. I hope everyone can represent the logic.<br/>
+                            The example is intentionally very basic, an engine must have only one name which is a property.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>A basic version</span></h1>
+                        <pre style="font-size: 1.75rem" class="absolute top120">
+                            <code class="php">class Car
+{
+    public function __construct()
+    {
+        $this->engine = new Engine('v8');
+    }
+}</code>
+                        </pre>
+                        <pre style="font-size: 1.75rem" class="fragment absolute fade-in top120">
+                            <code class="php">class Car
+{
+    public function __construct(Engine $engine)
+    {
+        $this->engine = $engine;
+    }
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            Then I continue in my example. My `Car` object clearly needs an `Engine` to initialize properly. For this several solutions are available to us. The first would be to create the `Engine` directly when you initialize the car as you can see here.<br/>
+                            There is a tiny problem with this, our `Car` object becomes entirely dependent on the` Engine` implementation it uses. It must be aware of how to build an `Engine`, how to declare it correctly.<br/>
+                            <br>
+                            However, symbolically, our `Car` object could use any instance of` Engine` without updating its behavior. <br>
+                            <br>
+                            ▶ According to the D of SOLID, our object must depend on abstractions and not on implementations. In fact, our car needs an object responding to the public API of `Engine` and not a specific engine. We therefore prefer to use the composition by modifying our `Car` object so that it declares the `Engine` as a dependency. <br>
+                            <br/>
+                            We also notice that, now I only have to ask for a car and the engine object is built on the fly in my definition, I don't have to worry about it. <br/>
+                            <br/>
+                            In the end, a dependency injection container is rarely more complex than an in-memory definition array. However there are quite a few additional tools to declare its definitions.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>A basic version</span></h1>
+                        <pre style="font-size: 1.75rem" class="">
+                            <code class="php">$container = [
+    'engine' => static function (): Engine {
+        return new Engine('standard');
+    },
+    'v8' => new Engine('v8')
+];</code>
+                        </pre>
+                        <aside class="notes">
+                            Let's declare our container with an array. You can see different ways to create an engine, the only constraint is to use different names. Of course in PHP, I can't set two different values for the same key in an array. <br/>
+                            <br/>
+                            What is important to note here is the difference between the construction methods. The first will always send us a new object with each call while the second always sends us the same object. So we can share an object in our application. This is really important, you can control the way objects are built so you need to take care of the lifecycle of each one.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>A basic version</span></h1>
+                        <pre style="font-size: 1.5rem" class="">
+                            <code class="php">$container['car'] = function () use ($container): Car {
+    return new Car($container['engine']);
+};
+
+//Invoking the function will return a valid Car
+$myCar = $container['car']();</code>
+                        </pre>
+                        <aside class="notes">
+                            I can now update my "container" which is still a definition table, so that it is able to build a `Car` using one of the defined engines. <br>
+                            <br>
+                            Note that we use of the `use` statement in the anonymous function definition which allows to inject the list of already known definitions to use them. <br>
+                            ▶ I now know how to initialize a Car in my application. I just need to call the right function to generate one.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>In Symfony</span></h1>
+                        <pre style="font-size: 1.25rem" class="">
+                            <code class="yaml">#services.yaml
+engine:
+    class: Engine
+    attributes:
+        $name: 'standard'
+v8:
+    class: Engine
+    attributes:
+        $name: 'v8'
+car:
+    class: Car
+    attributes:
+        $engine: '@v8'</code>
+                        </pre>
+                        <aside class="notes">
+                            To take the example of Symfony, we can fill in a YAML file.
+                            <br/>
+                            Most of the time, you'll not have to write these definitions thanks to autowiring. This technique will automatically detect the dependencies between our objects thanks to the PHP `Reflection` API. The code is therefore analyzed, the definitions are deduced and registered. Thanks to these automations, it is increasingly easier to use a container in your projects. You don't need to take care of each object.<br/>
+                            <br/>
+                            However, automation should not hide the complexity of the task. The initialization of a container can be very cumbersome and often a caching system is used so that you do not have to redo it for each request. Either way, as long as the code doesn't move, the definitions remain valid.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/why.jpg" class="left invert">
+                        <h1 class="highlight"><span>Interest ?</span></h1>
+                        <p class="highlight">
+                            <span class="fragment">Decoupling, </span><span class="fragment">Role, </span><span class="fragment">Architecture.</span>
+                        </p>
+                        <aside class="notes">
+                            ▶ Thanks to this pattern, it is possible to decouple the objects more easily from each other. It's also easier to map the interface with their implementations. An object declares its dependencies and the container resolves them.
+                            <br/>
+                            Before we go any further, what is called a dependency. We are talking about an object for the moment but we can generalize this principle to everything the object needs to work: a configuration, another object, a flag ...
+                            <br/>
+                            ▶ Using an object to build objects is also interesting because it allows you to ask questions. We are not like, I built line by line the application. This container will allow you to think about the architecture of the code, the interactions between the objects and that's powerful!
+                            <br/>
+                            A simple example is the more general use of interfaces. From there we define several implementations and we can assemble them to meet our needs finely. Each object can therefore be reduced to its simpler expression, it does one thing and does it well. It depends on other things to perform it's task.
+                            <br/>
+                            ▶ We are getting closer to the development principles like SOLID or KISS which, even if they are not concepts to be stupidly followed, helps to have a clear, testable and maintainable code over time.
+                            <br/>
+                            Of course, these principles are applicable in all cases when doing object-oriented development. However, the central point that the container offers make things easier because the whole application is initialized from the rules it contains. Only useful objects according to the context are created and the final answer is provided to the user.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/tools.jpg" class="left invert">
+                        <h1 class="highlight"><span>In the PHP ecosystem</span></h1>
+                        <aside class="notes">
+                            Now that we've done a little rundown on what a dependency injection container is, let's see what's available on the market to use this pattern in our applications. <br/>
+                            <br/>
+                            In fact, as I said earlier, it is already very present and even central in our frameworks.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/frameworks.jpg" class="left invert">
+                        <h1 class="highlight"><span>In the frameworks</span></h1>
+                        <aside class="notes">
+                            In most open source frameworks, we find it. Be it Symfony, Laravel, Zend who became Laminas, CakePHP, Yii or others. The principle of dependency injection is omnipresent and it is very positive because we gain in modularity. <br/>
+                            However, the implementations are very different. Here are some examples using Laravel and Laminas.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <pre style="font-size: 1.1rem" class="absolute">
+                            <code class="php" data-line-numbers>/* Laravel */
+class Car extends ServiceProvider
+{
+    public function register()
+    {
+        $this->app->bind('engine', function (): Engine {
+            return new Engine('standard');
+        });
+        $this->app->bind('v8', new Engine('v8'));
+        $this->app->bind('car', function (Application $app): Engine {
+            return new Car($app->make('v8'));
+        });
+    }
+}
+</code>
+                        </pre>
+                        <pre style="font-size: 1.1rem" class="fragment absolute fade-in">
+                            <code class="php" data-line-numbers="5-11">/* Laravel */
+class Car extends ServiceProvider
+{
+    public function register()
+    {
+        $this->app->bind('engine', function (): Engine {
+            return new Engine('standard');
+        });
+        $this->app->bind('v8', new Engine('v8'));
+        $this->app->bind('car', function (Application $app): Engine {
+            return new Car($app->make('v8'));
+        });
+    }
+}
+</code>
+                        </pre>
+                        <pre style="font-size: 1rem" class="fragment absolute fade-in">
+                            <code class="php" data-line-numbers>/* Lamina service manager */
+$serviceManager = new Laminas\ServiceManager\ServiceManager([
+    'invokable' => [
+        'v8' => new Engine('v8')
+    ],
+    'factories' => [
+        'engine' => function(ContainerInterface $container, $requestedName) {
+            return new Engine('standard');
+        },
+        'car' => function(ContainerInterface $container, $requestedName) {
+            return new Car($container->get('v8'));
+        },
+    ],
+]);
+
+$maCar = $serviceManager->get('car');
+</code>
+                        </pre>
+                        <pre style="font-size: 1rem" class="fragment absolute fade-in">
+                            <code class="php" data-line-numbers="4,7-12">/* Lamina service manager */
+$serviceManager = new Laminas\ServiceManager\ServiceManager([
+    'invokable' => [
+        'v8' => new Engine('v8')
+    ],
+    'factories' => [
+        'engine' => function(ContainerInterface $container, $requestedName) {
+            return new Engine('standard');
+        },
+        'car' => function(ContainerInterface $container, $requestedName) {
+            return new Car($container->get('v8'));
+        },
+    ],
+]);
+
+$maCar = $serviceManager->get('car');
+</code>
+                        </pre>
+                        <aside class="notes">
+                            This first Laravel example is written as a class. Indeed in Laravel, the container is configured in a `ServiceProvider` object. In this framework, the container is completely integrated with the `Application` object. <br/>
+                            ▶ Apart from these specificities, we find our definition, very close to what was defined in the array before. <br/>
+                            ▶ Then, we arrive at the Laminas project ServiceManager (same logic in the old Zend Framework). The names of the objects change but the logic remains the same. We define items that we can link together. <br/>
+                            ▶ The specific code, useful for our application, always remains relatively identical whatever the chosen frameworks. The only thing which seems different is the location of the container configuration. <br/>
+                            For Symfony we have already spoken about it earlier, by default the configuration is done in the form of a YAML file. However in Symfony 6, the YAML syntax will be deprecated in favor of the PHP one.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/lego.jpg" class="left invert">
+                        <h1 class="highlight"><span>Independent solutions </span></h1>
+                        <aside class="notes">
+                            In addition to the tools embedded in our favorite frameworks, there are also a lot of open source libraries, always in the PHP ecosystem that allow this service to be provided. I count Laminas as a framework but it would actually be part of this section instead. <br/>
+                            <br/>
+                            Pimple, PHP-DI are for me the most famous. The second, maintained by Matthieu Napoli is my prefered. Not because Matthieu is behind but because of its possibilities. Pimple is very close to our table and therefore necessarily more limited. <br/>
+                            <br/>
+                            To keep it understandable, here are two examples, always the same, using Pimple and PHP-DI.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <pre style="font-size: 1.25rem" class="absolute">
+                            <code class="php">$container = new Pimple\Container();
+
+$container['engine'] = function (): Engine {
+    return new Engine('standard');
+};
+$container['v8'] = new Engine('v8');
+$container['car'] = $container->factory(
+    function(Pimple\Container $c) {
+        new Car($c['v8']);
+    }
+);
+
+$maCar = $container['car'];
+</code>
+                        </pre>
+                        <pre style="font-size: 1.25rem" class="fragment absolute">
+                            <code class="php">$container = new DI\Container();
+
+$container->set('engine', function (): Engine {
+    return new Engine('standard');
+});
+$container->set('v8', new Engine('v8'));
+$container->(
+    'car',
+    DI\factory(function (ContainerInterface $c): Car {
+        new Car($c->get('v8'));
+    }
+);
+$maCar = $container->make('car');
+</code>
+                        </pre>
+                        <aside class="notes">
+                            We see that the use of these tools is still relatively the same. We declare our object definitions somewhere and then invoke the objects we are interested in next. <br/>
+                            <br/>
+                            However, as often when you find yourself having several implementations, it is not easy to switch from one to the other. What would be the point? This is a good question and it is sometimes difficult to find a good answer. An application built around a suite of tools rarely finds itself having to completely replace one brick by another.<br/>
+                            <br/>
+                            Even if it does, it is not the main motivation behind the standardization and recommendation around this or that pattern. However it's still possible to take care of your code the best way. Try to avoid being coupled too closely to an external dependency implementation.
+                        </aside>
+                    </section>
+                    <section data-background-image="img/container.jpg" class="left invert">
+                        <h1 class="highlight"><span>PSR11 and normalisation</span></h1>
+                        <aside class="notes">
+                            PHP-FIG, which wrote the various PSRs, is a group of open source software developers and maintainers. They have chosen to join forces to find a common direction to various issues of the PHP ecosystem. <br/>
+                            <br/>
+                            They started with the rules for writing code and autoloading. Then they worked on a lot of different topics, log management, caching, and also dependency injection containers. <br/>
+                            <br/>
+                            Their goal is to be able to define an abstraction on which to rely to build applications. In fact, like the objects we build, our applications also have dependencies. They depend on a whole lot of things, but most of them require a dependency injection container to work properly. <br/>
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>PSR11<small><small>An interface to rule them all</small></small></span></h1>
+                        <pre>
+                            <code class="php">namespace Psr\Container;
+
+interface ContainerInterface
+{
+    public function get($id);
+    public function has($id);
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            This is where "standardization" becomes interesting, one can declare that they need a container and then the end user is free to choose the one he prefers. Even better, I can write container-based libraries and ultimately share the same implementation as the rest of the application because all of them respect PSR-11. <br/>
+                            <br/>
+                            We can say, ok it's a very small interface, two methods… Did all the projects really have to work together to achieve this result? However, the fact that this interface exists is a real success for the ecosystem. It represents the consensus around this pattern. Then it's up to you to choose whether or not to use it, the end goal is interoperability between systems.
+                            <br/>
+                            These principles may seem complex but if we see an application as a set of bricks, they must adapt to each other. If I can limit the number of useful bricks it is ideal because there is less obscure parts in my code and my dependencies. I also have a clearer vision of what is happening where. <br/>
+                            <br/>
+                            Obviously when an application is clearer, it is easier to maintain over time.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/danger.jpg" class="left invert">
+                        <h1 class="highlight"><span>Is it really useful ?</span></h1>
+                        <aside class="notes">
+                            Obviously I wouldn't be here to tell you about it if I didn't believe it. But, if with these different points I have not yet convinced you, there is one that I have already approached that allows the dependency injection containers to shine.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>IDD <small>Interface Driven Development 🤩</small></span></h1>
+                        <pre style="font-size: 1.5rem" class="">
+                            <code class="php">interface Engine {
+    public function start(): bool;
+}
+
+interface Car {
+    public function goTo(Destination $destination): bool;
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            What is that ? To begin with, we are not going to write code but rather define behaviors. Going back to my basic example. I can create interfaces for these two concepts, `Engine` and `Car`. <br/>
+                            What is an engine for my application, what are these capacities? <br/>
+                            Then same question for the car, what is its interest, how to use it? <br/>
+                            We refine here the public API of our code while already declaring dependencies around the interfaces. <br/>
+                            Then I am free to create several implementations while respecting the contracts described by my interfaces. We end up with a little more code, of course, but it is now also easy to add new types of engines without disturbing the code. However, these contracts also serve as a guarantee for understanding the business needs to be met. If through my interfaces I can bring to light a good understanding of the problems to be solved, there is a good chance to succeed in solving them correctly.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>IDD <small>Interface Driven Development 🤩</small></span></h1>
+                        <pre style="font-size: 1.5rem" class="">
+                            <code class="php">class EngineV8 implements Engine
+{
+    public function start() {
+        $this->makeNoise();
+    }
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            We created here a specific implementation of a v8 engine. This class will therefore be able to precisely define the particularities of this engine. <br/>
+                            All that remains is to define all the useful implementations details for the project, write the definitions in the container and you're done. We get a robust code (be careful, I didn't say easy to write!).
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>IDD <small>Interface Driven Development 🤩</small></span></h1>
+                        <pre style="font-size: 1.5rem" class="">
+                            <code class="php">$container['v8'] = new EngineV8();
+$container['car'] = function () use ($container): Car {
+    return new Car($container['engine']);
+};
+
+$maCar = $container['car']();</code>
+                        </pre>
+                        <aside class="notes">
+                            To finish on this part, once these interfaces and implementations have been written, they must be connected together and this is where the container comes to play a key role. <br/>
+                            Finally the definitions do not change. I had already defined an implementation of `Engine` that I injected into the car. The only change is in what a v8 engine is. Now we use the specific implementation rather than the generic one. <br/>
+                            This interface logic is always interesting to use. Some will tell you that nothing can be written without an interface, I wouldn't be so closed. We all have constraints, the most important is to have an overview and several approaches to achieve a tested and stable result which meets the need! <br/>
+                            Then we always have a way to nitpick, to refactor, the perfect code does not exist and each developer sees things in their own way.
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/why.jpg" class="left invert">
+                        <h1 class="highlight"><span>Why using it ?</span></h1>
+                        <aside class="notes">
+                            Now that we've seen several ways to use this pattern, let's get back to more realistic things. As I have said several times, these containers are at the heart of your applications. <br/>
+                            <br/>
+                            The current trend is clearly towards the automation of the configuration, to hide as much as possible the internal complexity of the tools to make them more accessible. It's debatable but being aware of how it works overall is already very important.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 3rem" ><span>The hidden capabilities of your application?</span></h1>
+                        <pre style="font-size: 1.2rem" class="">
+                            <code class="php">class CustomQueryPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $container)
+    {
+        $container
+            ->getDefinition(UploadExam::class)
+            ->setArgument(
+                '$files',
+                $container->getDefinition('app.filesystem.tmp_dicom')
+            );
+    }
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            Now you will be able to dig a little deeper into the documentation and specific capabilities of your projects. <br/>
+                            <br/>
+                            Symfony for example will allow you to act during the container compilation to adapt the object behaviors. The emerged part is the use of `tags` in your` yaml` files. When compiling, Symfony uses them to properly set the objects together according to your preferences. <br/>
+                            Then you can go further and use the `CompilerPass` to act on certain points directly. <br/>
+                            To take a fairly common example, handling files. I am used to using the Flysystem library which offers an interesting abstraction for reading or writing files in a filesystem. This system can be a local folder, an Amazon S3 bucket, an FTP disk or other, the contract remains the same thanks to the interfaces. <br/>
+
+                            We can choose when compiling the container to inject a particular file system implementation into our object. We see here that we get the definition of a class `UploadExam` and that we are going to override the` $ files` parameter of the constructor to use another `app.filesystem.tmp_dicom` definition. <br/>
+                            Once this kind of object has been written, you need to register it in your application's Kernel and it'll be used. <br/>
+                            This is clearly a basic example, I invite you to look in the different components and Symfony bundle which uses a lot of `CompilerPass` to manage configurations.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 3rem"><span>Latest Symfony news ?</span></h1>
+                        <img src="img/tweet.png" />
+                        <aside class="notes">
+                            To continue on Symfony, I recently saw a Tweet that talks about using PHP8 attributes to declare the expected type of argument in a controller action. <br/>
+                            <br/>
+                            We declare a type attribute `CurrentUser` which will allow injecting the current user connected directly into the variable` $ user`.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 3rem"><span>Latest Symfony news ?</span></h1>
+                        <pre style="font-size: 1.2rem" class="">
+                            <code class="php">use App\Entity\MyUser;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
+class SomeController extends AbstractController
+{
+    public function index(#[CurrentUser] MyUser $user)
+    {
+        // ...
+    }
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            I'm quite amazed to see this kind of addition in the Framework… These are shortcuts for things already easily achievable using the dependency injection container. <br/>
+                            <br/>
+                            Of course, by using this type of syntax, we let Symfony entirely manage the mapping between our `$user` variable, so we get to the result faster. <br/>
+                            <br/>
+                            Except, without the dynamic implementation of this attribute in Symfony, my code is not testable. If this controller depends on the current user, I could quite create a service which allows to retrieve the connected user and inject this service as a dependency of my controller. A little more code but in my opinion a better control of what is going on in your application. <br/>
+                            <br/>
+                            I'm always a little scared by tools that are too magical or that do too many things for me. Not that I don't like writing less code to get the same result, but if tomorrow the implementation provided in the framework doesn't suit me, you always have to know how to bypass it to adapt the code. <br/>
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 3rem"><span>Convention or mastering tools?</span></h1>
+                        <p class="highlight"><span class="fragment">Ease, </span><span class="fragment">Documentation.</span></p>
+                        </pre>
+                        <aside class="notes">
+                            Do you want your code to follow strict conventions to get a result with as little code as possible? <br/>
+                            <br/>
+                            ▶ Most developers I know will say yes, including me. The problem is, as usual, not to be locked into a framework with its conventions. When you use a convention you have to know that you are doing it and above all you have to keep a vision of what is going on behind it. <br/>
+                            <br/>
+                            If we know that it's a shortcut, that we know how to do it differently, then of course we don't hesitate to use it! As I often say, developers are lazy and need to be. They should try to write as little code as possible to solve the problems presented to them. <br/>
+                            <br/>
+                            ▶ However, a developer must also know his tools well because if there is a problem, and there always will be, he must be able to fix the bug quickly rather than getting lost in documentation or StackOverflow. <br/>
+                            <br/>
+                            Finally, I'm not saying that the Symfony community did wrong to integrate this type of attribute. Let's keep a critical eye, all tools have their strengths and weaknesses. We are PHP developers, not Symfony or Laravel. Try to know the patterns, to think about the architecture of your code and you will see that more and more you will find simple and reliable solutions to complex problems whether with conventions or your own code!
+                            <br/>
+                        </aside>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section class="invert" data-background-image="img/thank-you.jpg">
+                    <aside class="notes">
+                        Thanks for your attention.
+                    </aside>
+                </section>
+            </div>
+        </div>
+
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                pdfSeparateFragments: false,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            mermaid.initialize({startOnLoad:true});
+        </script>
+    </body>
+</html>

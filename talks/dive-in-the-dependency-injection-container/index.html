@@ -227,11 +227,11 @@
                         <aside class="notes">
                             Les implémentations de conteneurs peuvent paraître complexes et certaines le sont vraiment. Cependant, pour simplifier les choses, on peut imaginer qu'on créé un tableau de définition d'objet.<br/>
                             <br/>
-                            Il faut savoir que certaines implémentations réelles comme le projet Pimple sont aussi simple.
+                            Il faut savoir que certaines implémentations réelles comme le projet Pimple sont aussi basiques.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Une version simpliste</span></h1>
+                        <h1 class="highlight"><span>Une version basique</span></h1>
                         <pre style="font-size: 1.35rem" class="">
                             <code class="php">class Moteur
 {
@@ -243,27 +243,11 @@
                         </pre>
                         <aside class="notes">
                             Prenons d'abord deux objets : `Voiture` et `Moteur`. Notre objet Voiture a besoin d'un Moteur pour fonctionner. Jusque la tout le monde me suis j'imagine.<br/>
-                            L'exemple est volontairement très simple, un moteur doit avoir uniquement un nom.
+                            L'exemple est volontairement très limité, un moteur doit avoir uniquement un nom.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Une version simpliste</span></h1>
-                        <pre style="font-size: 1.75rem" class="">
-                            <code class="php">$container = [
-    'moteur' => static function (): Moteur {
-        return new Moteur('standard');
-    },
-    'v8' => new Moteur('v8')
-];</code>
-                        </pre>
-                        <aside class="notes">
-                            On déclare ensuite dans notre tableau, différentes façons de créer un moteur, la seule contrainte est d'utiliser des noms différents. Bien sur en PHP, je ne peux pas voir dans un tableau deux valeurs différentes pour la même clé.<br/>
-                            <br/>
-                            Ce qu'il est important de noter ici est la différence entre une methode de construction par exemple notre première fonction, et une référence à une instance réelle en mémoire. La première nous renverra toujours un nouvel objet à chaque appel alors que la seconde nous transmet toujours le même objet. Ainsi on peut partager un objet dans notre application.
-                        </aside>
-                    </section>
-                    <section class="left invert">
-                        <h1 class="highlight"><span>Une version simpliste</span></h1>
+                        <h1 class="highlight"><span>Une version basique</span></h1>
                         <pre style="font-size: 1.75rem" class="absolute top120">
                             <code class="php">class Voiture
 {
@@ -295,7 +279,23 @@
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Une version simpliste</span></h1>
+                        <h1 class="highlight"><span>Une version basique</span></h1>
+                        <pre style="font-size: 1.75rem" class="">
+                            <code class="php">$container = [
+    'moteur' => static function (): Moteur {
+        return new Moteur('standard');
+    },
+    'v8' => new Moteur('v8')
+];</code>
+                        </pre>
+                        <aside class="notes">
+                            On déclare ensuite dans un tableau, différentes façons de créer un moteur, la seule contrainte est d'utiliser des noms différents. Bien sur en PHP, je ne peux pas voir dans un tableau deux valeurs différentes pour la même clé.<br/>
+                            <br/>
+                            Ce qu'il est important de noter ici est la différence entre une methode de construction par exemple notre première fonction, et une référence à une instance réelle en mémoire. La première nous renverra toujours un nouvel objet à chaque appel alors que la seconde nous transmet toujours le même objet. Ainsi on peut partager un objet dans notre application.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Une version basique</span></h1>
                         <pre style="font-size: 1.5rem" class="">
                             <code class="php">$container['voiture'] = function () use ($container): Voiture {
     return new Voiture($container['moteur']);
@@ -304,7 +304,7 @@
 $maVoiture = $container['voiture']();</code>
                         </pre>
                         <aside class="notes">
-                            Je peux maintenant mettre à jour mon "conteneur" qui est toujours un simple tableau de définition, pour qu'il soit capable de construire plusieurs modèle de `Voiture` avec des moteurs différents.<br>
+                            Je peux maintenant mettre à jour mon "conteneur" qui est toujours un tableau de définition, pour qu'il soit capable de construire plusieurs modèle de `Voiture` avec des moteurs différents.<br>
                             <br>
                             On note l'uitlisation de l'instruction `use` dans la définition de la fonction qui me permet d'injecter la liste des définitions connues pour l'utiliser.<br>
                             ▶ Je sais maintenant comment initialiser une Voiture dans mon application. Il me suffit d'appeler la bonne fonction pour en générer une.
@@ -340,15 +340,15 @@ voiture:
                         </p>
                         <aside class="notes">
                             ▶ Grâce à ce pattern, il est possible de plus facilement découpler les objets les uns des autres, les implémentations des interfaces. Un objet déclare ses dépendances et le conteneur les résoud.
-
+                            <br/>
                             Avant d'aller plus loin, qu'est-ce qu'on appelle une dépendance. On parle d'objet pour l'instant mais on peut généraliser ce principe à tout ce dont l'objet a besoin pour fonctionner: une configuration, un autre objet, un flag…
-
+                            <br/>
                             ▶ Le fait d'utiliser un objet pour construire les objets est aussi intéressant car il permet de se poser des questions. On est pas dans le mode, je construit tout petit à petit en tombant des lignes de code. Ce conteneur va permettre de réfléchir à l'architecture du code, aux intéractions entre les objets et c'est vraiment intéressant !
-
-                            Un exemple simple est l'utilisation plus générales d'interfaces. À partir de la on définit plusieurs implémentations et on peut les assembler pour répondre finement à notre besoin. Chaque objet peut donc être réduit à son plus simple appareil, il faut une chose et le fait bien. Il dépend d'autres choses qui lui sont fournies pour fonctionner.
-
+                            <br/>
+                            Un exemple courant est l'utilisation plus générales d'interfaces. À partir de la on définit plusieurs implémentations et on peut les assembler pour répondre finement à notre besoin. Chaque objet peut donc être réduit à son plus simple appareil, il faut une chose et le fait bien. Il dépend d'autres choses qui lui sont fournies pour fonctionner.
+                            <br/>
                             ▶ On se rapproche des grands principes comme SOLID ou KISS qui, même s'ils ne sont pas des concepts à suivre bêtement aide à avoir un code clair, testable et maintenable dans le temps.
-
+                            <br/>
                             Bien sur ces principes sont applicables dans tout les cas lorsqu'on fait du développement orienté objet. Cependant le point central que nous offre le conteneur facilite les choses car toute l'application est initialisée à partir des règles qu'il contient. Seuls les objets utiles en fonction du contexte sont créés et la réponse finale est fournie à l'utilisateur.
                         </aside>
                     </section>
@@ -457,7 +457,7 @@ $maVoiture = $serviceManager->get('voiture');
                             <br/>
                             Pimple, PHP-DI sont pour moi les deux plus connus. Le second, maintenu par Matthieu Napoli à ma préférence. Non pas parce que Matthieu est derrière mais par ses possibilités. Pimple est très proche de notre tableau et donc forcément plus limité.<br/>
                             <br/>
-                            Pour faire simple, voici deux exemples, toujours les mêmes, utilisant Pimple et PHP-DI.
+                            Pour rester dans la même lignée, voici deux exemples, toujours les mêmes, utilisant Pimple et PHP-DI.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -508,7 +508,7 @@ $maVoiture = $container->make('voiture');
                             <br/>
                             Ils ont commencé avec les règles d'écriture de code et l'autoloading. Ensuite ils ont travaillé sur pas mal de sujets différent, la gestion des logs, le cache, et aussi les conteneurs d'injection de dépendance.<br/>
                             <br/>
-                            Leur objectif est simple, être capable de définir une abstraction sur laquelle s'appuyer pour construire des applications. En réalité, comme les objets que nous construisons, nos applications ont aussi des dépendances. Elles dépendent de tout un tas de choses mais surtout elles ont besoin d'un conteneur d'injection de dépendances pour fonctionner.<br/>
+                            Leur objectif est clair, être capable de définir une abstraction sur laquelle s'appuyer pour construire des applications. En réalité, comme les objets que nous construisons, nos applications ont aussi des dépendances. Elles dépendent de tout un tas de choses mais surtout elles ont besoin d'un conteneur d'injection de dépendances pour fonctionner.<br/>
                         </aside>
                     </section>
                     <section class="left invert">
@@ -525,7 +525,7 @@ interface ContainerInterface
                         <aside class="notes">
                             C'est la que la "normalisation" devient intéressante, ont peut déclarer avoir besoin d'un conteneur et ensuite libre à l'utilisateur final de choisir celui qu'il préfère. Encore mieux, je peux écrire des librairies s'appuyant sur un conteneur et au final partager le même que le reste de l'application parce que tous respectent la PSR-11.<br/>
                             <br/>
-                            On peut dire, ok c'est une interface toute simple, deux méthodes… Est-ce qu'il a vraiment fallu que tous les projets travaillent ensemble pour aboutir à ce résultat ? Pourtant, le fait que cette interface existe est une vraie réussite pour l'ecosystème. Elle représente le consensus autour de ce pattern. Ensuite libre à vous de choisir de l'utiliser ou non, l'objectif final est l'interopérabilité entre les systèmes.
+                            On peut dire, ok c'est une interface toute basique, deux méthodes… Est-ce qu'il a vraiment fallu que tous les projets travaillent ensemble pour aboutir à ce résultat ? Pourtant, le fait que cette interface existe est une vraie réussite pour l'ecosystème. Elle représente le consensus autour de ce pattern. Ensuite libre à vous de choisir de l'utiliser ou non, l'objectif final est l'interopérabilité entre les systèmes.
                             <br/>
                             Ces principes paraissent peut être complexes mais si on voit une application comme un ensemble de briques, il faut qu'elles s'adaptent les unes aux autres. Si je peux limiter le nombre de briques utiles c'est l'idéal car il y a moins de flou dans mon code et j'ai une vision plus claire de ce qu'il s'y passe.<br/>
                             <br/>
@@ -572,7 +572,7 @@ interface Voiture {
                         </pre>
                         <aside class="notes">
                             On créé ici une implémentation spécifique du moteur v8. Cette classe va donc pouvoir définir précisement les particularités de ce moteur.<br/>
-                            Il ne reste plus qu'à définir toutes les implémentations utiles au projet, écrire les définitions dans le conteneur et le tour est joué. On obtient un code robuste et simple (attention je n'ai pas dit facile à écrire !).
+                            Il ne reste plus qu'à définir toutes les implémentations utiles au projet, écrire les définitions dans le conteneur et le tour est joué. On obtient un code robuste (attention je n'ai pas dit facile à écrire !).
                         </aside>
                     </section>
                     <section class="left invert">
@@ -627,7 +627,7 @@ $maVoiture = $container['voiture']();</code>
 
                             On peut choisir au moment de la compilation du conteneur d'injecter tel ou tel implémentation de système de fichier dans notre objet. On voit ici qu'on récupère la définition d'un classe `UploadExam` et qu'on va surcharger le paramètre `$files` du constructeur pour utiliser une autre définition `app.filesystem.tmp_dicom`.<br/>
                             Une fois ce genre d'objet écrit, il suffit de l'enregistrer dans le Kernel de votre application pour qu'il soit utilisé.<br/>
-                            C'est clairement un exemple très simple, je vous invite à regarder dans les différents composants et bundle Symfony qui utilise beaucoup des `CompilerPass` pour gérer les configurations écrites en YAML.
+                            C'est clairement un exemple très naif, je vous invite à regarder dans les différents composants et bundle Symfony qui utilise beaucoup des `CompilerPass` pour gérer les configurations écrites en YAML.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -677,7 +677,7 @@ class SomeController extends AbstractController
                             <br/>
                             ▶ Cependant un développeur se doit aussi de bien connaitre ses outils parce que s'il y a un problème, et il y en aura toujours, il doit pouvoir corriger le bug rapidement plutôt que se perdre dans de la documentation ou StackOverflow.<br/>
                             <br/>
-                            Pour finir, je ne dis pas que la communauté Symfony a mal fait d'intégrer ce type d'attribut. Gardons un oeil critique, tout les outils ont leur force et leur faiblesse. Nous sommes des développeurs PHP, pas Symfony ou Laravel. Essayez de connaitre les patterns, de réfléchir à l'architecture de votre code et vous verrez que de plus en plus vous trouverez des solutions simples et fiables aux problèmes complexes que ce soit avec des conventions ou votre propre code !
+                            Pour finir, je ne dis pas que la communauté Symfony a mal fait d'intégrer ce type d'attribut. Gardons un oeil critique, tout les outils ont leur force et leur faiblesse. Nous sommes des développeurs PHP, pas Symfony ou Laravel. Essayez de connaitre les patterns, de réfléchir à l'architecture de votre code et vous verrez que de plus en plus vous trouverez des solutions élégantes et fiables aux problèmes complexes que ce soit avec des conventions ou votre propre code !
                             <br/>
                         </aside>
                     </section>
