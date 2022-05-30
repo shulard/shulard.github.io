@@ -1005,21 +1005,18 @@ $author = new Author($request->get('name'), $email);
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Validation errors ?</span></h1>
-                        <pre style="font-size: 1.2rem" class="">
-                            <code class="php" data-line-numbers>{
+                        <pre style="font-size: 1.2rem" class=""><code class="php" data-line-numbers>{
     "starts_at": "2022-01-01 00:00:00",
     "author": {
         "name": "",
         "email": "nelson.mandelamail.com"
     }
-}</code>
-                        </pre><pre style="font-size: 1.2rem" class="fragment">
-                            <code class="json">{
+}</code></pre>
+                        <pre style="font-size: 1.2rem" class="fragment"><code class="json">{
     "expiresAt.value": "Cannot be empty and must be filled with a value matching type.",
     "author.email": "Email nelson.mandelamail.com is not valid.",
     "author": "Author name can't be empty."
-}</code>
-                        </pre>
+}</code></pre>
                         <aside class="notes">
                             As I already said, Valinor is able to extract the list of all errors which applies on an input.
                             <br/>
