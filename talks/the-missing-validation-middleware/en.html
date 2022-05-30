@@ -170,6 +170,34 @@
                         <span>Stéphane Hulard&nbsp;-&nbsp;PHP Conference Berlin&nbsp;<time datetime="2022-05-31">2022</time></span>
                     </p>
                     <aside class="notes">
+                        Welcome to my presentation, I'm glad to be there in person.
+                        <br/>
+                        I'll start with a quick introduction of myself.
+                        <br/>
+                        Then, we are going to talk about middlewares, what they are and how they can be useful in your code.
+                        <br/>
+                        We'll continue with data validation. To keep my talk consistent I'll take a small example which will be used in every step.
+                        <br/>
+                        I'll try to explain how validation can be done inside your code in different ways and I'll show some limitations that I found in those solutions.
+                        <br/>
+                        We'll finally discover Valinor, a PHP library that can help you ensure data validation and object consistency inside your code. We'll talk about immutability and object internal state. I'll try to show you how it can help writing cleaner code in your projects.
+                        <br/>
+                        I know all these subjects are very technical, if you have questions we'll have some time at the end of the talk. I'll be there so don't be shy and reach me after if you want to discuss.
+                        <!--
+                        Une intro digne de ce nom pour expliquer ce qu'on va voir
+
+                        Présenter notre exemple à valider pour le fil conducteur:
+                        Un point d'API pour mettre un jour un auteur et bien réappuyer
+                        le pourquoi on fait chaque étape.
+
+                        Revoir la partie What And Why
+                        Mettre des slides intercalaires entre les parties code pour rappeler les points importants
+
+                        Corriger les soucis sur le code
+                        Remettre les exceptions dans le constructeur Author
+
+                        Une conclusion ou je décris dans quel contexte c'est pertinent
+                        -->
                     </aside>
                 </section>
                 <section class="invert">
@@ -190,11 +218,13 @@
                         <span class="fragment">Contributor.</span>
                     </p>
                     <aside class="notes">
-                        I'll start with a quick prestation. I'm Stephane Hulard, I lead a small French company named CH Studio. We are specialized in PHP software development and help our customers build state of the art web application. I also love working on legacy projects to help the teams take them back.
+                        So I'm Stephane Hulard.
+                        <br/>
+                        ▶ I lead a small French company named CH Studio. We are specialized in PHP software development and help our customers build state of the art web application. I also love working on legacy projects to help the teams take them back.
                         <br/><br/>
                         ▶ I'm also a trainer, mainly around the software quality tools and methods.
                         <br/>
-                        ▶ Finally, I'm also a contributor. I try to work on Open Source, read a lot of community content and attend conferences. Those different actions help me having a real life vision regarding my work and my daily routine.
+                        ▶ Finally, I'm a contributor. I try to work on Open Source, read a lot of community content and attend conferences. Those different actions help me having a real life vision regarding my work and my daily routine.
                     </aside>
                 </section>
 <!--#########################################################################-->
@@ -202,7 +232,7 @@
                     <section class="invert" data-background-image="img/magnifying-glass.jpg">
                         <h1 class="highlight white"><span>Middleware ?</span></h1>
                         <aside class="notes">
-                            Let's start with some concept. This talk title is about validation and middleware.
+                            First, some concept. This talk title is about validation and middleware.
                             <br/>
                             Middleware is a development pattern which allows encapsulating different layer of logic between the inside and the outside of the application.
                         </aside>
@@ -213,13 +243,11 @@
                         <aside class="notes">
                             If you try to represent your application like an onion, you get something like this.
                             <br/>
-                            If you use some development framework like Symfony, Laravel or anything similar you might be familiar with this representation. If you use something else in your development workflow, I'm sure it can be expressed like this.
-                            <br/>
                             In a web context, everything starts with a <code>Request</code>. This <code>Request</code> is composed of different parts that can be analyzed by your code to return a <code>Response</code>.
                             <br/>
-                            Authentication, Routing, Cache, Content-Type validation are parts of every web application and our frameworks allow us to reuse the logic easily between different projects.
+                            If you take a step back for every program even outside the web, you can have the same logic. There is always an input, our program, then an output.
                             <br/>
-                            For sure we can extend this logic to every kind of application, command line, desktop, APIs… There is always an input, our program logic then an output.
+                            I shown here four layers, we'll go deeper in the input validation after. We can have a lot of different layers.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -234,19 +262,13 @@
                             <span class="fragment"><strong>OUT:</strong>&nbsp;Filtering, Adaptation, Response</span>
                         </p>
                         <aside class="notes">
-                            In my head, I split everything in three layers.
+                            For me, a program logic can be splitted in three parts.
                             <br/>
-                            ▶ The first one is for the input. We can control the Request,
-                            verify that it is valid and can be handled by the application.
+                            ▶ The first one is for the input. We got a raw input, we can manipulate and validate it until it reaches the application code at the heart of our onion. In this part, we are also booting the application, loading the PHP code and everything that is mandatory to handle the request.
                             <br/>
-                            ▶ Here, the framework Kernel will be initialized, the route will be checked, and we can also work on the data built inside the request
-                            to prepare its processing by the application.
+                            ▶ After that we arrive in the internal application code, also known as the <code>Controller</code>. Its job is to make something interesting with the request. This is where your specific logic is executed so it's important to limit the boilerplate code.
                             <br/>
-                            ▶ After all these steps, we can reach the internal application code, also known as the <code>Controller</code>. Its job is to handle the request and produce a <code>Response</code>. This is where your domain logic is executed so it's important to limit the boilerplate code.
-                            <br/>
-                            ▶ Finally, we can add some logic around the  Controller's response, this is the output.
-                            <br/>
-                            ▶ For example we can enforce some HTTP headers, convert to a specific format… This is also in this part that the Framework kernel lifecycle will be ended.
+                            ▶ Finally, we can add some logic around the  Controller's response, this is where we build the output. For example we can enforce some HTTP headers, convert to a specific format… This is also in this part that the Framework kernel lifecycle will be ended.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -257,7 +279,7 @@
                         <aside class="notes">
                             There are different official implementations depending the project and the framework.
                             <br/>
-                            I think that the most important one is the PSR-15. If you're not familiar with PSRs, it's an acronym that means PHP Standard Recommandation. It's a user group which represent most of the important projects in our ecosystem. They try to find common solutions to different patterns in PHP, the PSR-15 is one of them related to Middlewares and Server Request handlers.
+                            I think that the most important one is the PSR-15. If you're not familiar with PSRs, it's an acronym that means PHP Standard Recommandation. It's a user group which represents most of the important open source projects in our ecosystem. They try to find common solutions to different patterns in PHP, the PSR-15 is one of them related to Middlewares and Server Request handlers.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -272,9 +294,10 @@ class Authenticate implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         try {
-            $user = $this->authenticator->authenticate($request);
-        } catch (AuthenticationError $error) {
-            return new Response(401, 'You must log in.');
+            $payload = $request->getContent();
+            /** Execute here validation logic and extract object */
+        } catch (ValidationError $error) {
+            return Response::fromValidationError(422, $error);
         }
 
         return $handler->handle($request);
@@ -291,9 +314,10 @@ class Authenticate implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         try {
-            $user = $this->authenticator->authenticate($request);
-        } catch (AuthenticationError $error) {
-            return new Response(401, 'You must log in.');
+            $payload = $request->getContent();
+            /** Execute here validation logic and extract object */
+        } catch (ValidationError $error) {
+            return Response::fromValidationError(422, $error);
         }
 
         return $handler->handle($request);
@@ -301,7 +325,7 @@ class Authenticate implements MiddlewareInterface
 }</code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="5-8,,15">namespace App\Infrastructure\Http\Middlewares;
+                            <code class="php" data-line-numbers="5-8,16">namespace App\Infrastructure\Http\Middlewares;
 
 class Authenticate implements MiddlewareInterface
 {
@@ -310,9 +334,10 @@ class Authenticate implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         try {
-            $user = $this->authenticator->authenticate($request);
-        } catch (AuthenticationError $error) {
-            return new Response(401, 'You must log in.');
+            $payload = $request->getContent();
+            /** Execute here validation logic and extract object */
+        } catch (ValidationError $error) {
+            return Response::fromValidationError(422, $error);
         }
 
         return $handler->handle($request);
@@ -320,7 +345,7 @@ class Authenticate implements MiddlewareInterface
 }</code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="9-13">namespace App\Infrastructure\Http\Middlewares;
+                            <code class="php" data-line-numbers="9-14">namespace App\Infrastructure\Http\Middlewares;
 
 class Authenticate implements MiddlewareInterface
 {
@@ -329,9 +354,30 @@ class Authenticate implements MiddlewareInterface
         RequestHandlerInterface $handler
     ): ResponseInterface {
         try {
-            $user = $this->authenticator->authenticate($request);
-        } catch (AuthenticationError $error) {
-            return new Response(401, 'You must log in.');
+            $payload = $request->getContent();
+            /** Execute here validation logic and extract object */
+        } catch (ValidationError $error) {
+            return Response::fromValidationError(422, $error);
+        }
+
+        return $handler->handle($request);
+    }
+}</code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="php" data-line-numbers="9-16">namespace App\Infrastructure\Http\Middlewares;
+
+class Authenticate implements MiddlewareInterface
+{
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+        try {
+            $payload = $request->getContent();
+            /** Execute here validation logic and extract object */
+        } catch (ValidationError $error) {
+            return Response::fromValidationError(422, $error);
         }
 
         return $handler->handle($request);
@@ -341,45 +387,50 @@ class Authenticate implements MiddlewareInterface
                         <aside class="notes">
                             The PSR-15 use the Chain of Responsibility pattern. It's designed in a way that we can combine every object in a specific order to obtain a result.
                             <br/>
-                            Here is a sample code that I simplified a bit to allow the code to fit in a slide.
+                            Here is a sample code about a validation middleware. I've simplified it a bit to allow the code to fit in a slide but the important part are there.
                             <br/>
                             ▶ You can see that our class extends MiddlewareInterface.
                             <br/>
                             ▶ It enforces us to implement the process method which takes the Request and the next handler to be applied.
                             <br/>
-                            ▶ Our goal here is to generate a response, in my quick example I try to authenticate and return a 401 response if I can't.
+                            ▶ Our goal here is to generate a response, if the validation part fails, I can stop the process here and return a 422 response.
                             <br/>
-                            We can see the Controller execution in our application as a kind of Middleware.
+                            ▶ If you are not familiar with Middlewares it might not be easy to understand. However if we look at the onion picture we can see that we have the input part. Here we are validating the request content. Then we give the request to the next layer. If I want to work on the output, I can retrieve the response from the next layer in a variable and execute some logic on it.
+                            <br/>
+                            The Chain of Responsibility pattern allow us to build the different layers of our onion.
+                            <br/>
+                            I show you this code because I find it easier to understand but in your framework of choice it can be different and use Events for example.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Return early</span></h1>
-                        <p class="highlight">
-                            <span>Validate everything before reaching application code</span>
-                        </p>
-                        <p class="highlight">
-                            <span>Centralize logic for easier maintenance</span>
-                        </p>
+                        <h1 class="highlight"><span>Advantages ?</span></h1>
+                        <p class="highlight"><span>Validate everything before reaching application code …</span></p>
+                        <p class="highlight"><span class="fragment">… Combine and reuse objects easily …</span></p>
+                        <p class="highlight"><span class="fragment">… Centralize logic for easier maintenance.</span></p>
                         <aside class="notes">
                             Using this chain is interesting because it allows stopping the process directly when we know the Response that can be returned.
                             <br/>
                             We execute only the relevant code and we can split all the different parts in specific objets that can be combined together.
+                            <br/>
+                            ▶ You want authentication, cache, or ensure the response is a JSON, just add the Middleware layer…
+                            <br/>
+                            ▶ Every layer can also be updated or replaced without breaking the whole chain.
                         </aside>
                     </section>
                 </section>
                 <section>
                     <section class="" data-background-image="img/magnifying-glass.jpg">
-                        <h1 class="highlight white"><span class="white">Validation ?</span><span><sub>What and why…</sub></span></h1>
+                        <h1 class="highlight white"><span class="white">Validation ?</span><span><sub>Why and How ?</sub></span></h1>
                         <aside class="notes">
-                            Now that we are familiar with the concept of Middleware, we can come back the the validation. In most of the web application I worked with, I found that the input validation is bloated inside the controller.
+                            Now that we are familiar with the concept of Middleware, we can come back to the validation. In most of the web application I worked with, I found that the input validation is bloated inside the controller.
                             <br/>
-                            I'm not sure it's a bad thing but I tried to improve it to have clean Domain Centric controllers.
+                            This forces to duplicate validation code when we manipulate the same data in multiple places.
                             <br/>
-                            So we have data that enters and leaves our application, it might be HTTP requests, CSV files or anything else. The code that we wrote is written to handle specific data.
+                            If you work on a small project it might not be a problem but when the codebase will grow, having every piece of logic contained in an object and reused when we need it help a lot. Easier to understand, easier to evolve, you'll thank your future you to have though this way.
                             <br/>
-                            It's hard for me to imagine a software that can handle any kind of data and that it will be able to produce something relevant with it.
+                            The input validation process for me is a part of those contained object. We wait for something, most of the time a highly structured input, then we manipulate it and we come back with a result. If I can express every possible input in an object, I can delegate all the validation logic to ensure that when I read my Controller, everything is ready to use.
                             <br/>
-                            We wait for something, most of the time a highly structured input, then we manipulate it and we come back with a Response.
+                            No more isset, no more array_key_exists or other structure controls. You create an object with a valid signature, expose some methods and you'll use them safely. It's safe because if an error is found, you'll never reach the Controller thanks to the Middleware.
 
                         <!--
                             Mais du coup qu'est-ce que ça veut dire, valider…
@@ -442,17 +493,181 @@ class Authenticate implements MiddlewareInterface
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>What validation means ?</span></h1>
+                        <h1 class="highlight"><span class="white">Start with a problem…</span></h1>
+                        <p class="highlight"><span>A <code>Contract</code> management project:</span></p>
+                        <p class="highlight">
+                            <span>▶ As a <code>User</code> I want to create a <code>Contract</code>.</span><br/>
+                            <span>▶ A <code>Contract</code> is composed of dates and an <code>Author</code>.</span><br/>
+                            <span>▶ An <code>Author</code> is identified by its <code>Email</code> address.</span>
+                        </p>
+                        <pre style="font-size: 1.2rem" class="fragment">
+                            <code class="json" data-line-numbers>POST /contracts
+
+{
+    "starts_at": "2022-01-01 00:00:00",
+    "expires_at": "2022-12-31 00:00:00",
+    "author": {
+        "name": "Neslon Mandela",
+        "email": "nelson.mandela@mail.com"
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            As software developers our goal is to solve problems. For this we write code but we need to understand clearly the problem to find a correct solution.
+                            <br/>
+                            Here I express a small user story from a contract management project. I want to be able to create a contract so I wrote the expectations. We can see 3 main concepts that can be extracted: Contract, Author, Email.
+                            <br/>
+                            ▶ We can materialize this requirement by adding a new API endpoint in our project which will take the given JSON payload as input.
+                            <br/>
+                            We now have an input and you can see that it's well defined. We can represent those fields inside some objects that will ensure a consistent state. If we are able to build the object, the data is valid, if not, we might send some errors back to the user.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span class="white">Define objects: Contract</span></h1>
+                        <pre style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers>class Contract
+{
+    public function __construct(
+        private DateTimeInterface $startsAt,
+        private DateTimeInterface $expiresAt,
+        private Author $author
+    ) {
+        if ($expiresAt < $startsAt) {
+            throw new InvalidArgumentException(
+                '"expiresAt" date must be after "startsAt".'
+            );
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="highlight"><span>✅️: <code>"expiresAt"</code> must be after <code>"startsAt"</code></span></p>
+                        <aside class="notes">
+                            If you're not familiar with this syntax, it use PHP 8.1 promoted properties. I define a Contract object to represent the relevant data and the rules. I don't want the startsAt date to be after the expiration date. When defining an object I must ensure all the rules are applied.
+                            <br/>
+                            This is important because I never know in advance where my object will be used. It must be strict and exhaustive, I chose to represent a piece of information, I want consistency in it.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span class="white">Define objects: Author</span></h1>
+                        <pre style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers>class Author
+{
+    public function __construct(
+        private string $name,
+        private Email $email
+    ) {
+        if (empty($name)) {
+            throw new InvalidArgumentException(
+                "Author name can't be empty."
+            );
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="highlight"><span>✅️: <code>"name"</code> must not be empty.</span></p>
+                        <aside class="notes">
+                            Same here with a Author object. You can see a different rule, I want to be sure that my author name is not empty.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span class="white">Define objects: Email</span></h1>
+                        <pre style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers>class Email
+{
+    public function __construct(
+        private string $email
+    ) {
+        if (false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException(
+                "Email $email is not valid."
+            );
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="highlight"><span>✅️: <code>"email"</code> must be compliant to RFC.</span></p>
+                        <aside class="notes">
+                            Finally, the Email object. It's important to make a clear difference between an Email and a simple string in your code. Whenever you can trust your methods inputs, you'll have simpler code to read and use.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span class="white">Object hierarchy</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="json" data-line-numbers>{
+    "starts_at": "2022-01-01 00:00:00",
+    "expires_at": "2022-12-31 00:00:00",
+    "author": {
+        "name": "Neslon Mandela",
+        "email": "nelson.mandela@mail.com"
+    }
+}
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="json" data-line-numbers="2,3,4">{
+    "starts_at": "2022-01-01 00:00:00",
+    "expires_at": "2022-12-31 00:00:00",
+    "author": {
+        "name": "Neslon Mandela",
+        "email": "nelson.mandela@mail.com"
+    }
+}
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="json" data-line-numbers="5,6">{
+    "starts_at": "2022-01-01 00:00:00",
+    "expires_at": "2022-12-31 00:00:00",
+    "author": {
+        "name": "Neslon Mandela",
+        "email": "nelson.mandela@mail.com"
+    }
+}
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="json" data-line-numbers="6">{
+    "starts_at": "2022-01-01 00:00:00",
+    "expires_at": "2022-12-31 00:00:00",
+    "author": {
+        "name": "Neslon Mandela",
+        "email": "nelson.mandela@mail.com"
+    }
+}
+                            </code>
+                        </pre>
+                        <p class="highlight bottom"><span>3 objects to express our input: "Contract", "Author", "Email"</span></p>
+                        <aside class="notes">
+                            When we work on our code, it's important to describe the expectations.
+                            Handling an input requires expectations, we need to be sure that we have everything in it before executing the inner logic in our software.
+                            <br/>
+                            In the JSON payload I shared with you at the beginning of this section, we can retrieve the 3 objects hierarchy.
+                            <br/>
+                            ▶ Contract, ▶ Author, ▶ Email.
+                            <br/>
+                            We have answered the Why. This is exactly why validation is important in our projects. Now let's see how we can validate our input and build our objects.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Back to basics</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
                             <code class="php" data-line-numbers>/**
- * @param User $user
- * @param int $age
- * @return string
+ * @param DateTimeInterface $startsAt
+ * @param DateTimeInterface $expiresAt
+ * @param string $authorName
+ * @param string $authorEmail
  */
-function foobar($user, $age)
-{
+function createContract(
+    $startsAt,
+    $expiresAt,
+    $authorName,
+    $authorEmail
+) {
     /** code logic */
-    return $computedValue;
 }
                             </code>
                         </pre>
@@ -461,96 +676,96 @@ function foobar($user, $age)
                             <br/>
                             Those parameters can have a specific type and the return value another.
                             <br/>
-                            Now we can go back in time and look at this documented signature.
+                            Here I just added a docblock comment to describe expectations.
                             <br/>
-                            We can see that this comment tell us the parameters type. We have a User object and an integer as input and we return a string.
-                            <br/>
-                            Here we have a first validation layer, the Human part. The code is explicit enough we know what is required and what is expected.
+                            We can see that this comment tell us the parameters type, we have a first validation layer, the Human. The code is explicit enough we know what is required and what is expected.
                         </aside>
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Break it easily…</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>foobar(
-    ['a', 'super', 'array', 'not', 'an', 'object'],
-    'a string, not an int'
+                            <code class="php" data-line-numbers>createContract(
+    'a',
+    'a',
+    -18,
+    0
 );
 
-// Error in the function body because $user is an array and $age a string.
+// Error in the function body because parameters have the wrong type.
                             </code>
                         </pre>
                         <aside class="notes">
-                            Here, nothing prevent us to call the defined function with some wrong parameters. For sure, we can leverage the language to help us avoiding some mistakes.
+                            The problem here is that nothing prevent us to call the function with some wrong parameters values.
                             <br/>
-                            And it's what type hinting is about !
+                            Today, we can leverage the language to help us avoiding some mistakes, this is called static type hinting !
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Static type hinting !</span></h1>
+                        <h1 class="highlight"><span>With static type hinting !</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>function foobar(User $user, int $age): string
-{
+                            <code class="php" data-line-numbers>function createContract(
+    DateTimeInterface $startsAt,
+    DateTimeInterface $expiresAt,
+    string $authorName,
+    string $authorEmail
+) {
     /** code logic */
-    return $computedValueString;
 }
                             </code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers>foobar(
-    ['a', 'super', 'array', 'not', 'an', 'object'],
-    'a string, not an int'
+                            <code class="php" data-line-numbers>createContract(
+    'a',
+    'a',
+    -18,
+    0
 );
 
-// Type error: Argument 1 passed to foobar() must be User, array given,
+// Type error: Argument 1 passed to createContract() must be DateTimeInterface, string given,
 // called in xxx.php on line xx
                             </code>
                         </pre>
                         <aside class="notes">
-                            Now, PHP will help us validating the data. You can see that the function signature was updated. Here I take a function as example because it's small and easier to understand but you can also apply this to you class methods and propreties.
+                            Now, PHP will help us validating the data. You can see that the function signature was updated. I applied the typing on a function here because it's simple for my slides but you can apply this to you class methods and propreties.
                             <br/>
-                            ▶ If you try to give an array instead of a User instance, you'll get a <code>TypeError</code>.
+                            ▶ If you try to give a string instead of a DateTimeInterface instance, you'll get a <code>TypeError</code>.
                             <br/>
                             Now we have a code that validates itself that's pretty nice.
                             <br/>
                             But that's not what we want, we don't want to have unhandled PHP TypeError thrown from everywhere. We need to capture the errors. Also here we are just validating that the parameter types are correct.
                             <br/>
-                            Most of the time we want to move further with more specific validation rules to ensure consistency. Is the given date inside a specific period, is this number only greater than 0, is this string structured correctly…).
+                            Most of the time we want to move further with more specific validation rules to ensure consistency. Here I want to be sure that the email string is correctly formed to be an email, I also want the expiresAt date to be after the startsAt.
                             <br/>
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Only basic PHP typing…</span></h1>
+                        <p class="highlight"><span>Nice but don't cover all the cases.</span></p>
+                        <aside class="notes">
                             We want a complete control when we code. Remind you that our code was written to answer a specific question based on an input. We need to ensure that it'll be able to do it correctly.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>In object validation</span></h1>
-                        <pre style="font-size: 1.2rem">
-                            <code class="php" data-line-numbers>use Symfony\Component\Validator\Constraints as Assert;
-
-class Author
-{
-    private string $name;
-
-    public function __construct(string $name)
-    {
-        if (empty($name)) {
-            throw new InvalidArgumentException("$name can't be empty');
-        }
-
-        $this->name = $name;
-    }
+                        <h1 class="highlight"><span>Use the objects !</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="php" data-line-numbers>function createContract(
+    Contract $contract
+) {
+    /**
+     * $contract contains all properties
+     * All values are valid and respect the rules.
+     */
 }
                             </code>
                         </pre>
                         <aside class="notes">
-                            Since the default typing inside PHP is not well enough for our requirements, we need to go deeper. We can imagine adding some code inside the object constructor to validate the data.
+                            If I use a specific object to represent my input, the function signature is simpler. It's also more expressive, you want to create a contract so I give you a Contract object to do it.
                             <br/>
-                            As you can see in the Author object, I'm ensuring that $name isn't empty.
-                            <br/>
-                            There are also some issues with this approach because if we have multiple properties with different rules we'll get a lot of different exceptions to handle. It's possible but it'll complexify our code.
-                            <br/>
-                            However, I can only encourge you to have the rules clearly defined in your object, this is the only way to ensure an object internal state.
+                            But, to do this I need to create my Contract object before and ensure everything is fine. There are multiple solutions here that already exists and are well known. I'll take two examples, the Symfony Validator and the Laravel Validator.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>In object validation</span></h1>
+                        <h1 class="highlight"><span>Prepare input data</span></h1>
                         <pre style="font-size: 1.2rem">
                             <code class="php" data-line-numbers>use Symfony\Component\Validator\Constraints as Assert;
 
@@ -559,46 +774,34 @@ class Author
     /** @Assert\NotEmpty */
     private string $name;
 
-    public function __construct(string $name)
-    {
+    public function __construct(
+        string $name,
+        private Email $email
+    ) {
         $this->name = $name;
     }
 }
                             </code>
                         </pre>
                         <aside class="notes">
-                            There are some thid party tools that can help validating a whole object or bunch of data to extract all the violations.
+                            This is still a simple example. I need to update my object definition here if I want to be able to validate it. To use the Symfony validator I choose to write annotations here.
                             <br/>
-                            That's interesting because we can get all the errors at once and work with them.
+                            These annotations are powerful because you can combine them and create very complex rules to validate your data.
                             <br/>
-                            Here is an example with the Symfony validator. We add some rules on our object Author to specify that the name property must not be empty.
+                            It's the way this validator works, you initialize a bunch of data then you validate and retrieve the errors based on the rules.
                             <br/>
-                            Sorry, I wasn't able to use the PHP attribute syntax because the syntax highlighter used in my slides doesn't handle them correctly.
+                            Here I have only one rule, my name must not be empty. I don't need to validate the email because it must have been initialized correctly before, I can trust the Email object. I just show you the Author object as an example, if I want to use the Symfony Validator on my 3 defined objects, I need to change them the same way.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>In object validation</span></h1>
+                        <h1 class="highlight"><span>Prepare input data</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
                             <code class="php" data-line-numbers>use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 $validator = /** Some code to retrieve the ValidatorInterface instance */
+$email = new Email(…);
 
-$author = new Author('');
-
-$errors = $validator->validate($author);
-if (count($errors) > 0) {
-    //Build error response
-}
-
-//Build valid response
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-$validator = /** Some code to retrieve the ValidatorInterface instance */
-
-$author = new Author('');
+$author = new Author('', $email);
 
 $errors = $validator->validate($author);
 if (count($errors) > 0) {
@@ -609,11 +812,12 @@ if (count($errors) > 0) {
                             </code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="5">use Symfony\Component\Validator\Validator\ValidatorInterface;
+                            <code class="php" data-line-numbers="6">use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 $validator = /** Some code to retrieve the ValidatorInterface instance */
+$email = new Email(…);
 
-$author = new Author('');
+$author = new Author('', $email);
 
 $errors = $validator->validate($author);
 if (count($errors) > 0) {
@@ -624,88 +828,74 @@ if (count($errors) > 0) {
                             </code>
                         </pre>
                         <aside class="notes">
-                            Now we must use a new object that will be able to validate our data. The Validator instance will give us an error list if there are some violations. That's interesting because we don't want to break our code completely.
+                            Now we must use a Validator instance to validate our date. It will give us an error list if there are some violations. That's interesting because we don't want to break our code completely on each encontered error. If we can retrieve the whole list, we can explain to the user what's wrong.
                             <br/>
                             ▶ My main concern with this approach is that our <code>Author</code> object is build before the validation.
                             <br/>
-                            Therefore we are allowing an Author object to be built with an invalid internal state, in our case an empty name. For me that's a huge issue because if sometimes we forget to run the validator, we can't rely on our object anymore. We are getting back the a previous step.
+                            Therefore we are allowing an object like this to be built with an invalid internal state, in our case an empty name. For me that's a huge issue because if sometimes we forget to run the validator, we can't rely on our object anymore. We are getting back the a previous step.
                         </aside>
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Validates before…</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
                             <code class="php" data-line-numbers>$validator = Validator::make($request->all(), [
-    'name' => 'required|unique:author|max:255'
+    'name' => 'required|max:255'
 ]);
 
 if ($validator->fails()) {
     /** Build error response */
 }
 
-$author = new Author($request->get('name'));
+$author = new Author($request->get('name'), $email);
                             </code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
                             <code class="php" data-line-numbers="1-3">$validator = Validator::make($request->all(), [
-    'name' => 'required|unique:author|max:255'
+    'name' => 'required|max:255'
 ]);
 
 if ($validator->fails()) {
     /** Build error response */
 }
 
-$author = new Author($request->get('name'));
+$author = new Author($request->get('name'), $email);
                             </code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
                             <code class="php" data-line-numbers="5-9">$validator = Validator::make($request->all(), [
-    'name' => 'required|unique:author|max:255'
+    'name' => 'required|max:255'
 ]);
 
 if ($validator->fails()) {
     /** Build error response */
 }
 
-$author = new Author($request->get('name'));
+$author = new Author($request->get('name'), $email);
                             </code>
                         </pre>
                         <aside class="notes">
-                            For sure we can validate the data before initializing our object. This example use the Laravel validator.
+                            For sure we can validate the data before initializing our object. This other example uses the Laravel validator.
                             <br/>
                             ▶ It can take an array as input and a list of validation rules.
                             <br/>
                             ▶ The same way than with our previous examples, we can verify if the validation failed or not and we can build our Author object with the validated data.
                             <br/>
-                            That's interesting because we can still have validation rules inside our Author constructor and we can ensure that our data are valid.
+                            That's interesting because here we don't need to update our Author object definition. The validation process completely external. However we need to define the rules in two places, first in the Author constructor, then in the Validator call.
+                            <br/>
+                            Also and it's the same with Symfony, you still need to create your object yourself. You can use a Serializer or create them manually, it's an extra step in your code.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>An object hierarchy</span></h1>
-                        <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>class Author
-{
-    private string $name;
-    /**
-     * @var Book[]
-     */
-    private array $books;
-    private Country $country;
-
-    public function __construct(string $name, BookCollection $books, Country $country)
-    {
-        $this->name = $name;
-        $this->books = $books;
-        $this->country = $country;
-    }
-}
-                            </code>
-                        </pre>
+                        <h1 class="highlight"><span>Limitations ?</span></h1>
+                        <p class="highlight"><span class="fragment">An input can be very complex…</span></p>
+                        <p class="highlight"><span class="fragment">Modeling as object clearly define expectations…</span></p>
+                        <p class="highlight"><span class="fragment">Validators doesn't work efficiently with those objects.</span></p>
                         <aside class="notes">
-                            Then what if our object isn't only composed of basic type property. What if it also contains different objects. Using this approach we need to initialize them manually. As a developer I'm lazy and I love to delegate all the possible steps to the machine.
+                            ▶ A choice is always context dependent but if you try validating complex input with the previous solutions, you'll have a complex piece of code.
                             <br/>
-                            Today with the powerfulness of our tools, we can still go further. With the latest PHP version and all the typing improvement we can have objects defined in a very specific way.
+                            ▶ However all the details are already in my objects, the typing, the exception handling, the structure. As a developer I'm lazy and I love to delegate all the possible steps to the machine. Creating objects manually is not the funniest task to do.
                             <br/>
-                            If you look at this updated Author object, it's a bit more complex to initialize manually. For sure every object might defined it's own validation rules. We need to ensure that every Book property is defined, every Country property also…
+                            ▶ We saw that current validators will not be very efficient in our case.
                         </aside>
                     </section>
                 </section>
@@ -716,222 +906,39 @@ $author = new Author($request->get('name'));
                         <aside class="notes">
                             Let's introduce Valinor, a library which allows to take an unstructured input and build a valid object structure from it.
                             <br/>
-                            For me it's the best of both worlds, you can write object with specific rules built in them and map them to the input. It combines the two approaches I show you before.
+                            For me it's the best of both worlds, you can define your objects with specific rules then map them to an input. It combines the two approaches I show you before.
                             <br/>
-                            Diclaimer, my goal is not to tell that some tools are good and others are bad and should not be used. I just show you another way to validate your data inside your application. I prefer working with objects and Valinor allows me to have validated objects. It also allows me to retrieve all the validation errors and use them to display an error message.
+                            Diclaimer, my goal is not to tell that some tools are good and others are bad and should not be used. I just show you another way to validate your data inside your application. I prefer working with objects and Valinor allows me to have validated objects.
                             <br/>
-                            The object signatures allow to control everything and it's awesome !
+                            The object signatures allow to control everything and it's awesome ! Also if you use Middlewares, it'll help having a central place in your code for your input validation.
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Support type annotations</span></h1>
-                        <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>class Author
-{
-    /** @var non-empty-string */
-    private string $name;
-    /**
-     * @var Book[]
-     */
-    private array $books;
-    private Country $country;
-
-    public function __construct(string $name, BookCollection $books, Country $country)
-    {
-        $this->name = $name;
-        $this->books = $books;
-        $this->country = $country;
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="3,4">class Author
-{
-    /** @var non-empty-string */
-    private string $name;
-    /**
-     * @var Book[]
-     */
-    private array $books;
-    private Country $country;
-
-    public function __construct(string $name, BookCollection $books, Country $country)
-    {
-        $this->name = $name;
-        $this->books = $books;
-        $this->country = $country;
-    }
-}
-                            </code>
-                        </pre>
+                        <h1 class="highlight"><span>How it works ?</span></h1>
+                        <p class="highlight"><span class="fragment">Read functions and objects signatures,</span></p>
+                        <p class="highlight"><span class="fragment">Build validation rules by itself,</span></p>
+                        <p class="highlight"><span class="fragment">Validates the data before creating objects,</span></p>
+                        <p class="highlight"><span class="fragment">Ensure that you get ready to use objects at the end.</span></p>
                         <aside class="notes">
-                            To prevent conflicts or duplication of the type annotations, this library tries to handle most of the type annotations that are accepted by PHPStan and Psalm.
+                            Ok, another new library, why is it really different than others ?
                             <br/>
-                            ▶ If your code is already protected with one of those static analysis tool, nothing to do metadata will be used.
+                            ▶ First you don't need to write the validation rules that are already built into your code,
                             <br/>
-                            If not, I encourage you to take a look at them, they allow to detect a lot of issues inside your code and you can fix them before it reaches the production server.
-                        </aside>
-                    </section>
-                    <section class="left invert">
-                        <h1 class="highlight"><span>Build an object hierarchy</span></h1>
-                        <pre style="font-size: 1.15rem" class="absolute top120">
-                            <code class="php" data-line-numbers>class Book
-{
-    /** @var int<1900, 2100> */
-    private int $releaseYear;
-    /** @var positive-int */
-    private int $pageCount;
-    /** @var non-empty-string */
-    private string $name;
-
-    public function __construct(int $year, int $pageCount, string $name)
-    {
-        /** Validate the data with correct rules and exception */
-
-        $this->year = $year;
-        $this->pageCount = $pageCount;
-        $this->name = $name;
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.15rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="3-8">class Book
-{
-    /** @var int<1900, 2100> */
-    private int $releaseYear;
-    /** @var positive-int */
-    private int $pageCount;
-    /** @var non-empty-string */
-    private string $name;
-
-    public function __construct(int $year, int $pageCount, string $name)
-    {
-        /** Validate the data with correct rules and exception */
-
-        $this->year = $year;
-        $this->pageCount = $pageCount;
-        $this->name = $name;
-    }
-}
-                            </code>
-                        </pre>
-                        <aside class="notes">
-                            Then we can define some objects with more complex validation rules.
+                            ▶ it will extract them by itself.
                             <br/>
-                            ▶ You can see the type annotations, easy to read an understand. Of course if you need other controls, you can extend the logic.
+                            ▶ It will validate the data before creating the objects and will aggregate all the encountered issues. You're constructor broke, you get it, a static type is not matched, you get it…
                             <br/>
-                            Valinor encourages you to represent everything as object in the more structured way possible.
-                        </aside>
-                    </section>
-                    <section class="left invert">
-                        <h1 class="highlight"><span>Build an object hierarchy</span></h1>
-                        <pre style="font-size: 1.15rem" class="absolute top120">
-                            <code class="php" data-line-numbers>class Country
-{
-    private string $name;
-    private string $iso2;
-
-    public function __construct(string $iso2, string $name)
-    {
-        if (strlen($iso2) !== 2) {
-            throw new InvalidArgumentException("ISO2 hasn't a lenght of 2 chars.")
-        }
-
-        $this->iso2 = $iso2;
-        $this->name = $name;
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.15rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="8-10">class Country
-{
-    private string $name;
-    private string $iso2;
-
-    public function __construct(string $iso2, string $name)
-    {
-        if (strlen($iso2) !== 2) {
-            throw new InvalidArgumentException("ISO2 hasn't a lenght of 2 chars.")
-        }
-
-        $this->iso2 = $iso2;
-        $this->name = $name;
-    }
-}
-                            </code>
-                        </pre>
-                        <aside class="notes">
-                            We also have this "Country" object with it's own validation.
-                            <br/>
-                            ▶ Here we use an Exception to validate that our iso2 proprety is two characters length.
-                        </aside>
-                    </section>
-                    <section class="left invert">
-                        <h1 class="highlight"><span>Build an object hierarchy</span></h1>
-                        <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="json" data-line-numbers>{
-    "name": "Antoine de St Exupéry",
-    "books": [
-        {"name": "Le petit prince", "page_count": 280, "release_year": 1943},
-        {"name": "L'Aviateur", "page_count": 280, "release_year": 1926},
-        {"name": "Vol de nuit", "page_count": 280, "release_year": 1931}
-    ],
-    "country": {
-        "name": "France",
-        "iso2": "FR"
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="json" data-line-numbers="2,3,7">{
-    "name": "Antoine de St Exupéry",
-    "books": [
-        {"name": "Le petit prince", "page_count": 280, "release_year": 1943},
-        {"name": "L'Aviateur", "page_count": 280, "release_year": 1926},
-        {"name": "Vol de nuit", "page_count": 280, "release_year": 1931}
-    ],
-    "country": {
-        "name": "France",
-        "iso2": "FR"
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="json" data-line-numbers="4-6,9-10">{
-    "name": "Antoine de St Exupéry",
-    "books": [
-        {"name": "Le petit prince", "page_count": 280, "release_year": 1943},
-        {"name": "L'Aviateur", "page_count": 280, "release_year": 1926},
-        {"name": "Vol de nuit", "page_count": 280, "release_year": 1931}
-    ],
-    "country": {
-        "name": "France",
-        "iso2": "FR"
-    }
-}
-                            </code>
-                        </pre>
-                        <aside class="notes">
-                            Now that we have defined our different objects, we can transform a JSON input like this into an Author object.
-                            <br/>
-                            ▶ There are all the specific Author properties to use.
-                            <br/>
-                            ▶ For the internal objects, we also have all the relevant details.
+                            ▶ Then if everything is fine, you'll get your ready to use object with all the data in it.
                         </aside>
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Show me the code !</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
                             <code class="php" data-line-numbers>try {
-    $author = (new \CuyZ\Valinor\MapperBuilder())
+    $contract = (new \CuyZ\Valinor\MapperBuilder())
         ->mapper()
         ->map(
-            Author::class,
+            Contract::class,
             new \CuyZ\Valinor\Mapper\Source\JsonSource($json)
         );
 } catch (\CuyZ\Valinor\Mapper\MappingError $error) {
@@ -941,10 +948,10 @@ $author = new Author($request->get('name'));
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
                             <code class="php" data-line-numbers="1,8-10">try {
-    $author = (new \CuyZ\Valinor\MapperBuilder())
+    $contract = (new \CuyZ\Valinor\MapperBuilder())
         ->mapper()
         ->map(
-            Author::class,
+            Contract::class,
             new \CuyZ\Valinor\Mapper\Source\JsonSource($json)
         );
 } catch (\CuyZ\Valinor\Mapper\MappingError $error) {
@@ -954,10 +961,10 @@ $author = new Author($request->get('name'));
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
                             <code class="php" data-line-numbers="2-4,7">try {
-    $author = (new \CuyZ\Valinor\MapperBuilder())
+    $contract = (new \CuyZ\Valinor\MapperBuilder())
         ->mapper()
         ->map(
-            Author::class,
+            Contract::class,
             new \CuyZ\Valinor\Mapper\Source\JsonSource($json)
         );
 } catch (\CuyZ\Valinor\Mapper\MappingError $error) {
@@ -967,10 +974,10 @@ $author = new Author($request->get('name'));
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
                             <code class="php" data-line-numbers="5,6">try {
-    $author = (new \CuyZ\Valinor\MapperBuilder())
+    $contract = (new \CuyZ\Valinor\MapperBuilder())
         ->mapper()
         ->map(
-            Author::class,
+            Contract::class,
             new \CuyZ\Valinor\Mapper\Source\JsonSource($json)
         );
 } catch (\CuyZ\Valinor\Mapper\MappingError $error) {
@@ -985,9 +992,152 @@ $author = new Author($request->get('name'));
                             <br/>
                             ▶ Once your have written it, it's like some default code. The important part is the map method call which define input data and output object.
                             <br/>
-                            With this we can retrieve a complete and valid Author object. For sure with this example it's a huge solution for a small problem. You might chose a basic and simple tool if you have only one object with a small hierarchy.
+                            With this we can retrieve a complete and valid <code>Contract</code> object. For sure with this example it's a huge solution for a small problem. You might chose a basic and simple tool if you have only one object with a small hierarchy.
                             <br/>
-                            However, Valinar allows to map any input to an object and validates it. Think about all the possibilies inside your API payloads or parameters.
+                            However, Valinor allows to map any input to an object and validates it. Think about all the possibilies inside your API payloads or parameters. Also it'll will shine inside a validation Middleware.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Validation errors ?</span></h1>
+                        <pre style="font-size: 1.2rem" class="">
+                            <code class="php" data-line-numbers>{
+    "starts_at": "2022-01-01 00:00:00",
+    "author": {
+        "name": "",
+        "email": "nelson.mandelamail.com"
+    }
+}</code>
+                        </pre><pre style="font-size: 1.2rem" class="fragment">
+                            <code class="json">{
+    "expiresAt.value": "Cannot be empty and must be filled with a value matching type.",
+    "author.email": "Email nelson.mandelamail.com is not valid.",
+    "author": "Author name can't be empty."
+}</code>
+                        </pre>
+                        <aside class="notes">
+                            As I already said, Valinor is able to extract the list of all errors which applies on an input.
+                            <br/>
+                            Here I explicitely give a wrong input. Mandatory fields are not present, author name is empty…
+                            <br/>
+                            Valinor will throw an Exception. This error allows you to retrieve the message hierarchy and transform them to a JSON like I do here.
+                            <br/>
+                            There is a built-in translation mecanism so you can have a full control over the different returned messages.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Supports type annotations</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="php" data-line-numbers>class Author
+{
+    /** @var non-empty-string */
+    private string $name;
+
+    public function __construct(
+        string $name,
+        private Email $email
+    ) {
+        $this->name = $name;
+        if (empty($name)) {
+            throw new InvalidArgumentException(
+                "Author name can't be empty."
+            );
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="php" data-line-numbers="3,4">class Author
+{
+    /** @var non-empty-string */
+    private string $name;
+
+    public function __construct(
+        string $name,
+        private Email $email
+    ) {
+        if (empty($name)) {
+            throw new InvalidArgumentException(
+                "Author name can't be empty."
+            );
+        }
+        $this->name = $name;
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            As we already seen, we can't only rely on PHP typing to define our objects. We need to add other details, a common way is to use annotations. As you can see here, I added the "non-empty-string" annotation to my author object. Since annotation are not real code, I keep my constructor as strict as possible.
+                            <br/>
+                            To prevent conflicts or duplication of the type annotations, this library tries to handle most of the type annotations that are accepted by PHPStan and Psalm.
+                            <br/>
+                            ▶ If your code is already passed through one of those static analysis tool, nothing to do metadata will be used.
+                            <br/>
+                            If not, I encourage you to take a look at them, they allow to detect a lot of issues inside your code and you can fix them before it reaches the production server.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Supports type annotations</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="php" data-line-numbers>class Author
+{
+    /** @var non-empty-string */
+    private string $name;
+
+    public function __construct(
+        string $name,
+        private Email $email
+    ) {
+        $this->name = $name;
+        if (empty($name)) {
+            throw new InvalidArgumentException(
+                "Author name can't be empty."
+            );
+        }
+    }
+}
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="php" data-line-numbers="3,4">class Author
+{
+    /** @var non-empty-string */
+    private string $name;
+
+    public function __construct(
+        string $name,
+        private Email $email
+    ) {
+        if (empty($name)) {
+            throw new InvalidArgumentException(
+                "Author name can't be empty."
+            );
+        }
+        $this->name = $name;
+    }
+}
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            As we already seen, we can't only rely on PHP typing to define our objects. We need to add other details, a common way is to use annotations. As you can see here, I added the "non-empty-string" annotation to my author object. Since annotation are not real code, I keep my constructor as strict as possible.
+                            <br/>
+                            To prevent conflicts or duplication of the type annotations, this library tries to handle most of the type annotations that are accepted by PHPStan and Psalm.
+                            <br/>
+                            ▶ If your code is already passed through one of those static analysis tool, nothing to do metadata will be used.
+                            <br/>
+                            If not, I encourage you to take a look at them, they allow to detect a lot of issues inside your code and you can fix them before it reaches the production server.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Ready to use Objects</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="php" data-line-numbers>$contract->author()->email() // Email object</code>
+                        </pre>
+                        <aside class="notes">
+                            Once all the validations have been passed, you get a complete and valid object. You just need to call the different methods.
+                            You object can only expose the necessary details and ensure consistency.
+                            <br/>
+                            No more setters in this context because when your object are built, the data is already valid. You got Immutability at almost no cost.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -998,7 +1148,7 @@ $author = new Author($request->get('name'));
                         <aside class="notes">
                             For sure using Valinor is a bit more complex than Laravel or Symfony validator. But the expected result is not exactly the same. Valinor allows initializing the objects for you so it'll remove a lot of boilerplate code from your projects.
                             <br/>
-                            ▶ Inside a Middleware it can ensure that every input is correctly formed and you can automatically transform the errors to be sent back to the user.
+                            ▶ Inside a Middleware it can ensure that every input is correctly formed and you can automatically transform the errors to be sent back to the user before reaching your application controller.
                         </aside>
                     </section>
                 </section>
@@ -1006,6 +1156,9 @@ $author = new Author($request->get('name'));
                     <section data-background-image="img/thinking.jpg" data-background-color="rgba(255, 255, 255, 1)">
                         <h1 class="left bottom highlight"><span>What to do now ?</span></h1>
                         <aside class="notes">
+                            Now we have explored a new tool and library. Maybe you're already familiar with the possibilities, maybe it's completely new.
+                            <br/>
+                            What to do now ? As always it's not a silver bullet, complexity has a cost.
                         </aside>
                     </section>
                     <section class="invert left">
@@ -1013,6 +1166,9 @@ $author = new Author($request->get('name'));
                         <p class="highlight"><span>A GitHub project with an exhaustive README,</span></p>
                         <p class="highlight"><span>Under active development.</span></p>
                         <aside class="notes">
+                            However it's an open project so you can already explore the code and give it a try. I'll share with you a really small repository to show you how it can be used.
+                            <br/>
+                            It doesn't handle all the cases but since it's under active development you can submit issues and try working with the authors to improve if you want. The more project will use it, the more powerful it will be !
                         </aside>
                     </section>
                     <section class="invert left">
@@ -1020,6 +1176,9 @@ $author = new Author($request->get('name'));
                         <p class="highlight"><span>Have you invalid object in your code ?</span></p>
                         <p class="highlight"><span class="fragment">Are your current tools the best for you ?</span></p>
                         <aside class="notes">
+                            Maybe this presentation make you think that validating data is complex. You may just think about how you actually validate your inputs. By using a proper validation solution, you can limit the number of problems your code will encounter and that's a very good reason to try different tools !
+                            <br/>
+                            Also, if you're already familiar with other validation tools, don't throw them away, every software and library have its strengths and weaknesses. Just try to be informed on what the community is working on !
                         </aside>
                     </section>
                     <section class="invert left">
@@ -1028,6 +1187,9 @@ $author = new Author($request->get('name'));
                         <p class="highlight"><span class="fragment">Stay informed of new tools and practices,</span></p>
                         <p class="highlight"><span class="fragment">Try new things, you might be surprised !</span></p>
                         <aside class="notes">
+                            And I'll finish on this one, which is the most important for me. You always need to keep an eye on cutting edge tools and technologies. Try to read articles, wrote some tests around a new tool you discovered… The more you'll see, the best your solutions will be.
+                            <br/>
+                            Don't forget that most of us are software developers and engineers, our job is to find solutions not to generate problems. Our role is to find the correct tools depending the context.
                         </aside>
                     </section>
                 </section>
