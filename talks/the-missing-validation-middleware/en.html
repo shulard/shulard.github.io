@@ -183,6 +183,8 @@
                         We'll finally discover Valinor, a PHP library that can help you ensure data validation and object consistency inside your code. We'll talk about immutability and object internal state. I'll try to show you how it can help writing cleaner code in your projects.
                         <br/>
                         I know all these subjects are very technical, if you have questions we'll have some time at the end of the talk. I'll be there so don't be shy and reach me after if you want to discuss.
+                        <br/>
+                        I also prepared a small repository on GitHub, I'll share you the code at the end. All the examples I'll share with you will be there. Also the slides are already online, I'll share the link on Twitter just after.
                         <!--
                         Une intro digne de ce nom pour expliquer ce qu'on va voir
 
@@ -221,6 +223,10 @@
                         So I'm Stephane Hulard.
                         <br/>
                         ▶ I lead a small French company named CH Studio. We are specialized in PHP software development and help our customers build state of the art web application. I also love working on legacy projects to help the teams take them back.
+                        <br/>
+                        Today we are working on a medical image aggregation and search tool. We are not developing website, and are focused on web application.
+                        <br/>
+                        I think it's important to understand why we ask us such questions and the choices we made.
                         <br/><br/>
                         ▶ I'm also a trainer, mainly around the software quality tools and methods.
                         <br/>
@@ -1077,58 +1083,6 @@ $author = new Author($request->get('name'), $email);
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>Supports type annotations</span></h1>
-                        <pre style="font-size: 1.2rem" class="absolute top120">
-                            <code class="php" data-line-numbers>class Author
-{
-    /** @var non-empty-string */
-    private string $name;
-
-    public function __construct(
-        string $name,
-        private Email $email
-    ) {
-        $this->name = $name;
-        if (empty($name)) {
-            throw new InvalidArgumentException(
-                "Author name can't be empty."
-            );
-        }
-    }
-}
-                            </code>
-                        </pre>
-                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="php" data-line-numbers="3,4">class Author
-{
-    /** @var non-empty-string */
-    private string $name;
-
-    public function __construct(
-        string $name,
-        private Email $email
-    ) {
-        if (empty($name)) {
-            throw new InvalidArgumentException(
-                "Author name can't be empty."
-            );
-        }
-        $this->name = $name;
-    }
-}
-                            </code>
-                        </pre>
-                        <aside class="notes">
-                            As we already seen, we can't only rely on PHP typing to define our objects. We need to add other details, a common way is to use annotations. As you can see here, I added the "non-empty-string" annotation to my author object. Since annotation are not real code, I keep my constructor as strict as possible.
-                            <br/>
-                            To prevent conflicts or duplication of the type annotations, this library tries to handle most of the type annotations that are accepted by PHPStan and Psalm.
-                            <br/>
-                            ▶ If your code is already passed through one of those static analysis tool, nothing to do metadata will be used.
-                            <br/>
-                            If not, I encourage you to take a look at them, they allow to detect a lot of issues inside your code and you can fix them before it reaches the production server.
-                        </aside>
-                    </section>
-                    <section class="left invert">
                         <h1 class="highlight"><span>Ready to use Objects</span></h1>
                         <pre style="font-size: 1.2rem" class="absolute top120">
                             <code class="php" data-line-numbers>$contract->author()->email() // Email object</code>
@@ -1202,6 +1156,10 @@ $author = new Author($request->get('name'), $email);
                         <small>https://github.com/shulard/ipc-valinor-sample</small>
                     </p>
                     <aside class="notes">
+                        I added here two important links. The Valinor repository and my sample repository which I presented you in the slides.
+                        <br/>
+                        This QRCode will send you the my project, in the README, you'll also have the link to Valinor.
+                        <br/>
                         Thank for your attention… Feel free to ask any question !
                     </aside>
                 </section>
