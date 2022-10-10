@@ -22,3 +22,6 @@ de la conférence au maximum.
   installer des librairies et des outils à l'intérieur d'un projet.
 * `Raven`: Outil permettant de tester la documentation OpenAPI d'un projet.
 * `repository`: Dépôt de code
+* `Swagger`
+* `Linux Foundation`
+* `Wordnik`
