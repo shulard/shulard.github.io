@@ -25,3 +25,8 @@ de la conférence au maximum.
 * `Swagger`
 * `Linux Foundation`
 * `Wordnik`
+* `YAML`
+* `JSON`
+* `Symfony`
+* `middleware`
+💡
