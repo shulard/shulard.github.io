@@ -1,0 +1,14 @@
+get:
+  operationId: getUserMe
+  summary: |
+    Retrieve the logged user details.
+  security:
+    - GESSO: []
+  responses:
+    "200":
+      description: |
+        Successfully retrieved the details of the logged in user
+      content:
+        "application/json":
+          schema:
+            $ref: "schema/user.yaml#/User"

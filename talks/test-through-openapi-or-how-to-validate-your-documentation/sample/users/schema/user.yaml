@@ -1,0 +1,16 @@
+User:
+  type: object
+  required:
+    - name
+    - email
+  properties:
+    name:
+      type: string
+      example: Jane Doe
+    updatedAt:
+      type: string
+      format: date
+      example: 2017-07-21
+    email:
+      type: string
+      example: example@ge.com
