@@ -29,4 +29,3 @@ de la conférence au maximum.
 * `JSON`
 * `Symfony`
 * `middleware`
-💡

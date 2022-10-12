@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Tester à travers OpenAPI, ou comment valider votre documentation ! - Forum PHP 2022 - Stéphane HULARD / CHStudio</title>
+
+        <meta name="description" content="Aujourd'hui les APIs sont partout, les documenter correctement est un prérequis pour qu'elles soient utilisées correctement. Cependant un problème reste présent quand on a affaire à de la doc : comment garantir qu'elle est à jour ou que le code l'implémente correctement ?">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/tomorrow.css">
+
+        <style type="text/css">
+            body {
+                height: calc(100vh - 202px);
+            }
+            .reveal .social-me {
+                float: right;
+            }
+            .reveal .social-me img {
+                margin-bottom: 0px;
+            }
+            .reveal .social-me a {
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .reveal .social-me a:hover {
+                color: rgba(4, 32, 41, 0.9);
+            }
+            .reveal .social-me a:last-child {
+                margin-right: 0;
+            }
+            .right {
+                text-align: right;
+            }
+            .bottom {
+                margin-top: 35% !important;
+            }
+            .top {
+                margin-bottom: 35% !important;
+            }
+            .left {
+                text-align: left;
+            }
+            .center {
+                text-align: center;
+            }
+            .float-right {
+                float: right;
+            }
+            .background {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .no-background {
+                background: none !important;
+            }
+            .border-radius {
+                border-radius: 20px;
+            }
+            code.fragment {
+                padding: 12px;
+            }
+            .reveal code a {
+                color: rgb(65, 65, 65);
+            }
+            .full-height {
+                max-height: unset !important;
+            }
+            .reveal {
+                background-color: rgba(0, 174, 239, 0.8);
+            }
+            .reveal h1.highlight *, .reveal p.highlight>* {
+                background-color: rgba(4, 32, 41, 0.9);
+                display: inline;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .reveal h1.highlight *:last-child {
+                line-height: 2em
+            }
+            .reveal section>p {
+                font-size: 1.2em;
+            }
+            .reveal section>a>img.plain {
+                margin: 23px 0;
+                height: 94px;
+            }
+            .reveal section>a+a>img.plain {
+                margin-right: 10px;
+            }
+            .reveal section.invert {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .reveal pre {
+                font-size: 2rem;
+            }
+            .reveal pre code {
+                padding: 1rem 1.5rem;
+            }
+
+            .reveal section.invert p.highlight>* {
+                background-color: rgba(255, 255, 255, 0.9)
+            }
+            .reveal figure.highlight {
+                margin: 0;
+                padding: 2rem 2.5rem;
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+            .reveal figure.highlight blockquote {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                margin-bottom: 2rem;
+                font-size: 1.3em;
+            }
+            .reveal h1.highlight.white * {
+                background-color: rgba(255, 255, 255, 0.9);
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .speaker-controls-notes .value {
+                font-size: 1em !important;
+            }
+
+            .reveal .slide-background.present {
+                opacity: 0.9;
+            }
+
+            .light-background .reveal .slide-background.present {
+                opacity: 0.6;
+            }
+
+            .relative {
+                position: relative;
+            }
+            .absolute {
+                position: absolute !important;
+                top: 0;
+                left: 0;
+            }
+            .top120 {
+                top: 120px;
+            }
+
+            @media print {
+                .fragment.absolute {
+                    display: none;
+                }
+            }
+        </style>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <div class="reveal concave center">
+            <div class="slides">
+                <section data-background-image="img/chameleon.jpg">
+                    <h1 class="highlight white bottom" style="font-size: 2em;"><span>Tester à travers <strong>OpenAPI</strong></span><br><small>ou comment valider votre documentation !</small></h1>
+                    <p class="global-footer">
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <a href="https://phpconference.com"><img src="img/forumphp-2020-vecto.svg" height="20" class="plain" /></a>
+                        <span>Stéphane Hulard&nbsp;-&nbsp;Forum PHP&nbsp;<time datetime="2022-10-14">2022</time></span>
+                    </p>
+                    <aside class="notes">
+                        <!--
+                        Une intro digne de ce nom pour expliquer ce qu'on va voir
+
+                        Présenter notre exemple à valider pour le fil conducteur:
+                        Un point d'API pour mettre un jour un auteur et bien réappuyer
+                        le pourquoi on fait chaque étape.
+
+                        Revoir la partie What And Why
+                        Mettre des slides intercalaires entre les parties code pour rappeler les points importants
+
+                        Corriger les soucis sur le code
+                        Remettre les exceptions dans le constructeur Author
+
+                        Une conclusion ou je décris dans quel contexte c'est pertinent
+                        -->
+                    </aside>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="img/moi.jpg" class="plain" width="250"/>
+                        <br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
+                        <br/>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
+                    <p class="left highlight fragment">
+                        <span>🤓 Directeur Technique <small>(<img src="../../logo.png" width="20" style="margin: 0" class="plain" /> CH Studio)</small></span>
+                    </p>
+                    <p class="left highlight fragment">
+                        <span>🎓 Formateur</span>
+                    </p>
+                    <p class="left highlight fragment">
+                        <span>🤝 Contributeur</span>
+                    </p>
+                    <aside class="notes">
+
+                    </aside>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="img/relations.jpg">
+                        <h1 class="highlight white"><span>OpenAPI ?</span></h1>
+                        <aside class="notes">
+                            Petit sondage avant de commencer, qui a déjà utilisé ou rédigé une documentation OpenAPI ?
+                            <!--
+                                Qu'est-ce que c'est ?
+
+                                Pourquoi et historique
+
+                                Règles et bonnes pratiques (https://oai.github.io/Documentation/best-practices.html)
+                            -->
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Qu'est-ce que c'est ?</span></h1>
+                        <p class="highlight"><span><strong>Objectif</strong>: Normaliser et standardiser la description d'APIs</span></p>
+                        <p class="highlight fragment"><span><strong>2009</strong>: Swagger specification</span></p>
+                        <p class="highlight fragment"><span><strong>2015</strong>: Initative OpenAPI</span></p>
+                        <p class="highlight"><span class="fragment"><strong>2017</strong>: v3.0.0</span>&nbsp;<span class="fragment"><strong>2021</strong>: v3.1.0</span></p>
+                        <p class="highlight fragment right"><img height="100" src="img/openapi.png" class="plain"></p>
+                        <aside class="notes">
+                            <!--
+                                In 2009, Tony Tam of Wordnik (an online dictionary service) had begun working on what would become the Swagger Specification. Used to describe Wordnik's JSON API, Swagger was used to drive Wordnik's developer console / documentation (which can still be seen at https://developer.wordnik.com/docs), their server integration and code-generation within the company.
+
+                                Initially known as SWAGR - "why WADL, when you can SWAGR?" said Wordnik colleague Zeke Sikelianos when discussing potential names for the project with Tam (though if SWAGR ever stood for anything, it appears to be lost in the mists of time) - Tam published the first version of the Swagger Specification (1.0) in August 2011, just one month after Mashery announced I/O Docs, though there had been at least a 0.1a version used internally.
+
+                                While working at Reverb Technologies, Tam published version 1.1 of the Swagger Specification in August 2012. This was a minor refinement of the specification only.
+
+                                Version 1.2 of the Swagger Specification was the first version written up as a formal specification document, in March 2014, separating the specification itself from the Swagger implementation. Improvements were made to the type system, to bring it more into line with JSON Schema Draft 4. This was the first version to gain widespread adoption across the API industry, and is still in use by some API providers today.
+
+                                September 2014 saw the release of the Swagger Specification 2.0. This saw a reorganisation from the two-file format of Swagger 1.2 and earlier into a single document structure, but one that could still reference sub-documents using the JSON-Reference standard. Further improvements were made to the type system / JSON Schema support, fuller API metadata support with the contact and license objects, the use of markdown in descriptions was allowed and vendor extensions (now known as specification extensions) and response headers were supported among other more minor changes. Swagger 2.0 saw more growth and adoption across the industry, and the number of supporting commercial solutions and open-source offerings increased dramatically.
+
+                                In March 2015, SmartBear Software, a leading API testing and development tool company, acquired the interests in the Swagger intellectual property and open-source projects from Reverb Technologies.
+
+                                In September 2015, Tam joined SmartBear Software as VP of Products, Swagger.
+
+                                In December 2015, the Swagger Specification was donated by SmartBear Software to a new open-governance organisation, set up under the auspices of the Linux Foundation: the OpenAPI Initiative (https://openapis.org).
+
+                                Version 2.0 of the OpenAPI Specification (as it was now known) was identical to the Swagger 2.0 specification. Although there was, and remains, some confusion between the use of the terms Swagger and OpenAPI, this was a positive first step in the transition to the new governance body and the new name for the specification.
+                            -->
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Pourquoi ?</span></h1>
+                        <p class="highlight"><span class="fragment">Interopérabilité, </span><span class="fragment">Automatisation, </span><span class="fragment">Fiabilité.</span></p>
+                        <aside class="notes">
+                            Ok, du coup deux personnes ont eu une idée, maintenant on a un outil qui est porté par la Linux Foundation et qui est de plus en plus utilisé. Pourquoi autant d'intérêt ?
+                            <br>
+                            Aujourd'hui la plupart des systèmes sur le web utilisent des APIs, on peut même considérer un site web comme une API.
+                            <br>
+                            ▶ En effet, si on prend un peu de recul, tout système basé sur HTTP envoi des Requêtes et récupère des Réponses.
+                            <br>
+                            Les développeurs conçoivent des applications pour répondre à ces problématiques. Être capable de savoir à l'avance le format et avoir des exemples est un atout précieux.
+                            <br>
+                            ▶ En plus, le format est facilement lisible par une machine ce qui permet d'automatiser la création de client, la vérification ou tout autre action intéressante.
+                            <br>
+                            ▶ On peut aboutir à une meilleure fiabilité des systèmes et de leur utilisation en s'appuyant sur la description de leur comportement. Cette documentation devient un contrat.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Bonnes pratiques</span></h1>
+                        <p class="highlight"><span class="fragment">Design-First,</span><span class="fragment">Single Source of Truth,</span><span class="fragment">Source Control.</span></p>
+                        <aside class="notes">
+                            Deux approches existent code first et design first.
+
+                            ▶ Il existe des outils pour générer la doc à partir des annotations. Si vous utilisez ce type d'annotation, ne stockez pas la version générée quelque part, charger la à la demande.
+
+                            ▶ Pour ce dernier point, j'imagine qu'il n'y a pas de grosse surprise, j'imagine que tout le monde utilise un système de contrôle de version…
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Un petit exemple</span></h1>
+                        <pre style="font-size: 1.2rem" class="absolute top120">
+                            <code class="yaml" data-line-numbers>// openapi.yaml
+openapi: 3.1.0
+info:
+    version: "1.0.0"
+    title: My Awesome API
+servers:
+    - url: 'http://localhost:8000'
+      description: Local development server
+paths:
+    /api/users/me:
+        $ref: users/me.yaml
+components:
+    securitySchemes:
+        GESSO:
+            type: apiKey
+            in: header
+            name: sso_uid
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment">
+                            <code class="yaml" data-line-numbers="9-11">// openapi.yaml
+openapi: 3.1.0
+info:
+    version: "1.0.0"
+    title: My Awesome API
+servers:
+    - url: 'http://localhost:8000'
+      description: Local development server
+paths:
+    /api/users/me:
+        $ref: users/me.yaml
+components:
+    securitySchemes:
+        GESSO:
+            type: apiKey
+            in: header
+            name: sso_uid
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="yaml" data-line-numbers>// users/me.yaml
+get:
+    operationId: getCurrentUser
+    summary: |
+        Retrieve the logged user details.
+    security:
+        - GESSO: [ ]
+    responses:
+        '200':
+            description: |
+                Successfully retrieved the details of the logged in user
+            content:
+                'application/json':
+                    schema:
+                        $ref: 'schema/user.yaml#/User'
+
+
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="yaml" data-line-numbers="6,7">// users/me.yaml
+get:
+    operationId: getUserMe
+    summary: |
+        Retrieve the logged user details.
+    security:
+        - GESSO: [ ]
+    responses:
+        '200':
+            description: |
+                Successfully retrieved the details of the logged in user
+            content:
+                'application/json':
+                    schema:
+                        $ref: 'schema/user.yaml#/User'
+
+
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="yaml" data-line-numbers="9-15">// users/me.yaml
+get:
+    operationId: getUserMe
+    summary: |
+        Retrieve the logged user details.
+    security:
+        - GESSO: [ ]
+    responses:
+        '200':
+            description: |
+                Successfully retrieved the details of the logged in user
+            content:
+                'application/json':
+                    schema:
+                        $ref: 'schema/user.yaml#/User'
+
+
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="yaml" data-line-numbers>// users/schema/user.yaml
+User:
+    type: object
+    required:
+        - name
+        - email
+    properties:
+        name:
+            type: string
+            example: Jane Doe
+        updatedAt:
+            type: string
+            format: date
+            example: 2017-07-21
+        email:
+            type: string
+            example: example@ge.com
+                            </code>
+                        </pre>
+                        <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
+                            <code class="yaml" data-line-numbers="3-5,8,11,12,15">// users/schema/user.yaml
+User:
+    type: object
+    required:
+        - name
+        - email
+    properties:
+        name:
+            type: string
+            example: Jane Doe
+        updatedAt:
+            type: string
+            format: date
+            example: 2017-07-21
+        email:
+            type: string
+            example: example@ge.com
+                            </code>
+                        </pre>
+                        <aside class="notes">
+                            J'utilise volontairement le format YAML ici parce que je le trouve plus lisible mais c'est aussi possible de le faire en JSON. Le tout est de respecter la structure et les propriétés.
+                            <br>
+                            On commence avec le document de base, il y a une certaines quantités d'informations. La version du schéma utilisé, ensuite un petit nom et une version, autant bien se présenter.
+                            <br>
+                            Ensuite on trouve la liste des serveurs qui sont utilisables pour tester cette API. Cette information est très importante car la plupart des générateur de documentation vous permettront de faire les requêtes directement. On peut tester en quelques clics.
+                            <br>
+                            ▶ Enfin, la partie la plus importante, la description des différentes URLs de votre API. On voit la présence du mot clé <code>$ref</code> qui définit un fichier externe à aller chercher.
+                            <br>
+                            On avance vers ce fichier qui décrit donc les différentes façon d'appeler notre URL précédente. On retrouve les différentes propriétés qui permettent de décrire notre API.
+                            <br>
+                            En premier, le verbe, ici on parle d'une requête GET. Les différents champs de description permettent de rendre explicite à quoi sert cette URL.
+                            <br>
+                            ▶ Deuxième point le champ <code>security</code> qui va décrire comment on doit être connecté pour accéder à cette URL. On retrouve le nom du "composant" décrit dans le fichier openapi.yaml.
+                            <br>
+                            ▶ Encore une fois on termine par le plus important, les différents formats de réponse. J'omet beaucoup de points ici comme par exemple la description des paramètres d'URL ou les informations dynamiques dans l'URL. L'objectif est juste que tout le monde sache de quoi on parle.
+                            <br>
+                            Pour les réponses, on a une liste indexée par le code de statut HTTP, ici 200. On va donc décrire une réponse en succès. On détermine le type mime de notre réponse pour enfin présenter le schema. On aura donc une réponse au format JSON qui utilise un schéma externe. Notez la présence d'un hash qui va pointer directement un des éléments présents dans le fichier.
+                            <br>
+                            Dans ce dernier fichier que je vais vous présenter, on retrouve donc la description de ce qu'est un utilisateur, rien d'incroyable de prime abord, il est composé de trois propriétés, <code>name</code>, <code>updatedAt</code> et <code>email</code>.
+                            <br>
+                            ▶ Mais quand on regarde plus en détail, on voit qu'on peut exprimer des contraintes qui sont structurantes pour bien comprendre le fonctionnement. Certains champs sont obligatoires, certains respectent un certain format. Je sais donc à quoi m'attendre quand j'appelle cette URL en étant authentifié.
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="left" data-background-image="img/once-upon-a-time.jpg">
+                        <h1 class="highlight white"><span>Il était un projet d'API…</span></h1>
+                        <p class="highlight right"><span>… qui est un projet client aussi !</span></p>
+                        <aside class="notes">
+                            Je travaille avec depuis 2018 sur un projet assez important dans l'imagerie médicale. On a une application Symfony, qui est utilisée pour fournir une API. Cette API est consommée par un front écrit en JavaScript et qui utilise Vue.js.
+                            <br>
+                            Le temps passe, les développeurs aussi et finalement on se retrouve dans ce projet avec une bonne quantité de code légacy. De premier abord je me dis, cool, c'est un indicateur que ce projet fonctionne. Ensuite je me rappelle que nous sommes en charge de son évolution. On est donc responsable de faire avancer dans le bon sens. Je précise que je suis la depuis le début du projet, je suis donc en grande partie responsable des incohérences d'aujourd'hui !
+                            <br>
+                            Bref, cette API a souvent présenté des incohérences. Il y en a eu de plusieurs sortes, certaines venaient de bug dans l'implémentation, d'autres venaient d'incompréhensions entre les développeurs. L'un imagine une feature, l'autre aussi et souvent les visions ne sont pas complètement partagées.
+                            <br>
+                            C'est un problème qui avait été identifié il y a longtemps. On s'était mis d'accord qu'il fallait plus documenter. Par facilité, on a commencé à écrire du Markdown pour présenter nos APIs. Le markdown c'est pratique, relativement facile à prendre en main, nous utilisons Gitlab au quotidien qui nous fait un beau rendu… Cette documentation a vécu un petit moment et à notre grande surprise, on s'est rendu compte qu'elle n'était pas maintenue à jour.
+                            <br>
+                            La bonne volonté était présente mais au final dans le rush du quotidien c'était facile d'oublier…
+                            <!--
+                                Concrètement dans un projet
+
+                                Workflow pour travailler sur un point d'API
+
+                                Documentation à plat compilable pour les humains
+
+                                Cycle de vie par rapport au code, qui met à jour quand ?
+                            -->
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🔧 OpenAPI à la rescousse !</span></h1>
+                        <p class="highlight"><span>Un langage descriptif…</span><span class="fragment">…une suite d'outils !</span></p>
+                        <aside class="notes">
+                            Du coup au bout d'un moment avec notre documentation obsolète, nous avions toujours du mal à spécifier nos APIs et s'assurer qu'elles étaient correctement implémentées. On a décidé que le format Markdown n'était pas super adapté pour une API, la bonne blague.
+                            <br>
+                            On s'est rapidement tourné vers OpenAPI qui propose toute une suite d'outils pour documenter correctement. La doc est écrite dans un format technique, YAML ou JSON ce qui n'est pas un problème pour l'équipe et permet d'exprimer clairement le fonctionnement. Avec les générateurs de documentation, on se retrouve avec de jolies pages web qui présente notre API beaucoup plus joliment que Gitlab ne le faisait.
+                            <br>
+                            ▶ Démo time !
+                            <br>
+                            J'ai mis à jour l'intégration continue pour générer une version HTML de la documentation qui est accessible par tous et plus facile à lire qu'une série de fichiers YAML. L'API n'est pour l'instant pas complètement documentée avec OpenAPI mais ça avance et nous pouvons partager ce document avec d'autres équipes pour se synchroniser techniquement.
+                            <br>
+                            ▶ J'ai aussi fait le choix de ne pas générer la documentation à partir du code. Faire cette doc à la main n'est pas le plus agréable mais une fois que les principaux éléments sont en place c'est comme des légos qu'il faut penser à indenter. Rappelons nous des bonnes pratique, Design First. L'objectif de notre utilisation d'OpenAPI est de pouvoir se mettre d'accord avant d'attaquer le développement sur les URLs, les requêtes et les réponses. On ne peut donc pas générer la doc à partir du code.
+                            <br>
+                            Pourquoi ne pas l'avoir fait avant me direz vous ? Et bien je n'ai pas la réponse, et en plus la doc en Markdown ce n'était pas terrible. Parfois un nouvel outil vous ouvre les yeux et permet d'avancer.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>⚠️ Divergence</span></h1>
+                        <figure class="highlight">
+                            <blockquote>Une documentation n'a de sens que si elle reflète l'état actuel de l'application !</blockquote>
+                            <figcaption>— Maître Shifu, KungFu Panda 2008</figcaption>
+                        </figure>
+                        <aside class="notes">
+                            Et oui, on est tous je pense tombé un jour dans ce piège. Quoi de plus inutile qu'une documentation qui ne correspond pas au comportement de l'application. Malgré nos efforts, le formalisme, il y avait toujours le risque que cette documentation en soit pas à jour.
+                            <br>
+                            Je n'ai pas retrouvé le nom de cette personne mais cette phrase raisonne encore dans ma tête.
+                            <br>
+                            Documenté un système fixe, qui n'évolue plus est plus facile, pas de risque de divergence. Il fallait qu'on s'arme pour nous faire gagner du temps et fiabiliser tout ça.
+                            <br>
+                            Forcément, le formalisme OpenAPI a permis à tout un écosystème d'outil de s'épanouir. Je rappelle que la documentation est écrite en YAML ou JSON et peut donc facilement être parsée par un programme. J'ai parlé de générateur de documentation mais il existe une toute autre catégorie d'outils.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🤖 Mock, générateur etc.</span></h1>
+                        <p class="highlight"><span>Créer un faux serveur, des requêtes, des réponses…</span></p>
+                        <p class="highlight"><span class="fragment">Créer un client pour intéragir avec l'API…</span></p>
+                        <p class="highlight"><span class="fragment">Générer de fausses données en utilisant le schéma…</span></p>
+                        <aside class="notes">
+                            On a commencé à s'intéresser à cet écosystème, comment s'assurer que notre documentation n'est pas obsolète, ne contient pas d'erreur.
+                            <br>
+                            La majeur partie des outils que nous avons trouvé, que ce soit en PHP, en Python, en JavaScript ou dans d'autres langages permettent à partir d'une documentation de faciliter l'intéraction avec le serveur distant. La construction automatique de requêtes, de réponses…
+                            <br>
+                            ▶ On a aussi des générateurs de client comme Jane qui a été créé par des développeurs de chez Jolicode.
+                            <br>
+                            Tout ça c'est bien mais ça ne collait pas exactement avec ce qu'on cherchait. L'API que nous développons est principalement utilisée par le front du projet comme je l'expliquais tout à l'heure.
+                            <br>
+                            ▶ Nous connaissons précisement les requêtes, les résultats attendus, on peut créer des fixtures pour avoir tout les cas utiles.
+                            <br>
+                            On a continuer de chercher pour finalement tomber sur une librairie de validation.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>✅ Validation</span></h1>
+                        <img class="absolute plain" src="img/phpleague.png" width="250" style="right: 0; left: auto; top: -5%"/>
+                        <p class="highlight"><code>league/openapi-psr7-validator</code></p>
+                        <p><img class="plain" src="img/psr7-validator.jpg" /></p>
+                        <aside class="notes">
+                            Cette librairie fait partie de la ligue des packages extraordinaires.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>✅ Validation</span></h1>
+                        <img class="absolute plain" src="img/phpleague.png" width="250" style="right: 0; left: auto; top: -5%"/>
+                        <p class="highlight"><span><strong>❤️ PSRs HTTP</strong>: Message, Client, Factories…</span></p>
+                        <p class="highlight"><span class="fragment">… conçu comme un middleware …</span></p>
+                        <p class="highlight"><span class="fragment">… framework agnostic …</span></p>
+                        <p class="highlight"><span class="fragment">… basé sur des outils fiables et maintenus.</span></p>
+                        <aside class="notes">
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <section class="invert" data-background-image="img/magnifying-glass.jpg">
+                        <h1 class="left highlight white"><span>🔌 Implémentation</span></h1>
+                        <aside class="notes">
+                            Nous ne sommes pas uniquement des grands malades de la documentation écrite en YAML. Nous utilisons les outils de l'écosystème de Symfony.
+                            <br>
+                            Cependant ce qui va être présenté ensuite pourra tout à fait être adapté à d'autres types de projet.
+                            <br>
+                            Commençons par voir l'objectif général et ensuite on va voir comment on a implémenter chaque brique.
+                            <!--
+                                Une documentation technique, automatisation possible
+
+                                Vérifier que les requêtes et réponses sont correctement décrites
+
+                                Vérifier que l'API répond correctement aux attentes
+
+                                Spécification des appels
+
+                                Raven
+                            -->
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>💡 Idée générale</span></h1>
+                        <img class="plain" src="img/schema.svg" />
+                        <aside class="notes">
+                            J'ai essayé de reprendre les points importants qui nous intéressent ici.
+                            <br>
+                            Le validateur peut vérifier la requête et la réponse, on pourra récupérer les erreurs générées et les ressortir pour correction. Mais ça ne suffit pas.
+                            <br>
+                            Il faut pouvoir câbler tout ça: construire des requêtes, les envoyer dans un client HTTP, récupérer la réponse.
+                            <br>
+                            Pour tout ces aspects nous avons bien sur choisit de nous appuyer sur les différentes PSR disponibles.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>HTTP <small>PHP Standard Recommandation</small></span></h1>
+                        <p class="highlight"><span><strong><code>&nbsp;7</code>. Message:</strong> <code style="font-size: 1.7rem;">{<strong>Request,Response,ServerRequest</strong>}Interface</code></span></p>
+                        <p class="highlight"><span class="fragment"><strong><code>17</code>. Factories:</strong> <code style="font-size: 1.7rem;">{<strong>Request,Uri,Stream</strong>}FactoryInterface</code></span></p>
+                        <p class="highlight"><span class="fragment"><strong><code>18</code>. Client:</strong> <code style="font-size: 1.7rem;"><strong>Client</strong>Interface</code></span></p>
+                        <aside class="notes">
+                            Ça fait plusieurs fois que je mentionne PSR. Ce sont des recommandations portées par la communauté au sein du PHP Fig.
+                            <br>
+                            On est dans l'univers HTTP, on va s'intéresser principalement à trois d'entre elles.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>HttpFoundation ❤️ PSR</span></h1>
+                        <p class="highlight"><code>symfony/psr-http-message-bridge</code></p>
+                        <pre style="font-size: 1.25rem">
+                            <code class="php">use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
+
+$symfonyRequest = $httpFoundationFactory->createRequest($psrServerRequest);
+
+$psrResponse = $psrHttpFactory->createResponse($symfonyResponse);
+</code>
+                        </pre>
+                        <aside class="notes">
+                            Par défaut, Symfony n'utilise pas le format de message HTTP de la PSR7. Il faut donc transformer la requête Symfony en requête PSR puis la réponse PSR en réponse Symfony.
+                            <br>
+                            Heureusement l'écosystème de PHP est riche et il existe un package pour nous aider.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>HttpKernel ❤️ PSR</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\{RequestInterface,ResponseInterface};
+
+class HttpKernelClient implements ClientInterface
+{
+    /* constructor */
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* transform RequestInterface to ServerRequestInterface */
+
+        $response = $this->kernel->handle(
+            $this->httpFoundationFactory->createRequest($serverRequest)
+        );
+        return $this->psrHttpFactory->createResponse($response);
+    }
+}
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="1,4">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\{RequestInterface,ResponseInterface};
+
+class HttpKernelClient implements ClientInterface
+{
+    /* constructor */
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* transform RequestInterface to ServerRequestInterface */
+
+        $response = $this->kernel->handle(
+            $this->httpFoundationFactory->createRequest($serverRequest)
+        );
+        return $this->psrHttpFactory->createResponse($response);
+    }
+}
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="12-15">use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\{RequestInterface,ResponseInterface};
+
+class HttpKernelClient implements ClientInterface
+{
+    /* constructor */
+
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        /* transform RequestInterface to ServerRequestInterface */
+
+        $response = $this->kernel->handle(
+            $this->httpFoundationFactory->createRequest($serverRequest)
+        );
+        return $this->psrHttpFactory->createResponse($response);
+    }
+}
+</code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🔧 Intégration validation</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.35rem">
+                            <code class="php" data-line-numbers>use League\OpenAPIValidation\PSR7;
+
+/* Load OpenAPI doc */
+$builder = (new PSR7\ValidatorBuilder)->fromYamlFile($yamlFile);
+
+$builder->getRequestValidator()->validate($request);
+
+/* Trigger request and get response */
+
+$operation = new PSR7\OperationAddress('/api/users/me', 'get') ;
+$builder->getResponseValidator()->validate($operation, $response);
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.35rem">
+                            <code class="php" data-line-numbers="4">use League\OpenAPIValidation\PSR7;
+
+/* Load OpenAPI doc */
+$builder = (new PSR7\ValidatorBuilder)->fromYamlFile($yamlFile);
+
+$builder->getRequestValidator()->validate($request);
+
+/* Trigger request and get response */
+
+$operation = new PSR7\OperationAddress('/api/users/me', 'get') ;
+$builder->getResponseValidator()->validate($operation, $response);
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.35rem">
+                            <code class="php" data-line-numbers="6">use League\OpenAPIValidation\PSR7;
+
+/* Load OpenAPI doc */
+$builder = (new PSR7\ValidatorBuilder)->fromYamlFile($yamlFile);
+
+$builder->getRequestValidator()->validate($request);
+
+/* Trigger request and get response */
+
+$operation = new PSR7\OperationAddress('/api/users/me', 'get') ;
+$builder->getResponseValidator()->validate($operation, $response);
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.35rem">
+                            <code class="php" data-line-numbers="10,11">use League\OpenAPIValidation\PSR7;
+
+/* Load OpenAPI doc */
+$builder = (new PSR7\ValidatorBuilder)->fromYamlFile($yamlFile);
+
+$builder->getRequestValidator()->validate($request);
+
+/* Trigger request and get response */
+
+$operation = new PSR7\OperationAddress('/api/users/me', 'get') ;
+$builder->getResponseValidator()->validate($operation, $response);
+</code>
+                        </pre>
+                        <aside class="notes">
+                            Maintenant on est capable d'envoyer des requêtes vers notre application et de récupérer des réponses.
+                            <br>
+                            Nous souhaitons automatiser les tests et cette partie permet de facilement s'intégrer dans un outil comme PHPUnit.
+                            <br>
+                            C'est aussi possible de directement faire des vraies requêtes à travers le réseau. Dans ce cas le client HTTP que vous allez utilisez sera différent.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>💡 Idée générale</span></h1>
+                        <img class="plain" src="img/schema.svg" />
+                        <p class="highlight"><span class="fragment">On veut des tests métiers !</span></p>
+                        <aside class="notes">
+                            Si on s'arrête la, on est capable de valider nos requêtes et nos réponses. Mais le fait que ces réquêtes et réponses soient valide n'est pas toujours le résultat attendu.
+                            <br>
+                            Dans la documentation OpenAPI on décrit tout les cas possibles. Si mon URL me renvoit une 403, c'est un cas qui est acceptable mais est-ce que c'est le résultat attendu. L'API, quand elle est développée doit répondre à des contraintes. Il faut aller plus loin que la validation stricte. On veut pouvoir s'assurer que le résultat est bien celui attendu.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span><code>chstudio/raven</code></span></h1>
+                        <img class="absolute plain" src="img/github.png" width="120" style="right: 0; left: auto; top: -5%"/>
+                        <p class="highlight"><span class="fragment"><code>1.</code> Validation par rapport à la documentation</span></p>
+                        <p class="highlight"><span class="fragment"><code>2.</code> Utilisation de vraies données pour tester</span></p>
+                        <p class="highlight"><span class="fragment"><code>3.</code> Vérification du comportement de l'API</span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Construire les requêtes ?</span></h1>
+                        <p class="highlight"><span class="fragment">S'appuie sur <code>fakerphp/faker</code>…</span></p>
+                        <p class="highlight"><span class="fragment">… résolution de données dynamique …</span></p>
+                        <p class="highlight"><span class="fragment">… ajout des contraintes de validation.</span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>RequestFactory ❤️ PSR</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers>$request = $requestFactory->fromArray([
+    'uri' => [
+        'base' => '/api/users/{id}',
+        'parameters' => [
+            '{id}' => '&lt;userId()&gt;'
+        ]
+    ],
+    'method' => 'POST',
+    'body' => [
+        'name' => '&lt;name()&gt;',
+        'creationDate' => '&lt;date("Y-m-d")&gt;',
+        'office' => '&lt;officeId("LYON")&gt;'
+    ]
+]);
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="3,5,10-12">$request = $requestFactory->fromArray([
+    'uri' => [
+        'base' => '/api/users/{id}',
+        'parameters' => [
+            '{id}' => '&lt;userId()&gt;'
+        ]
+    ],
+    'method' => 'POST',
+    'body' => [
+        'name' => '&lt;name()&gt;',
+        'creationDate' => '&lt;date("Y-m-d")&gt;',
+        'office' => '&lt;officeId("LYON")&gt;'
+    ]
+]);
+</code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Expectations</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers>use CHStudio\Raven\Validator\Expectation\ExpectationFactory;
+
+$requestData = [
+    'uri' => 'http://myhost.com/api/users/me',
+    'method' => 'GET',
+    'statusCode' => 403
+];
+
+$expectations = (new ExpectationFactory())->fromArray($requestData);
+$request = $requestFactory->fromArray($requestData);
+
+$executor->execute($request, $expectations);
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="6,9,12">use CHStudio\Raven\Validator\Expectation\ExpectationFactory;
+
+$requestData = [
+    'uri' => 'http://myhost.com/api/users/me',
+    'method' => 'GET',
+    'statusCode' => 403
+];
+
+$expectations = (new ExpectationFactory())->fromArray($requestData);
+$request = $requestFactory->fromArray($requestData);
+
+$executor->execute($request, $expectations);
+</code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Raven ❤️ PHPUnit</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers>use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class OpenApiTest extends WebTestCase
+{
+    /** @dataProvider giveRequests */
+    public function testThroughOpenApi(array $requestData)
+    {
+        $httpClient = new HttpKernelClient(self::createKernel());
+
+        /** [...] */
+    }
+
+    public function giveRequests(): Generator
+    {
+        yield /** [...] */
+    }
+}
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers>$factory = Factory::fromYamlFile('doc/api/openapi.yaml');
+$executor = new Executor(
+    $httpClient,
+    $factory->getRequestValidator(),
+    $factory->getResponseValidator()
+);
+
+$request = $requestFactory->fromArray($requestData);
+$expectations = $expectationFactory->fromArray($requestData);
+
+try {
+    $executor->execute($request, $expectations);
+} catch (Throwable $e) {
+    $message = $e->getMessage();
+}
+
+static::assertNull($message, $message ?? '');
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="1">$factory = Factory::fromYamlFile('doc/api/openapi.yaml');
+$executor = new Executor(
+    $httpClient,
+    $factory->getRequestValidator(),
+    $factory->getResponseValidator()
+);
+
+$request = $requestFactory->fromArray($requestData);
+$expectations = $expectationFactory->fromArray($requestData);
+
+try {
+    $executor->execute($request, $expectations);
+} catch (Throwable $e) {
+    $message = $e->getMessage();
+}
+
+static::assertNull($message, $message ?? '');
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="2-6">$factory = Factory::fromYamlFile('doc/api/openapi.yaml');
+$executor = new Executor(
+    $httpClient,
+    $factory->getRequestValidator(),
+    $factory->getResponseValidator()
+);
+
+$request = $requestFactory->fromArray($requestData);
+$expectations = $expectationFactory->fromArray($requestData);
+
+try {
+    $executor->execute($request, $expectations);
+} catch (Throwable $e) {
+    $message = $e->getMessage();
+}
+
+static::assertNull($message, $message ?? '');
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="8-15">$factory = Factory::fromYamlFile('doc/api/openapi.yaml');
+$executor = new Executor(
+    $httpClient,
+    $factory->getRequestValidator(),
+    $factory->getResponseValidator()
+);
+
+$request = $requestFactory->fromArray($requestData);
+$expectations = $expectationFactory->fromArray($requestData);
+
+try {
+    $executor->execute($request, $expectations);
+} catch (Throwable $e) {
+    $message = $e->getMessage();
+}
+
+static::assertNull($message, $message ?? '');
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.2rem">
+                            <code class="php" data-line-numbers="17">$factory = Factory::fromYamlFile('doc/api/openapi.yaml');
+$executor = new Executor(
+    $httpClient,
+    $factory->getRequestValidator(),
+    $factory->getResponseValidator()
+);
+
+$request = $requestFactory->fromArray($requestData);
+$expectations = $expectationFactory->fromArray($requestData);
+
+try {
+    $executor->execute($request, $expectations);
+} catch (Throwable $e) {
+    $message = $e->getMessage();
+}
+
+static::assertNull($message, $message ?? '');
+</code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Raven ❤️ PHPUnit</span></h1>
+                        <pre class="absolute top120" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="">/** Exemple d'erreur de validation dans PHPUnit */
+
+✘ Through open api with users.yaml::/api/users/me
+┐
+├ Unexpected status code 500, expected 200
+├ Failed asserting that false is true.
+│
+╵ /app/tests/Api/OpenApiTest.php:94
+┴
+                             </code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="5">/** Exemple d'erreur de validation dans PHPUnit */
+
+✘ Through open api with users.yaml::/api/users/me
+┐
+├ Unexpected status code 500, expected 200
+├ Failed asserting that false is true.
+│
+╵ /app/tests/Api/OpenApiTest.php:94
+┴
+                             </code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="">/** Exemple d'erreur de validation dans PHPUnit */
+
+✘ Through open api with users.yaml::/api/users/me
+┐
+├ Data validation failed for property data.attributes.email,
+├ invalid value: array (
+├   'name' => 'Jane Doe',
+├   'updatedAt' => '2022-10-14'
+├ )
+├ Keyword validation failed: Required property 'email' must
+├ be present in the object.
+├
+├ Failed asserting that false is true.
+│
+╵ /app/tests/Api/OpenApiTest.php:94
+┴
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="5-9">/** Exemple d'erreur de validation dans PHPUnit */
+
+✘ Through open api with users.yaml::/api/users/me
+┐
+├ Data validation failed for property data.attributes.email,
+├ invalid value: array (
+├   'name' => 'Jane Doe',
+├   'updatedAt' => '2022-10-14'
+├ )
+├ Keyword validation failed: Required property 'email' must
+├ be present in the object.
+├
+├ Failed asserting that false is true.
+│
+╵ /app/tests/Api/OpenApiTest.php:94
+┴
+</code>
+                        </pre>
+                        <pre class="absolute top120 fragment fade-in" style="font-size: 1.3rem">
+                            <code class="php" data-line-numbers="10-11">/** Exemple d'erreur de validation dans PHPUnit */
+
+✘ Through open api with users.yaml::/api/users/me
+┐
+├ Data validation failed for property data.attributes.email,
+├ invalid value: array (
+├   'name' => 'Jane Doe',
+├   'updatedAt' => '2022-10-14'
+├ )
+├ Keyword validation failed: Required property 'email' must
+├ be present in the object.
+├
+├ Failed asserting that false is true.
+│
+╵ /app/tests/Api/OpenApiTest.php:94
+┴
+</code>
+                        </pre>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🤯 Doc testée et validée !</span></h1>
+                        <p class="highlight"><span class="fragment">Respect du schéma …</span></p>
+                        <p class="highlight"><span class="fragment">… requêtes basé sur des vraies données …</span></p>
+                        <p class="highlight"><span class="fragment">… vérifications spécifiques au projet.</span></p>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                </section>
+                <section class="stack">
+                    <section data-background-image="img/thinking.jpg" data-background-color="rgba(255, 255, 255, 1)">
+                        <h1 class="left bottom highlight"><span>Et maintenant ?</span></h1>
+                        <aside class="notes">
+
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Pourquoi ne pas essayer ?</span></h1>
+                        <p class="highlight"><span class="fragment">Un projet GitHub avec un <code>README</code>,</span></p>
+                        <p class="highlight"><span class="fragment">Une utilisation des standards,</span></p>
+                        <p class="highlight"><span class="fragment">Contributions bienvenues 😜.</span></p>
+                        <aside class="notes">
+                            <!--
+                                However it's an open project so you can already explore the code and give it a try. I'll share with you a really small repository to show you how it can be used.
+                                <br/>
+                                It doesn't handle all the cases but since it's under active development you can submit issues and try working with the authors to improve if you want. The more project will use it, the more powerful it will be !
+                            -->
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>Comment démarrer ?</span></h1>
+                        <p class="highlight"><span>Tout ne doit pas être documenté …</span></p>
+                        <p class="highlight"><span class="fragment">… un point d'API à la fois …</span></p>
+                        <p class="highlight"><span class="fragment">… enrichir les tests avec les cas particuliers.</span></p>
+                        <aside class="notes">
+                            <!--
+                                Maybe this presentation make you think that validating data is complex. You may just think about how you actually validate your inputs. By using a proper validation solution, you can limit the number of problems your code will encounter and that's a very good reason to try different tools !
+                                <br/>
+                                Also, if you're already familiar with other validation tools, don't throw them away, every software and library have its strengths and weaknesses. Just try to be informed on what the community is working on !
+                            -->
+                        </aside>
+                    </section>
+                    <section class="invert left">
+                        <h1 class="highlight"><span>🧌 Préparez vous au DDD</span></h1>
+                        <p class="highlight"><span class="fragment">▶  <strong>D</strong>ocumentation <strong>D</strong>riven <strong>D</strong>esign</span></p>
+                        <p class="highlight"><span class="fragment">Documenter l'API, écrire les requêtes …</span><span class="fragment">… puis coder !</span></p>
+                        <aside class="notes">
+                            <!--
+                                And I'll finish on this one, which is the most important for me. You always need to keep an eye on cutting edge tools and technologies. Try to read articles, wrote some tests around a new tool you discovered… The more you'll see, the best your solutions will be.
+                                <br/>
+                                Don't forget that most of us are software developers and engineers, our job is to find solutions not to generate problems. Our role is to find the correct tools depending the context.
+                            -->
+                        </aside>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section class="invert" data-background-image="../assets/images/thank-you.jpg">
+                    <img src="img/qr.png" class="plain" style="position:absolute; right:0; top:0;" width="250" />
+                    <p class="highlight right bottom">
+                        <span><i class="fa fa-twitter"></i> @s_hulard</span><br/><br/>
+                        <span><i class="fa fa-github"></i> https://github.com/chstudio/raven</span><br/>
+                    </p>
+                    <aside class="notes">
+                        <!--
+                            I added here two important links. The Valinor repository and my sample repository which I presented you in the slides.
+                            <br/>
+                            This QRCode will send you the my project, in the README, you'll also have the link to Valinor.
+                            <br/>
+                            Thank for your attention… Feel free to ask any question !
+                        -->
+                    </aside>
+                </section>
+            </div>
+        </div>
+
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                pdfSeparateFragments: false,
+                //showNotes: 'separated-page',
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            mermaid.initialize({startOnLoad:true});
+        </script>
+    </body>
+</html>
