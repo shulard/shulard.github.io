@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="fr">
     <head>
         <meta charset="utf-8">
 
@@ -184,21 +183,15 @@
                         <span>Stéphane Hulard&nbsp;-&nbsp;Forum PHP&nbsp;<time datetime="2022-10-14">2022</time></span>
                     </p>
                     <aside class="notes">
-                        <!--
-                        Une intro digne de ce nom pour expliquer ce qu'on va voir
-
-                        Présenter notre exemple à valider pour le fil conducteur:
-                        Un point d'API pour mettre un jour un auteur et bien réappuyer
-                        le pourquoi on fait chaque étape.
-
-                        Revoir la partie What And Why
-                        Mettre des slides intercalaires entre les parties code pour rappeler les points importants
-
-                        Corriger les soucis sur le code
-                        Remettre les exceptions dans le constructeur Author
-
-                        Une conclusion ou je décris dans quel contexte c'est pertinent
-                        -->
+                        Merci de m'avoir rejoint pour ce talk autour des tests et de la documentation OpenAPI.
+                        <br>
+                        Je vais me présenter rapidement, puis je ferais une petite introduction à OpenAPI.
+                        <br>
+                        Je vous raconterai ensuite une petite histoire de projet et ce qui nous a amener à envisager de tester notre documentation.
+                        <br>
+                        Je terminerai en vous parlant d'un projet que nous avons développé et mis en Open Source pour aider à faire ces tests.
+                        <br>
+                        Il y aura pas mal de code sur la fin, n'hésitez pas à revenir vers moi en posant des questions à la fin ou ensuite si vous voulez aller plus loin ou éclairer un détail.
                     </aside>
                 </section>
                 <section class="invert">
@@ -213,17 +206,25 @@
                         <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
                     </p>
                     <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
-                    <p class="left highlight fragment">
+                    <p class="left highlight">
                         <span>🤓 Directeur Technique <small>(<img src="../../logo.png" width="20" style="margin: 0" class="plain" /> CH Studio)</small></span>
                     </p>
-                    <p class="left highlight fragment">
+                    <p class="left highlight">
                         <span>🎓 Formateur</span>
                     </p>
-                    <p class="left highlight fragment">
+                    <p class="left highlight">
                         <span>🤝 Contributeur</span>
                     </p>
                     <aside class="notes">
-
+                        Je suis Stéphane Hulard.
+                        <br/>
+                        ▶ Je dirige une petite société qui s'appelle CH Studio. Nous sommes spécialisés dans le développement de projet PHP et nous aidons nos clients à construire des projets solides et durables. Nous sommes souvent impliqués sur le long terme et sommes donc sensibles à la qualité pour notre propre bien être. J'aime aussi beaucoup travailler sur des projets legacy pour aider les équipes à les reprendres en main.
+                        <br/>
+                        Aujourd'hui nous travaillons principalement sur une application d'aggrégation et de recherche d'images médicales. Nous ne développons pas de site et sommes plus orientés vers les applications web.
+                        <br/><br/>
+                        ▶ Je suis aussi formateur principalement autour des outils et méthodes liés à la qualité logicielle.
+                        <br/>
+                        ▶ Et enfin contributeur, pas autant que je le voudrais mais les projets open sources me permettent d'élargir ma vision du métier en bénéficiant de l'expertise et du soutien de la communauté ce qui est un atout précieux au quotidien².
                     </aside>
                 </section>
 <!--#########################################################################-->
@@ -232,13 +233,8 @@
                         <h1 class="highlight white"><span>OpenAPI ?</span></h1>
                         <aside class="notes">
                             Petit sondage avant de commencer, qui a déjà utilisé ou rédigé une documentation OpenAPI ?
-                            <!--
-                                Qu'est-ce que c'est ?
-
-                                Pourquoi et historique
-
-                                Règles et bonnes pratiques (https://oai.github.io/Documentation/best-practices.html)
-                            -->
+                            <br>
+                            Bien, pour être sur qu'on va bien se comprendre, je vais faire un petit tour de présentation.
                         </aside>
                     </section>
                     <section class="left invert">
@@ -249,6 +245,19 @@
                         <p class="highlight"><span class="fragment"><strong>2017</strong>: v3.0.0</span>&nbsp;<span class="fragment"><strong>2021</strong>: v3.1.0</span></p>
                         <p class="highlight fragment right"><img height="100" src="img/openapi.png" class="plain"></p>
                         <aside class="notes">
+                            OpenAPI, globalement, ça permet de documenter vos APIs.
+                            <br>
+                            En 2009 nait la première version de ce qui deviendra la spécification Swagger. C'est d'abord développé dans une société pour leur propre besoin de documentation.
+                            <br>
+                            L'idée a pris petit à petit de l'ampleur, en 2011 la version 1.0 sort. L'ancètre d'OpenAPI est né. C'est la version 1.2 qui arrivera en 2014 qui commencera vraiment à ressembler à ce que vous pouvez utiliser aujourd'hui.
+                            <br>
+                            C'est cette version 1.2 qui va être de plus en plus utilisé. La version 2.0 suit et sort en 2014.
+                            <br>
+                            En 2015, Smart Bears une entreprise spécialisée dans les tests d'API et le développement s'intéresse de prêt à Swagger. Le créateur de la spécification les rejoins et en décembre, la spécification est donné à l'OpenAPI initiative qui est une organisation au sein de la Linux Foundation. C'est maintenant officiel, le projet prend son envol.
+                            <br>
+                            La première version d'OpenAPI se base donc sur Swagger 2.0. Les nouveautés et avancées se succède, la version 3 sort en 2017, la version 3.1 en 2021…
+                            <br>
+                            C'est tout pour la petite histoire, ça permet au moins de situer les différents termes que vous pourriez retrouver dans les documentation. Il y a encore pas mal de projet qui s'appelle Swagger par exemple.
                             <!--
                                 In 2009, Tony Tam of Wordnik (an online dictionary service) had begun working on what would become the Swagger Specification. Used to describe Wordnik's JSON API, Swagger was used to drive Wordnik's developer console / documentation (which can still be seen at https://developer.wordnik.com/docs), their server integration and code-generation within the company.
 
@@ -272,9 +281,9 @@
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Pourquoi ?</span></h1>
-                        <p class="highlight"><span class="fragment">Interopérabilité, </span><span class="fragment">Automatisation, </span><span class="fragment">Fiabilité.</span></p>
+                        <p class="highlight"><span>Interopérabilité, </span><span>Automatisation, </span><span>Fiabilité.</span></p>
                         <aside class="notes">
-                            Ok, du coup deux personnes ont eu une idée, maintenant on a un outil qui est porté par la Linux Foundation et qui est de plus en plus utilisé. Pourquoi autant d'intérêt ?
+                            Ok, maintenant on a vu que la spécification d'API a pris de l'ampleur. Pourquoi autant d'intérêt ?
                             <br>
                             Aujourd'hui la plupart des systèmes sur le web utilisent des APIs, on peut même considérer un site web comme une API.
                             <br>
@@ -289,7 +298,7 @@
                     </section>
                     <section class="left invert">
                         <h1 class="highlight"><span>Bonnes pratiques</span></h1>
-                        <p class="highlight"><span class="fragment">Design-First,</span><span class="fragment">Single Source of Truth,</span><span class="fragment">Source Control.</span></p>
+                        <p class="highlight"><span>Design-First,</span><span>Single Source of Truth,</span><span>Source Control.</span></p>
                         <aside class="notes">
                             Deux approches existent code first et design first.
 
@@ -421,7 +430,7 @@ User:
                             </code>
                         </pre>
                         <pre style="font-size: 1.2rem" class="absolute top120 fragment fade-in">
-                            <code class="yaml" data-line-numbers="3-5,8,11,12,15">// users/schema/user.yaml
+                            <code class="yaml" data-line-numbers="3-6,9,12,13,16">// users/schema/user.yaml
 User:
     type: object
     required:
@@ -1077,7 +1086,7 @@ static::assertNull($message, $message ?? '');
                         </aside>
                     </section>
                     <section class="left invert">
-                        <h1 class="highlight"><span>🤯 Doc testée et validée !</span></h1>
+                        <h1 class="highlight"><span>🤩 Doc testée et validée !</span></h1>
                         <p class="highlight"><span class="fragment">Respect du schéma …</span></p>
                         <p class="highlight"><span class="fragment">… requêtes basé sur des vraies données …</span></p>
                         <p class="highlight"><span class="fragment">… vérifications spécifiques au projet.</span></p>
