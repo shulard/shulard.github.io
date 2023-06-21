@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>L'interopérabilité, mythe ou réalité ?</title>
+
+        <meta name="description" content="Un tour d'ensemble des promesses et possibilités offertes par l'écosystème PHP confrontés à la réalité du quotidien des projets. Est-ce que ça a vraiment fait avancer les choses ? Spoiler: oui mais peut être pas comme on l'attend !.">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/tomorrow.css">
+
+        <style type="text/css">
+            .reveal .social-me {
+                float: right;
+            }
+            .reveal .social-me img {
+                margin-bottom: 0px;
+            }
+            .reveal .social-me a {
+                color: #FFF;
+                margin-right: 10px;
+            }
+            .reveal .social-me a:hover {
+                color: rgba(4, 32, 41, 0.9);
+            }
+            .reveal .social-me a:last-child {
+                margin-right: 0;
+            }
+            .right {
+                text-align: right;
+            }
+            .bottom {
+                margin-top: 35% !important;
+            }
+            .top {
+                margin-bottom: 35% !important;
+            }
+            .left {
+                text-align: left;
+            }
+            .center {
+                text-align: center;
+            }
+            .float-right {
+                float: right;
+            }
+            .background {
+                background-color: rgba(255, 255, 255, 0.9) !important;
+            }
+            .no-background {
+                background: none !important;
+            }
+            .border-radius {
+                border-radius: 20px;
+            }
+            code.fragment {
+                padding: 12px;
+            }
+            .reveal code a {
+                color: rgb(65, 65, 65);
+            }
+            .full-height {
+                max-height: unset !important;
+            }
+            .reveal {
+                background-color: rgba(0, 174, 239, 0.8);
+            }
+            .reveal h1.highlight *, .reveal p.highlight>* {
+                background-color: rgba(4, 32, 41, 0.9);
+                display: inline;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .reveal h1.highlight *:last-child {
+                line-height: 2em
+            }
+            .reveal section>p {
+                font-size: 1.2em;
+            }
+            .reveal section>a>img.plain {
+                margin: 23px 0;
+                height: 94px;
+            }
+            .reveal section>a+a>img.plain {
+                margin-right: 10px;
+            }
+            .reveal section.invert {
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .reveal pre {
+                font-size: 2rem;
+            }
+            .reveal pre code {
+                padding: 1rem 1.5rem;
+            }
+
+            .reveal section.invert p.highlight>* {
+                background-color: rgba(255, 255, 255, 0.9)
+            }
+            .reveal h1.highlight.white * {
+                background-color: rgba(255, 255, 255, 0.9);
+                color: rgba(0, 0, 0, 0.8);
+            }
+            .speaker-controls-notes .value {
+                font-size: 1em !important;
+            }
+
+            .reveal .slide-background.present {
+                opacity: 0.9;
+            }
+
+            .light-background .reveal .slide-background.present {
+                opacity: 0.6;
+            }
+
+            .relative {
+                position: relative;
+            }
+            .absolute {
+                position: absolute !important;
+                top: 0;
+                left: 0;
+            }
+            .top120 {
+                top: 120px;
+            }
+
+            @media print {
+                .fragment.absolute {
+                    display: none;
+                }
+            }
+        </style>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal concave center">
+            <div class="slides">
+                <section data-background-image="img/missing-piece.jpg">
+                    <h1 class="highlight white bottom" style="font-size: 1.8em;"><span>L'interopérabilité, mythe ou réalité ?</span></h1>
+                    <p class="global-footer">
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <span>Stéphane Hulard&nbsp;-&nbsp;Meetup AFUP&nbsp;<time datetime="2023-06-22">2023</time></span>
+                    </p>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="img/moi.jpg" class="plain" width="250"/>
+                        <br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
+                        <br/>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
+                    <p class="left highlight">
+                        <span>CTO <small>(<img src="../../logo.png" width="20" style="margin: 0" class="plain" /> CH Studio)</small>, </span>
+                        <span>Formateur, </span>
+                        <span>Contributeur.</span>
+                    </p>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="img/idea.jpg">
+                        <h1 class="highlight white"><span>Interopérabilité ?</span></h1>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.5em;"><span>PHP Framework Interoperability Group<small>FIG</small></span></h1>
+                        <p class="highlight"><span>Regroupement d'interlocuteurs majeurs de l'écosysteme.</span></p>
+                        <p class="highlight fragment"><span>Règles, Interfaces, Consensus: <code>PSR-{1-18}</code></span></p>
+                        <p class="highlight fragment"><span>❤️ Fournisseur de recommandations depuis 2009</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Changer de framework ?</span></h1>
+                        <p class="highlight"><span>Heu… Qui a déjà fait ça ?</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Changer une dépendance ?</span></h1>
+                        <p class="highlight"><span>Projet déprécié, abandonnée, plus compatible…</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.9em;"><span>Limiter les dépendances chargées ?</span></h1>
+                        <p class="highlight"><span>Besoin d'un client HTTP ?</span><br><span>On installe une unique implémentation partagée !</span></p>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="img/magnifying-glass.jpg">
+                        <h1 class="highlight white"><span>Aujourd'hui, la réalité</span></h1>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.5em;"><span>Je veux juste que ça marche !</span></h1>
+                        <p class="highlight fragment"><span>Pourquoi choisir une implémentation ?</span></p>
+                        <p class="highlight fragment"><span>Pourquoi ce que j'installe ne fonctionne pas directement ?</span></p>
+                        <p class="highlight fragment"><span>J'utilise un framework, il gère tout ça pour moi…</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.5em;"><span>Une adoption "bas niveau"</span></h1>
+                        <p class="highlight fragment"><span>Principalement pris en charge par les frameworks.</span></p>
+                        <p class="highlight fragment"><span>Moins de dépendances qui ramènent la terre entière.</span></p>
+                        <p class="highlight fragment"><span>Des implémentations cohérentes fleurissent autour des PSRs.</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.5em;"><span>Un rêve lointain 🦄</span></h1>
+                        <p class="highlight fragment"><span>Tout le monde peut créer son framework.</span></p>
+                        <p class="highlight fragment"><span>Des légos à assembler.</span></p>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert left" data-background-image="img/thinking.jpg">
+                        <h1 class="highlight white bottom"><span>Ok, et maintenant ?</span></h1>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Intéressez vous aux PSRs !</span></h1>
+                        <p class="highlight fragment"><span>Si ce n'est pas déjà fait 😉</span></p>
+                        <p class="highlight fragment"><span>Pour choisir vos dépendances.</span></p>
+                        <p class="highlight fragment"><span>Pour comprendre ce qui fait consensus dans l'écosytème.</span></p>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section class="invert" data-background-image="../assets/images/thank-you.jpg">
+                </section>
+            </div>
+        </div>
+
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                pdfSeparateFragments: false,
+                //showNotes: 'separated-page',
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            mermaid.initialize({startOnLoad:true});
+        </script>
+    </body>
+</html>
