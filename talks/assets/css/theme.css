@@ -415,5 +415,5 @@ body {
 }
 
 body.print-pdf .reveal .global-footer {
-  display: none;
+  position: relative;
 }
