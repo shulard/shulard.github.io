@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>ORM : Puissance, pièges et bonnes pratiques pour une couche données maîtrisée</title>
+
+        <meta name="description" content="Les ORM (Object-Relational Mapping) sont devenus des outils incontournables pour les développeurs, qu’il s’agisse d’Active Record dans Laravel ou de Data Mapper avec Doctrine. Pourtant, leur utilisation soulève souvent des critiques : requêtes SQL inefficaces, le redoutable problème N+1, ou encore cette impression que l’abstraction éloigne les développeurs de la maîtrise réelle de leur base de données.">
+        <meta name="author" content="Stéphane HULARD">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="../assets/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/css/theme.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="../assets/css/tomorrow.css">
+
+        <link rel="stylesheet" href="../assets/css/specific.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? '../assets/reveal.js/css/print/pdf.css' : '../assets/reveal.js/css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal center">
+            <div class="slides">
+                <section class="left" data-background-image="/img/eduardo-buscariolli-L-4mbXwL9yg-unsplash.jpg">
+                    <h1 class="highlight white right" style="font-size: 1.5em;"><span>ORM: Puissance, pièges et bonnes pratiques…</span><br/><small>…pour une couche données maîtrisée</small></h1>
+                    <p class="global-footer">
+                        <a href="https://chstudio.fr"><img src="../../logo.png" width="20" class="plain" /></a>
+                        <span><strong>Stéphane Hulard</strong>&nbsp;-&nbsp;Forum PHP&nbsp;<time datetime="2026-10-08">2026</time></span>
+                    </p>
+                </section>
+                <section class="invert">
+                    <p class="social-me">
+                        <img src="/img/moi.jpg" class="plain" width="250"/>
+                        <br/>
+                        <a class="white" target="_blank" href="https://twitter.com/s_hulard">@s_hulard</a>
+                        <br/>
+                        <a class="white" target="_blank" href="https://chstudio.fr"><i class="fa fa-globe"></i></a>
+                        <a class="white" target="_blank" href="https://www.linkedin.com/in/shulard"><i class="fa fa-linkedin"></i></a>
+                        <a class="white" target="_blank" href="https://github.com/shulard"><i class="fa fa-github"></i></a>
+                        <a class="white" target="_blank" href="https://gitlab.com/shulard"><i class="fa fa-gitlab"></i></a>
+                    </p>
+                    <h1 class="highlight left"><span>Stéphane Hulard</span></h1>
+                    <p class="left highlight">
+                        <span>🤓 Directeur Technique <small>(<img src="../../logo.png" width="20" style="margin: 0" class="plain" /> CH Studio)</small></span>
+                    </p>
+                    <p class="left highlight">
+                        <span>🎓 Formateur</span>
+                    </p>
+                    <p class="left highlight">
+                        <span>🤝 Contributeur</span>
+                    </p>
+                    <aside class="notes">
+                        Je suis Stéphane Hulard.
+                        <br/>
+                        ▶ Je dirige une petite société qui s'appelle CH Studio. Nous sommes spécialisés dans le développement de projet PHP et nous aidons nos clients à construire des projets solides et durables. Nous sommes souvent impliqués sur le long terme et sommes donc sensibles à la qualité pour notre propre bien être. J'aime aussi beaucoup travailler sur des projets legacy pour aider les équipes à les reprendres en main.
+                        <br/>
+                        Aujourd'hui nous travaillons principalement sur une application d'aggrégation et de recherche d'images médicales. Nous ne développons pas de site et sommes plus orientés vers les applications web.
+                        <br/><br/>
+                        ▶ Je suis aussi formateur principalement autour des outils et méthodes liés à la qualité logicielle.
+                        <br/>
+                        ▶ Et enfin contributeur, pas autant que je le voudrais mais les projets open sources me permettent d'élargir ma vision du métier en bénéficiant de l'expertise et du soutien de la communauté ce qui est un atout précieux au quotidien².
+                    </aside>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="/img/mourizal-zativa-OSvN1fBcXYE-unsplash.jpg">
+                        <h1 class="highlight white"><span>C'est quoi un ORM ?</span></h1>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.5em;"><span>ORM: Object-Relational Mapping</span></h1>
+                        <blockquote class="highlight">
+                            […] converting data between a <strong>relational database</strong> and the <strong>memory</strong> (usually the heap) of an object-oriented programming language.<br>
+                            This creates, in effect, a <strong>virtual object database that can be used from within the program</strong>.
+                            <br>
+                            <p class="legend"><a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping"><i class="fa fa-wikipedia-w"></i> Wikipedia, Object–relational mapping</a></p>
+                        </blockquote>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.7em;"><span>Une façon de représenter les données</span></h1>
+                        <p class="highlight"><span>Tables → classes d'<strong>entités</strong></span></p>
+                        <p class="highlight fragment"><span>Lignes → <strong>instances</strong></span></p>
+                        <p class="highlight fragment"><span>Colonnes → <strong>propriétés</strong></span></p>
+                        <p class="highlight fragment"><span>Clés étrangères → <strong>associations (relations)</strong></span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Deux grandes familles</span></h1>
+                        <p class="highlight"><span><strong>Active Record</strong>: Laravel Eloquent, Propel, Cycle ORM</span></p>
+                        <p class="highlight fragment"><span>Persistance dans l'entité, couplage fort entité 🔄 DB</span></p>
+                        <pre class="fragment">
+                            <code class="php" data-line-numbers="1,3">$model = User::find(1);
+$model->name = 'New name';
+$model->save();
+                            </code>
+                        </pre>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Deux grandes familles</span></h1>
+                        <p class="highlight"><span><strong>Data Mapper</strong>: Doctrine ORM, Atlas, …</span></p>
+                        <p class="highlight fragment"><span>Persistance séparée <small>(EntityManager)</small>, couplage faible <small>(entité 🟰 objet métier)</small></span></p>
+                        <pre class="fragment">
+                            <code class="php" data-line-numbers="1,3,4">$model = $repository->getUser(1);
+$model->name = 'New name';
+$manager->persist($model);
+$manager->flush();
+                            </code>
+                        </pre>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Les promesses des ORMs ?</span></h1>
+                        <p class="highlight">
+                            <span>→ <strong>Portabilité</strong> : abstraction du SQL (DBAL)</span><br>
+                            <span class="fragment">→ <strong>Outillage</strong> : migrations, validation du modèle…</span><br>
+                            <span class="fragment">→ <strong>Productivité</strong> : moins de code, moins de SQL répétitif</span><br>
+                            <span class="fragment">→ <strong>Sécurité</strong> : requêtes paramétrées, échappement</span><br>
+                            <span class="fragment">→ <strong>Modèle objet</strong> : relations navigables, héritage</span><br>
+                            <span class="fragment">→ <strong>Maintenabilité</strong> : les objets comme référence pour l'équipe</span>
+                        </p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>Changer de DBAL ?</span></h1>
+                        <p class="highlight"><span>Heu… Qui a déjà fait ça ?</span></p>
+                        <aside class="notes">
+                            Attention je ne dis pas que ça n'arrive jamais. Mais choisir et utiliser un ORM ne doit pas juste venir du besoin de changer de SGBD facilement.
+                            Un tel outil va avoir des contraintes dans la façon de développer et structurer vos applications.
+                            Oui il sera possible de changer de SGBD plus facilement le moment venu mais ça ne doit pas être le seul moteur.
+                            <br>
+                            Des applications codées sans ORM peuvent avoir une couche de gestion de donnée bien isolée qui facilitera le changement de SGBD.
+                            <br>
+                            Cette portabilité vient aussi avec un autre travers, au sein d'un ORM on n'a que le dénominateur commun des capacités de tout les SGBD qu'il supporte,
+                            les features spécifiques ne sont pas gérées.
+                        </aside>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight"><span>🔧 Fiabiliser par l'outillage</span></h1>
+                        <p class="highlight"><span>Génération de <strong>migration</strong>, <strong>validation du schéma</strong>, …</span></p>
+                        <pre class="fragment"><code class="bash">bin/console doctrine:migrations:diff
+bin/console doctrine:migrations:migrate
+bin/console doctrine:schema:validate</code></pre>
+                        <p class="highlight fragment right"><span>… une <strong>automatisation</strong> bienvenue !</span></p>
+                    </section>
+                    <section class="left invert">
+                        <h1 class="highlight" style="font-size: 1.6em;"><span>🏃‍♀️‍➡️ Productivité, sécurité et maintenance</span></h1>
+                        <p class="highlight"><span>Aide à <strong>forcer les règles</strong> par l'abstraction…</span></p>
+                        <p class="highlight fragment center"><span>…Repository, QueryBuilder, EventListener…</span></p>
+                        <p class="highlight fragment right"><span>… mais attention <strong>aux pièges de l'outil</strong>.</span></p>
+                    </section>
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="/img/sean-foster-wSY_EuTSK9Q-unsplash.jpg">
+                        <h1 class="highlight white"><span>Les pièges des ORMs</span></h1>
+                    </section>
+
+                    <!--
+                    # 🕳️ Piège n°1 : le problème N+1
+
+                    ---
+
+                    # N+1 : la mécanique
+
+                    ```php
+                    $articles = $repo->findAll();              // 1 requête
+                    foreach ($articles as $article) {
+                        echo $article->getAuthor()->getName();  // +1 requête par article
+                    }
+                    // 100 articles → 1 + 100 = 101 requêtes
+                    ```
+
+                    Le **lazy loading** charge l'association `author` seulement à l'accès → une requête par itération.
+
+                    > « If you fetch 100 articles, that means 1 query for the articles + 100 queries for the comments. Classic N+1 problem. »
+                    > — [Doctrine ORM Performance Pitfalls, B. Pastukh](https://medium.com/@bohdan_pastukh/doctrine-orm-performance-pitfalls-lazy-vs-eager-vs-extra-lazy-62c0c0688c1d)
+
+                    ---
+
+                    # N+1 chez Eloquent aussi
+
+                    ```php
+                    $books = Book::all();
+                    foreach ($books as $book) {
+                        echo $book->author->name;   // N requêtes supplémentaires
+                    }
+                    ```
+
+                    Solution Laravel — **eager loading** :
+
+                    ```php
+                    $books = Book::with('author')->get();   // 2 requêtes total
+                    ```
+
+                    > « Eager loading alleviates the N + 1 query problem. »
+                    > — [Laravel docs, Eloquent relationships](https://laravel.com/docs/5.2/eloquent-relationships)
+
+                    ---
+
+                    # Résoudre le N+1 — les leviers
+
+                    **Doctrine (DQL fetch join) :**
+                    ```php
+                    $q = $em->createQuery('SELECT a, au FROM Article a JOIN a.author au');
+                    ```
+
+                    **Eager loading ciblé** (fetch=EAGER) — pour les relations *toujours* nécessaires :
+                    ```php
+                    #[ManyToOne(targetEntity: Author::class, fetch: 'EAGER')]
+                    ```
+
+                    **Préchargement explicite** dans le contrôleur (évite le lazy dans la vue)
+
+                    > Attention : trop d'EAGER → requêtes massives et épuisement mémoire.
+                    > [Stop N+1 Queries Forever, dev.to](https://dev.to/mattleads/stop-n1-queries-forever-advanced-doctrine-orm-strategies-in-symfony-81-b8b)
+
+                    ---
+
+                    # 🕳️ Piège n°2 : le coût d'hydration
+
+                    ---
+
+                    # Hydration : quand l'ORM travaille
+
+                    Convertir des **lignes** en **objets** = normalisation d'un résultat dénormalisé.
+
+                    - Coût en **O(N)** (nombre de champs mappés)
+                    - Devient **très coûteux au-delà de 2 LEFT JOIN** (fetch joins)
+                    - L'ORM doit détecter et ignorer les parties répétées des lignes
+
+                    > « The process of hydration becomes extremely expensive when more than 2 LEFT JOIN operations are part of our queries. »
+                    > — [Ocramius, Doctrine ORM Hydration Performance Optimization](https://ocramius.github.io/blog/doctrine-orm-optimization-hydration/)
+
+                    ---
+
+                    # Fetch join : le faux ami
+
+                    Réduire le *nombre* de requêtes n'est **pas toujours** gagnant :
+
+                    - Fetch join `to-many` → lignes Company dupliquées pour chaque Employee
+                    - Hydration lourde, normalisation coûteuse
+
+                    Alternative : deux requêtes simples + regroupage en PHP
+
+                    ```php
+                    $companies = $em->getRepository(Company::class)->findAll();
+                    $employees = $em->getRepository(Employee::class)
+                        ->findBy(['company' => $companies]);
+                    // puis groupement en PHP : moins de hydration
+                    ```
+
+                    > Source : [Tideways — 5 Doctrine Performance Traps](https://tideways.com/profiler/blog/5-doctrine-orm-performance-traps-you-should-avoid) (B. Eberlei, core contributor Doctrine)
+
+                    ---
+
+                    # 🕳️ Piège n°3 : héritage & 1-1 bidirectionnel
+
+                    ---
+
+                    # Pièges discrets
+
+                    **Héritage (Single Table Inheritance) + association :** le lazy loading ne fonctionne pas sur les associations vers des entités en héritage → **une requête supplémentaire par entité**.
+
+                    **Association 1-1 bidirectionnelle :** le côté inverse **ne peut pas être lazy-loadée** → eager loading implicite difficile à repérer dans une grande codebase.
+
+                    > Recommandation (B. Eberlei) : éviter l'héritage Doctrine et les 1-1 bidirectionnelles quand la perf compte.
+                    > [Tideways — traps n°3 et n°4](https://tideways.com/profiler/blog/5-doctrine-orm-performance-traps-you-should-avoid)
+
+                    ---
+
+                    # 🕳️ Piège n°4 : sur-requêtage
+
+                    ```php
+                    // On a besoin de 2 colonnes, on charge 25 entités complètes
+                    $users = $em->getRepository(User::class)->findAll();
+                    foreach ($users as $u) { echo $u->getEmail(); }
+                    ```
+
+                    L'ORM hydrate des objets entiers pour quelques champs → mémoire + CPU gaspillés.
+
+                    Sur les chemins critiques (API, exports), on charge souvent bien plus que nécessaire.
+
+                    > « The problem is on the read side. By default you always get complete objects. »
+                    > — [Stack Overflow, Does Doctrine ORM cause performance issue?](https://stackoverflow.com/questions/49347639/does-doctrine-orm-cause-performance-issue)
+
+                    ---
+
+                    # Les ORM en benchmark (10 000 opérations CRUD, MySQL)
+
+                    | ORM | Temps (s) | Mémoire (Kb) | Pic mémoire (Mb) |
+                    |---|---|---|---|
+                    | Laravel Eloquent | 61,51 | 4 951 | 8,06 |
+                    | Cycle ORM | 44,32 | 288 | 7,01 |
+                    | **Doctrine ORM** | **37,45** | **870** | **6,41** |
+                    | CompositePHP (DBAL) | 24,71 | 143 | 2,22 |
+
+                    > Benchmark synthétique (CRUD), MacBook M2 Pro — à prendre comme ordre de grandeur, pas comme un verdict.
+                    > [php-orm-benchmark, GitHub](https://github.com/php-fart/php-orm-benchmark)
+
+                    ---
+
+                    # ✅ Bonnes pratiques :
+                    # optimiser la conception
+
+                    ---
+
+                    # Pratique n°1 : penser requête, pas objet
+
+                    - Concevoir les **index** en fonction des *chemins de requête* réels
+                    - Maîtriser la cardinalité des relations (trop de `to-many` → hydration chère)
+                    - Préférer des relations **unidirectionnelles** quand l'inverse n'est pas utilisé
+                    - Éviter l'héritage quand la table devient large
+
+                    > Concevez vos modèles **pour les requêtes**, pas seulement pour « représenter le domaine ».
+
+                    ---
+
+                    # Pratique n°2 : n'hydratez que le nécessaire
+
+                    **DTO hydration (Doctrine) — `SELECT new` :**
+                    ```php
+                    $q = $em->createQuery(
+                      'SELECT NEW App\DTO\UserView(u.id, u.email)
+                       FROM App\Entity\User u'
+                    );
+                    ```
+
+                    - Pas d'entités complètes, pas de gestion du changement
+                    - Idéal pour les API et exports de masse
+                    - Combinable avec les **itérateurs** (`$q->toIterable()`) pour ne pas saturer la mémoire
+
+                    > [Stop N+1 Queries Forever, dev.to](https://dev.to/mattleads/stop-n1-queries-forever-advanced-doctrine-orm-strategies-in-symfony-81-b8b)
+
+                    ---
+
+                    # Pratique n°3 : activer le cache Doctrine
+
+                    1. **Cache de metadata et de parsing DQL** — *indispensable* en production
+                    2. **Second Level Cache** — cache d'entités par identifiant entre requêtes
+                       - `READ_ONLY` (par défaut, sûr), `NONSTRICT_READ_WRITE`, `READ_WRITE`
+                       - Réduit drastiquement les appels base de données
+
+                    > « Use caching for Metadata and Query Parsing. This is the most important problem to avoid. »
+                    > — [Tideways](https://tideways.com/profiler/blog/5-doctrine-orm-performance-traps-you-should-avoid) · [Doctrine L2 Cache](https://www.doctrine-project.org/projects/doctrine-orm/en/3.6/reference/second-level-cache.html)
+
+                    ---
+
+                    # Pratique n°4 : centraliser la logique métier
+
+                    - Entités **riches** : le comportement vit dans l'entité, pas éparpillé dans les contrôleurs
+                    - Un seul endroit pour les invariants métier → maintenance facilitée
+                    - La persistance reste un détail d'implémentation (Data Mapper)
+
+                    ```php
+                    class Order {
+                        public function addLine(Product $p, int $qty): void
+                        {
+                            // invariant métier centralisé, pas dans le contrôleur
+                            Assert::that($qty)->greaterThan(0);
+                            $this->lines[] = new OrderLine($this, $p, $qty);
+                            $this->recalculateTotal();
+                        }
+                    }
+                    ```
+
+                    -->
+                </section>
+<!--#########################################################################-->
+                <section>
+                    <section class="invert" data-background-image="/img/aideal-hwa-OYzbqk2y26c-unsplash.jpg">
+                        <h1 class="highlight white" style="font-size: 1.9em;"><span>ORM + SQL natif <small>le meilleur des deux mondes ?</small></span></h1>
+                    </section>
+
+                    <!--
+
+                    # Quand s'échapper de l'ORM
+
+                    - Requêtes de **reporting** agrégées (COUNT, GROUP BY, fenêtres)
+                    - Requêtes très performantes où l'hydration coûte trop
+                    - Insertions en masse / updates en bloc
+                    - Cas où le dialecte SQL offre une fonctionnalité sans équivalent ORM
+
+                    > « Custom SQL queries (using the Doctrine DBAL layer) start to look very attractive. »
+                    > — [Stack Overflow](https://stackoverflow.com/questions/49347639/does-doctrine-orm-cause-performance-issue)
+
+                    ---
+
+                    # SQL natif via Doctrine DBAL
+
+                    ```php
+                    $rsm = new ResultSetMappingBuilder($em);
+                    $rsm->addRootEntityFromClassMetadata(User::class, 'u');
+
+                    $sql = 'SELECT u.* FROM users u WHERE u.last_login > :since';
+                    $query = $em->createNativeQuery($sql, $rsm);
+                    $query->setParameter('since', $since);
+                    $users = $query->getResult();
+                    ```
+
+                    On garde le **typage d'entités** quand ça vaut le coup, sinon on hydrate en tableau / DTO.
+
+                    ---
+
+                    # Les vues SQL : un pont élégant
+
+                    Une **vue** matérialise une requête complexe côté base — l'ORM peut la mapper comme une entité en lecture.
+
+                    - Reporting, dashboards, agrégats → une seule « table » propre
+                    - **Vues matérialisées** (PostgreSQL) pour des résultats pré-calculés
+                    - Le modèle objet reste simple ; la complexité SQL vit en base
+
+                    Bénéfices : réutilisation, optimisation côté SGBD, séparation lecture / écriture (CQRS-lite).
+
+                    ---
+
+                    # 🧩 Patterns :
+                    # Repository & Query Objects
+
+                    ---
+
+                    # Le pattern Repository
+
+                    > Médiateur entre la **couche domaine** et la **persistance**, comme une **collection en mémoire** d'objets. — *Martin Fowler, Patterns of Enterprise Application Architecture*
+
+                    ```php
+                    interface UserRepository {
+                        public function findActiveByCountry(string $cc): array;
+                        public function save(User $u): void;
+                    }
+                    ```
+
+                    - Le domaine parle le **langage métier**, pas le SQL
+                    - L'implémentation (Doctrine) est interchangeable / testable
+                    - Une seule porte d'entrée vers les données
+
+                    ---
+
+                    # Repository en pratique (Doctrine)
+
+                    ```php
+                    final class DoctrineUserRepository implements UserRepository {
+                        public function __construct(private EntityManagerInterface $em) {}
+
+                        public function findActiveByCountry(string $cc): array {
+                            return $this->em->createQueryBuilder('u')
+                                ->where('u.country = :cc')->andWhere('u.active = true')
+                                ->setParameter('cc', $cc)
+                                ->getQuery()->getResult();
+                        }
+                    }
+                    ```
+
+                    ⚠️ Un repository n'est **pas** un dépotoir de `findBy` magiques : chaque méthode exprime un **cas métier**.
+
+                    ---
+
+                    # Le pattern Query Object
+
+                    > Un objet qui **construit une requête** de façon fluide et typée, plutôt qu'en écrivant du SQL en chaîne de caractères.
+
+                    - Encapsule la logique de requête complexe (filtres dynamiques, tris, pagination)
+                    - Réutilisable, testable, composable
+                    - Doctrine fournit déjà le `QueryBuilder` et les `Criteria`
+
+                    ```php
+                    $criteria = Criteria::create()
+                        ->where(Criteria::expr()->eq('active', true))
+                        ->andWhere(Criteria::expr()->gt('createdAt', $since))
+                        ->orderBy(['createdAt' => 'DESC']);
+                    $users = $repo->matching($criteria);
+                    ```
+
+                    ---
+
+                    # Architecture cible : une couche de données isolée
+
+                    ```
+                    Contrôleurs / Use cases
+                            │  parle métier
+                            ▼
+                       Repositories  ─────── Query Objects
+                            │
+                       ┌────┴─────┐
+                       ▼          ▼
+                    Entities   SQL natif / DBAL / Vues SQL
+                    (persistées)        │
+                                        ▼
+                                  Base de données
+                    ```
+
+                    - ORM **et** SQL coexistent derrière une **interface domaine**
+                    - La base n'est plus un point de friction mais un **atout maîtrisé**
+
+                    -->
+                </section>
+<!--#########################################################################-->
+                <section class="invert left">
+                    <h1 class="highlight"><span>Synthèse</span></h1>
+                    <p class="highlight" style="font-size: 1em;"><span>1. Les ORM ne sont <strong>ni magiques ni coupables</strong> → l'usage l'est</span></p>
+                    <p class="highlight fragment" style="font-size: 1em;"><span>2. Le <strong>N+1</strong> et l'<strong>hydration</strong> sont les deux pièges majeurs → mesurez <small>(profiler)</small></span></p>
+                    <p class="highlight fragment" style="font-size: 1em;"><span>3. <strong>Chargez le minimum</strong> nécessaire → DTO, partial, itérateurs</span></p>
+                    <p class="highlight fragment" style="font-size: 1em;"><span>4. <strong>Centralisez la logique</strong> dans des entités riches et des Repository métier</span></p>
+                    <p class="highlight fragment" style="font-size: 1em;"><span>5. <strong>ORM + SQL natif</strong> (vues, DBAL) → le meilleur des deux mondes</span></p>
+                    <p class="highlight fragment" style="font-size: 1em;"><span>6. Patterns <strong>Repository</strong> + <strong>Query Object</strong> → robuste, testable, évolutif</span></p>
+                </section>
+                <section class="invert" data-background-image="/img/thank-you.jpg">
+                    <img src="img/forum-php-2026-qr-code-openfeedback.png" class="plain" style="position:absolute; right:0; top:0;" width="250" />
+                    <p class="highlight right bottom">
+                        <span><i class="fa fa-twitter"></i> @s_hulard</span><br/><br/>
+                        <small>https://github.com/CuyZ/Valinor</small><br/>
+                        <small>https://github.com/shulard/ipc-valinor-sample</small>
+                    </p>
+                </section>
+            </div>
+        </div>
+
+        <script src="../assets/reveal.js/js/reveal.js"></script>
+        <script src="../assets/javascripts/mermaid.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                pdfSeparateFragments: false,
+                //showNotes: 'separated-page',
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: '../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: '../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: '../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: '../assets/reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: '../assets/reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            mermaid.initialize({startOnLoad:true});
+        </script>
+    </body>
+</html>

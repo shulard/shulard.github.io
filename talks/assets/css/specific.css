@@ -1,0 +1,142 @@
+
+.reveal .social-me {
+    float: right;
+}
+.reveal .social-me img {
+    margin-bottom: 0px;
+}
+.reveal .social-me a {
+    color: #FFF;
+    margin-right: 10px;
+}
+.reveal .social-me a:hover {
+    color: rgba(4, 32, 41, 0.9);
+}
+.reveal .social-me a:last-child {
+    margin-right: 0;
+}
+.right {
+    text-align: right;
+}
+.bottom {
+    margin-top: 35% !important;
+}
+.top {
+    margin-bottom: 35% !important;
+}
+.left {
+    text-align: left;
+}
+.center {
+    text-align: center;
+}
+.float-right {
+    float: right;
+}
+.background {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+.no-background {
+    background: none !important;
+}
+.border-radius {
+    border-radius: 20px;
+}
+code.fragment {
+    padding: 12px;
+}
+.reveal code a {
+    color: rgb(65, 65, 65);
+}
+.full-height {
+    max-height: unset !important;
+}
+.reveal {
+    background-color: rgba(0, 174, 239, 0.8);
+}
+.reveal h1.highlight *, .reveal p.highlight>* {
+    background-color: rgba(4, 32, 41, 0.9);
+    display: inline;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.reveal h1.highlight *:last-child {
+    line-height: 2em
+}
+.reveal section>p {
+    font-size: 1.2em;
+}
+.reveal section>blockquote {
+    font-size: 1.1em;
+    border-left: 0.5em solid blue;
+}
+.reveal section>blockquote .legend {
+    font-size: .8em;
+    text-align: right;
+    width: 100%;
+}
+.reveal section>a>img.plain {
+    margin: 23px 0;
+    height: 94px;
+}
+.reveal section>a+a>img.plain {
+    margin-right: 10px;
+}
+.reveal section.invert {
+    color: rgba(0, 0, 0, 0.8);
+}
+.reveal pre {
+    font-size: 2rem;
+}
+.reveal pre code {
+    padding: 1rem 1.5rem;
+}
+
+.reveal section.invert p.highlight>*, .reveal section.invert blockquote  {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.reveal h1.highlight.white * {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.8);
+}
+.reveal table {
+    width: 100%;
+}
+.reveal table.white tr {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.8);
+    border-bottom:rgb(65, 65, 65) 3px solid;
+}
+.reveal table.white td:first-child {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.speaker-controls-notes .value {
+    font-size: 1em !important;
+}
+
+.reveal .slide-background.present {
+    opacity: 0.9;
+}
+
+.light-background .reveal .slide-background.present {
+    opacity: 0.6;
+}
+
+.relative {
+    position: relative;
+}
+.absolute {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+}
+.top120 {
+    top: 120px;
+}
+
+@media print {
+    .fragment.absolute {
+        display: none;
+    }
+}
