@@ -95,6 +95,12 @@ code.fragment {
 .reveal section.invert p.highlight>*, .reveal section.invert blockquote  {
     background-color: rgba(255, 255, 255, 0.9);
 }
+
+.reveal p .with-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
 .reveal h1.highlight.white * {
     background-color: rgba(255, 255, 255, 0.9);
     color: rgba(0, 0, 0, 0.8);
